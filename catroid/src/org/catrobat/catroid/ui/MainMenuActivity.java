@@ -42,6 +42,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.parse.Parse;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -78,7 +79,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
-
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setTitle(R.string.app_name);
@@ -101,7 +101,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		Parse.enableLocalDatastore(this);
+		Parse.initialize(this, "eLVYhF8lasRdIv2iaUbYiu7g5yczFEEndwYw8ECM", "ekJo8KK0tivuPNT4O8O3nlfvxt2nFjO3wRi3LlWg");
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}

@@ -27,11 +27,16 @@ import android.util.Log;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.squareup.okhttp.OkHttpClient;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -60,7 +65,7 @@ public class ConnectionWrapper {
 
 		String answer = "";
 		String fileName = postValues.get(TAG_PROJECT_TITLE);
-
+		String username = postValues.get(Constants.USERNAME);
 		if (filePath != null) {
 			OkHttpClient okHttpClient = new OkHttpClient();
 			okHttpClient.setTransports(Arrays.asList("http/1.1"));
@@ -72,6 +77,33 @@ public class ConnectionWrapper {
 			}
 			File file = new File(filePath);
 			uploadRequest.part(fileTag, fileName, file);
+
+			//This is the Parse cloud upload
+
+			byte[] fileData = new byte[(int) file.length()];
+			FileInputStream fis = new FileInputStream(file);
+			fis.read(fileData);
+			fis.close();
+
+			ParseFile pf = new ParseFile(fileName + ".zip", fileData);
+			try {
+				pf.save();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			ParseObject parseZipFile = new ParseObject("test3");
+			parseZipFile.put("username", username);
+			parseZipFile.put("zipFileData", pf);
+			try {
+				parseZipFile.save();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			//ENDOF Parse cloud upload
 
 			int responseCode = uploadRequest.code();
 			if (!(responseCode == 200 || responseCode == 201)) {
