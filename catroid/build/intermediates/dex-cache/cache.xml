@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\User HP\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-android\1.1.4\129874135e6081269ace2312092031558865de12\bolts-android-1.1.4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="129874135e6081269ace2312092031558865de12">
+        <dex dex="C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.4-9e8e8e37199b9b902770295422ab94104cb05fd9.jar" />
+    </item>
+    <item
+        jar="C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\exploded-aar\com.actionbarsherlock\actionbarsherlock\4.4.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="af64527b748983a75de9c0756e9768b56b240a49">
+        <dex dex="C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\classes-f84ac58a9b078d2de0b27e72d74a1e508b74d074.jar" />
+    </item>
+    <item
+        jar="C:\Users\User HP\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-523b29f0b30d6ed1446370893e51913acbc9fb31.jar" />
+    </item>
+    <item
+        jar="C:\Users\User HP\AndroidStudioProjects\catroid\app\libs\xstream-1.4.4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="488e9e4a47afc81d2b2dec3c3eb3a4d0f10fe105">
+        <dex dex="C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\xstream-1.4.4-a1d88f96f0e6c59675f18ff618b7bdfe61c1a66b.jar" />
+    </item>
+    <item
+        jar="C:\Users\User HP\AndroidStudioProjects\catroid\app\libs\http-request-5.4.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="92db1ee71ed1a1c95fb569dccbd1e42701c8fb79">
+        <dex dex="C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\http-request-5.4.1-25ed1abb7557e9b44a111b0546ae819e75c65ed1.jar" />
+    </item>
+    <item
+        jar="C:\Users\User HP\AndroidStudioProjects\catroid\app\libs\okhttp-1.2.1-jar-with-dependencies.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="bb54543ab6effc7af755ce8a28566e6d563fb7bf">
+        <dex dex="C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\okhttp-1.2.1-jar-with-dependencies-5fd73ddb72c7f5bac9c7a1b349471c0c2ff33fe4.jar" />
+    </item>
+    <item
+        jar="C:\Users\User HP\AndroidStudioProjects\catroid\app\libs\Parse-1.8.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c2cb0bfe37cbefd855b6faa3c9a5be833aba7300">
+        <dex dex="C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\Parse-1.8.2-db0527b706802ac386f63fbf6a59044827ff318c.jar" />
+    </item>
+    <item
+        jar="C:\Users\User HP\AndroidStudioProjects\catroid\app\libs\gdx-backend-android.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="28d05941975e583f9a8672e34e3355f90b8b0933">
+        <dex dex="C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\gdx-backend-android-2d803caea5136db3acdf4081fd5eb5527410537b.jar" />
+    </item>
+    <item
+        jar="C:\Users\User HP\AndroidStudioProjects\catroid\app\libs\gdx.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0359b7ba12841fa79e85a50cba7c4012d58435e6">
+        <dex dex="C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\gdx-f54c9e2bbc12465763ce3150ba530fa880356810.jar" />
+    </item>
+
+</items>

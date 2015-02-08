@@ -1,0 +1,10 @@
+C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\classes\debug
+C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\http-request-5.4.1-25ed1abb7557e9b44a111b0546ae819e75c65ed1.jar
+C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.4-9e8e8e37199b9b902770295422ab94104cb05fd9.jar
+C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\gdx-backend-android-2d803caea5136db3acdf4081fd5eb5527410537b.jar
+C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\okhttp-1.2.1-jar-with-dependencies-5fd73ddb72c7f5bac9c7a1b349471c0c2ff33fe4.jar
+C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\xstream-1.4.4-a1d88f96f0e6c59675f18ff618b7bdfe61c1a66b.jar
+C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\classes-f84ac58a9b078d2de0b27e72d74a1e508b74d074.jar
+C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-523b29f0b30d6ed1446370893e51913acbc9fb31.jar
+C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\Parse-1.8.2-db0527b706802ac386f63fbf6a59044827ff318c.jar
+C:\Users\User HP\AndroidStudioProjects\catroid\app\build\intermediates\pre-dexed\debug\gdx-f54c9e2bbc12465763ce3150ba530fa880356810.jar
