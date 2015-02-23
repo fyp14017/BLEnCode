@@ -1,38 +1,41 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.MonitorSensorBrick.Sensor;
-import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
+import org.catrobat.catroid.content.bricks.MonitorSensorBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
@@ -155,19 +158,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static ConnectSensorTagAction connectSensorTagAction() {
-		ConnectSensorTagAction action = action(ConnectSensorTagAction.class);
-		return action;
-	}
-
-	public static MonitorSensorAction monitorSensorAction(Sensor sensor) {
-		MonitorSensorAction action = action(MonitorSensorAction.class);
-		action.setEnum(sensor);
-		return action;
-	}
-
-	public static LegoNxtMotorActionAction legoNxtMotorAction(Sprite sprite, String motor,
-			org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor motorEnum, Formula speed) {
+	public static LegoNxtMotorActionAction legoNxtMotorAction(Sprite sprite, LegoNxtMotorActionBrick.Motor motorEnum,
+			Formula speed) {
 		LegoNxtMotorActionAction action = action(LegoNxtMotorActionAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
@@ -175,21 +167,31 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LegoNxtMotorStopAction legoNxtMotorStop(
-			org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick.Motor motorEnum) {
+	public static LegoNxtMotorStopAction legoNxtMotorStop(LegoNxtMotorStopBrick.Motor motorEnum) {
 		LegoNxtMotorStopAction action = action(LegoNxtMotorStopAction.class);
 		action.setMotorEnum(motorEnum);
 		return action;
 	}
 
 	public static LegoNxtMotorTurnAngleAction legoNxtMotorTurnAngle(Sprite sprite,
-			org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
+			LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
 		LegoNxtMotorTurnAngleAction action = action(LegoNxtMotorTurnAngleAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
 		action.setDegrees(degrees);
 		return action;
 	}
+
+    public static ConnectSensorTagAction connectSensorTagAction() {
+        ConnectSensorTagAction action = action(ConnectSensorTagAction.class);
+        return action;
+    }
+
+    public static MonitorSensorAction monitorSensorAction(MonitorSensorBrick.Sensor sensor) {
+        MonitorSensorAction action = action(MonitorSensorAction.class);
+        action.setEnum(sensor);
+        return action;
+    }
 
 	public static LegoNxtPlayToneAction legoNxtPlayTone(Sprite sprite, Formula hertz, Formula durationInSeconds) {
 		LegoNxtPlayToneAction action = action(LegoNxtPlayToneAction.class);
@@ -288,8 +290,10 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static SpeakAction speak(String text, SpeakBrick speakBrick) {
+
+	public static SpeakAction speak(Sprite sprite, Formula text) {
 		SpeakAction action = action(SpeakAction.class);
+		action.setSprite(sprite);
 		action.setText(text);
 		return action;
 	}
@@ -313,7 +317,6 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static Action changeVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
-
 		ChangeVariableAction action = action(ChangeVariableAction.class);
 		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
@@ -322,7 +325,6 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static Action setVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
-
 		SetVariableAction action = action(SetVariableAction.class);
 		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
@@ -330,7 +332,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static IfLogicAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
+	public static IfLogicAction ifLogic(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
 		IfLogicAction action = action(IfLogicAction.class);
 		action.setIfAction(ifAction);
 		action.setIfCondition(condition);
@@ -354,11 +356,126 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static Action forever(Sprite sprite, SequenceAction foreverSequence) {
+	public static RepeatAction forever(Sprite sprite, SequenceAction foreverSequence) {
 		RepeatAction action = action(RepeatAction.class);
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public static UserBrickAction userBrick(Action userBrickAction) {
+		UserBrickAction action = action(UserBrickAction.class);
+		action.setAction(userBrickAction);
+		return action;
+	}
+
+	public static TemporalAction droneTakeOff() {
+		return action(DroneTakeoffAction.class);
+	}
+
+	public static TemporalAction droneLand() {
+		return action(DroneTakeoffAction.class);
+	}
+
+	public static TemporalAction droneMoveUp(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveUpAction action = action(DroneMoveUpAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveDown(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveDownAction action = action(DroneMoveDownAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveLeft(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveLeftAction action = action(DroneMoveLeftAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveRightAction action = action(DroneMoveRightAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveForward(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveForwardAction action = action(DroneMoveForwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveBackward(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveBackwardAction action = action(DroneMoveBackwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneTurnRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneTurnRightAction action = action(DroneTurnRightAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneTurnLeft(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneTurnLeftAction action = action(DroneTurnLeftAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneTurnLeftMagneto(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneTurnLeftWithMagnetometerAction action = action(DroneTurnLeftWithMagnetometerAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneTurnRightMagneto(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneTurnRightWithMagnetometerAction action = action(DroneTurnRightWithMagnetometerAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction dronePlayLedAnimation() {
+		return action(DronePlayLedAnimationAction.class);
+	}
+
+	public static TemporalAction droneFlip() {
+		return action(DroneFlipAction.class);
+	}
+
+	public static LedAction lights(boolean ledValue) {
+		LedAction action = action(LedAction.class);
+		action.setLedValue(ledValue);
+		return action;
+	}
+
+	public static VibrateAction vibrate(Sprite sprite, Formula duration) {
+		VibrateAction action = action(VibrateAction.class);
+		action.setSprite(sprite);
+		action.setDuration(duration);
 		return action;
 	}
 }

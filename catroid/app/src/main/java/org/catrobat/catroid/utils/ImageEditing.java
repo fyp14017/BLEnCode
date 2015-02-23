@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.utils;
 
@@ -86,10 +86,11 @@ public final class ImageEditing {
 		double sampleSizeMinimum = Math.min(sampleSizeWidth, sampleSizeHeight);
 		double sampleSizeMaximum = Math.max(sampleSizeWidth, sampleSizeHeight);
 
+
+
 		if (resizeType == ResizeType.STRETCH_TO_RECTANGLE) {
 			newWidth = outputRectangleWidth;
 			newHeight = outputRectangleHeight;
-			loadingSampleSize = (int) Math.floor(sampleSizeMinimum);
 		} else if (resizeType == ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
 			newWidth = (int) Math.floor(originalWidth / sampleSizeMaximum);
 			newHeight = (int) Math.floor(originalHeight / sampleSizeMaximum);
@@ -98,12 +99,11 @@ public final class ImageEditing {
 			newHeight = (int) Math.floor(originalHeight / sampleSizeMinimum);
 		}
 
-		if (justScaleDown && originalWidth <= newWidth && originalHeight <= newHeight) {
-			return BitmapFactory.decodeFile(imagePath);
-		}
+		loadingSampleSize = calculateInSampleSize(originalWidth, originalHeight, outputRectangleWidth, outputRectangleHeight);
 
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inSampleSize = loadingSampleSize;
+		bitmapOptions.inJustDecodeBounds = false;
 
 		Bitmap tempBitmap = BitmapFactory.decodeFile(imagePath, bitmapOptions);
 
@@ -181,5 +181,28 @@ public final class ImageEditing {
 		} else {
 			return Math.min(widthScaleFactor, heightScaleFactor);
 		}
+	}
+
+	//method from developer.android.com
+	public static int calculateInSampleSize(int origWidth, int origHeight, int reqWidth, int reqHeight) {
+		// Raw height and width of image
+		final int height = origHeight;
+		final int width = origWidth;
+		int inSampleSize = 1;
+
+		if (height > reqHeight || width > reqWidth) {
+
+			final int halfHeight = height / 2;
+			final int halfWidth = width / 2;
+
+			// Calculate the largest inSampleSize value that is a power of 2 and keeps both
+			// height and width larger than the requested height and width.
+			while ((halfHeight / inSampleSize) > reqHeight
+					&& (halfWidth / inSampleSize) > reqWidth) {
+				inSampleSize *= 2;
+			}
+		}
+
+		return inSampleSize;
 	}
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid/app/src/main/res/values-ru/strings.xml -->
+    <!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid1/app/src/main/res/values-ru/strings.xml -->
     <eat-comment/>
     <string name="action_doubleTapped">Двойное нажатие</string>
     <string name="action_longPressed">Длинное нажатие</string>
@@ -103,6 +103,9 @@
     <string name="error_project_exists">Проект с таким названием уже существуетю\nПожалуйста, выберите другое название.</string>
     <string name="error_project_upload">Произошла ошибка во время закачивания проекта.</string>
     <string name="error_screenshot_failed">Произошла ошибка во время сохранения снимка.</string>
+    <string name="formula_editor_new_string_dialog_hint">Введите новый текст здесь.</string>
+    <string name="formula_editor_new_string_name">Новый текст</string>
+    <string name="formula_editor_string">Алфавит</string>
     <string name="just_a_v">v</string>
     <string name="last_used">Использован:</string>
     <string name="loading">Загрузка…</string>
@@ -135,7 +138,6 @@
     <string name="nxt_tone_frequency">Частота</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="ok">OK</string>
-    <string name="pairing_message">Подключится после спаривания.</string>
     <string name="password">Пароль:</string>
     <string name="password_forgotten">Пароль забыт</string>
     <string name="please_wait">Подождите, пожалуйста</string>

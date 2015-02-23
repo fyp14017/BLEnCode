@@ -1,27 +1,28 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -29,7 +30,9 @@ import android.hardware.SensorEventListener;
 import android.util.Log;
 
 import org.catrobat.catroid.ble.SensorInfo;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
+@SuppressLint("NewApi")
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
 	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance = null;
@@ -45,6 +48,10 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float linearAcceleartionZ = 0f;
 
 	private float loudness = 0f;
+	private float faceDetected = 0f;
+	private float faceSize = 0f;
+	private float facePositionX = 0f;
+	private float facePositionY = 0f;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -65,6 +72,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		instance.sensorManager.registerListener(instance, instance.rotationVectorSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
+		FaceDetectionHandler.registerOnFaceDetectedListener(instance);
+		FaceDetectionHandler.registerOnFaceDetectionStatusListener(instance);
 	}
 
 	public static void registerListener(SensorEventListener listener) {
@@ -90,6 +99,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		}
 		instance.sensorManager.unregisterListener((SensorEventListener) instance);
 		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
+
+		FaceDetectionHandler.unregisterOnFaceDetectedListener(instance);
+		FaceDetectionHandler.unregisterOnFaceDetectionStatusListener(instance);
 	}
 
 	public static Double getSensorValue(Sensors sensor) {
@@ -146,35 +158,43 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 						return (double) -180f - uncorrectedYInclination;
 					}
 				}
+			case FACE_DETECTED:
+				return Double.valueOf(instance.faceDetected);
+			case FACE_SIZE:
+				return Double.valueOf(instance.faceSize);
+			case FACE_X_POSITION:
+				return Double.valueOf(instance.facePositionX);
+			case FACE_Y_POSITION:
+				return Double.valueOf(instance.facePositionY);
 
 			case LOUDNESS:
 				return Double.valueOf(instance.loudness);
-			case SENSOR_TAG_TEMPERATURE:
-				return (double) SensorInfo.Temp;
-			case ACCELEROMETER_ABS:
-				return Math.sqrt((SensorInfo.Acc_x * SensorInfo.Acc_x) + (SensorInfo.Acc_y * SensorInfo.Acc_y)
-						+ (SensorInfo.Acc_z * SensorInfo.Acc_z));
-			case ACCELEROMETER_X:
-				return (double) SensorInfo.Acc_x;
-			case ACCELEROMETER_Y:
-				return (double) SensorInfo.Acc_y;
-			case ACCELEROMETER_Z:
-				return (double) SensorInfo.Acc_z;
-			case GYROSCOPE_X:
-				return (double) SensorInfo.Gyro_x;
-			case GYROSCOPE_Y:
-				return (double) SensorInfo.Gyro_y;
-			case GYROSCOPE_Z:
-				return (double) SensorInfo.Gyro_z;
-			case MAGNETOMETER_ABS:
-				return Math.sqrt((SensorInfo.Mag_x * SensorInfo.Mag_x) + (SensorInfo.Mag_y * SensorInfo.Mag_y)
-						+ (SensorInfo.Mag_z * SensorInfo.Mag_z));
-			case MAGNETOMETER_X:
-				return (double) SensorInfo.Mag_x;
-			case MAGNETOMETER_Y:
-				return (double) SensorInfo.Mag_y;
-			case MAGNETOMETER_Z:
-				return (double) SensorInfo.Mag_z;
+            case SENSOR_TAG_TEMPERATURE:
+                return (double) SensorInfo.Temp;
+            case ACCELEROMETER_ABS:
+                return Math.sqrt((SensorInfo.Acc_x * SensorInfo.Acc_x) + (SensorInfo.Acc_y * SensorInfo.Acc_y)
+                        + (SensorInfo.Acc_z * SensorInfo.Acc_z));
+            case ACCELEROMETER_X:
+                return (double) SensorInfo.Acc_x;
+            case ACCELEROMETER_Y:
+                return (double) SensorInfo.Acc_y;
+            case ACCELEROMETER_Z:
+                return (double) SensorInfo.Acc_z;
+            case GYROSCOPE_X:
+                return (double) SensorInfo.Gyro_x;
+            case GYROSCOPE_Y:
+                return (double) SensorInfo.Gyro_y;
+            case GYROSCOPE_Z:
+                return (double) SensorInfo.Gyro_z;
+            case MAGNETOMETER_ABS:
+                return Math.sqrt((SensorInfo.Mag_x * SensorInfo.Mag_x) + (SensorInfo.Mag_y * SensorInfo.Mag_y)
+                        + (SensorInfo.Mag_z * SensorInfo.Mag_z));
+            case MAGNETOMETER_X:
+                return (double) SensorInfo.Mag_x;
+            case MAGNETOMETER_Y:
+                return (double) SensorInfo.Mag_y;
+            case MAGNETOMETER_Z:
+                return (double) SensorInfo.Mag_z;
 		}
 		return 0d;
 	}
@@ -207,8 +227,30 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case LOUDNESS:
 				instance.loudness = event.values[0];
 				break;
+			case FACE_DETECTED:
+				instance.faceDetected = event.values[0];
+				break;
+			case FACE_SIZE:
+				instance.faceSize = event.values[0];
+				break;
+			case FACE_X_POSITION:
+				instance.facePositionX = event.values[0];
+				break;
+			case FACE_Y_POSITION:
+				instance.facePositionY = event.values[0];
+				break;
 			default:
 				Log.v(TAG, "Unhandled sensor: " + event.sensor);
 		}
 	}
+
+	public static void clearFaceDetectionValues() {
+		if (instance != null) {
+			instance.faceDetected = 0f;
+			instance.faceSize = 0f;
+			instance.facePositionX = 0f;
+			instance.facePositionY = 0f;
+		}
+	}
+
 }

@@ -1,6 +1,6 @@
-/**
+/*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2013 The Catrobat Team
+ * Copyright (C) 2010-2014 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.cucumber.util;
 
-import static junit.framework.Assert.fail;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -43,6 +41,8 @@ import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.*;
+
+import static junit.framework.Assert.fail;
 
 public final class Util {
 	private Util() {

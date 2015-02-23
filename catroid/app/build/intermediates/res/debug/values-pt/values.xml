@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid/app/src/main/res/values-pt/strings.xml -->
+    <!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid1/app/src/main/res/values-pt/strings.xml -->
     <eat-comment/>
     <string name="action_doubleTapped">"tocar duas vezes"</string>
     <string name="action_longPressed">"segurado"</string>
@@ -110,6 +110,9 @@
     <string name="error_project_upload">"Ocorreu um erro ao enviar o projeto."</string>
     <string name="error_rename_project">"Ocorreu um erro ao renomear o projeto antes do upload."</string>
     <string name="error_screenshot_failed">"Ocorreu um erro ao salvar a imagem."</string>
+    <string name="formula_editor_new_string_dialog_hint">Digite o novo texto aqui.</string>
+    <string name="formula_editor_new_string_name">Novo texto</string>
+    <string name="formula_editor_string">Abc</string>
     <string name="hide_details">"Esconder Detalhes"</string>
     <string name="insert_below">"Inserir Abaixo"</string>
     <string name="last_used">"Último utilizado:"</string>
@@ -167,7 +170,6 @@
     <string name="overwrite_rename">"renomear Projeto baixado"</string>
     <string name="overwrite_replace">"Substituir Projeto existente"</string>
     <string name="overwrite_text">"Já existe Projeto com o mesmo nome!"</string>
-    <string name="pairing_message">"Após o pareamento, conectar."</string>
     <string name="password">"Senha:"</string>
     <string name="password_forgotten">"Senha esquecida"</string>
     <string name="play">"Play"</string>

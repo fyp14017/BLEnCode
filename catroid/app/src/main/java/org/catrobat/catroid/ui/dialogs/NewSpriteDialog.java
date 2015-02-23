@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.ui.dialogs;
 
@@ -33,13 +33,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -51,6 +52,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
 
@@ -60,43 +62,21 @@ import java.io.IOException;
 public class NewSpriteDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_sprite";
+	public static final String TAG = NewSpriteDialog.class.getSimpleName();
 
 	private static final int REQUEST_SELECT_IMAGE = 0;
 	private static final int REQUEST_CREATE_POCKET_PAINT_IMAGE = 1;
 	private static final int REQUEST_TAKE_PICTURE = 2;
-
-	public enum ActionAfterFinished {
-		ACTION_FORWARD_TO_NEW_OBJECT, ACTION_UPDATE_SPINNER;
-		static final String KEY = "action";
-	};
-
-	public enum DialogWizardStep {
-		STEP_1, STEP_2;
-		static final String KEY = "step";
-	}
-
 	private final ActionAfterFinished requestedAction;
 	private final DialogWizardStep wizardStep;
-
 	private Uri lookUri;
 	private View dialogView;
-
 	private String newObjectName = null;
 	private SpinnerAdapterWrapper spinnerAdapter;
 
 	public NewSpriteDialog() {
 		this.requestedAction = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
 		this.wizardStep = DialogWizardStep.STEP_1;
-	}
-
-	static NewSpriteDialog newInstance() {
-		NewSpriteDialog newSpriteDialog = new NewSpriteDialog();
-
-		Bundle arguments = new Bundle();
-		arguments.putInt(ActionAfterFinished.KEY, ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT.ordinal());
-		arguments.putInt(DialogWizardStep.KEY, DialogWizardStep.STEP_1.ordinal());
-		newSpriteDialog.setArguments(arguments);
-		return newSpriteDialog;
 	}
 
 	public NewSpriteDialog(SpinnerAdapterWrapper spinnerAdapter) {
@@ -112,6 +92,16 @@ public class NewSpriteDialog extends DialogFragment {
 		this.lookUri = lookUri;
 		this.newObjectName = newObjectName;
 		this.spinnerAdapter = spinnerAdapter;
+	}
+
+	static NewSpriteDialog newInstance() {
+		NewSpriteDialog newSpriteDialog = new NewSpriteDialog();
+
+		Bundle arguments = new Bundle();
+		arguments.putInt(ActionAfterFinished.KEY, ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT.ordinal());
+		arguments.putInt(DialogWizardStep.KEY, DialogWizardStep.STEP_1.ordinal());
+		newSpriteDialog.setArguments(arguments);
+		return newSpriteDialog;
 	}
 
 	@Override
@@ -169,7 +159,18 @@ public class NewSpriteDialog extends DialogFragment {
 		}
 		newObjectName = Utils.getUniqueObjectName(newObjectName);
 
-		imageView.setImageURI(lookUri);
+		DisplayMetrics metrics = new DisplayMetrics();
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+		int[] imageDimensions = ImageEditing.getImageDimensions(lookUri.getPath());
+
+		while (metrics.widthPixels < imageDimensions[0] && metrics.heightPixels < imageDimensions[1]) {
+			imageDimensions[0] = imageDimensions[0] / 2;
+			imageDimensions[1] = imageDimensions[1] / 2;
+		}
+
+		imageView.setImageBitmap(ImageEditing.getScaledBitmapFromPath(lookUri.getPath(), imageDimensions[0], imageDimensions[1], ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true));
+
 		EditText editTextNewObject = (EditText) dialogView.findViewById(R.id.dialog_new_object_name_edit_text);
 		editTextNewObject.setHint(newObjectName);
 		return dialog;
@@ -184,25 +185,30 @@ public class NewSpriteDialog extends DialogFragment {
 				lookUri = UtilCamera.getDefaultLookFromCameraUri(getString(R.string.default_look_name));
 			}
 
-			switch (requestCode) {
-				case REQUEST_CREATE_POCKET_PAINT_IMAGE:
-					lookUri = Uri.parse(data.getExtras().getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT));
-					break;
-				case REQUEST_SELECT_IMAGE:
-					lookUri = decodeUri(data.getData());
-					newObjectName = new File(lookUri.toString()).getName();
-					break;
-				case REQUEST_TAKE_PICTURE:
-					lookUri = UtilCamera.rotatePictureIfNecessary(lookUri, getString(R.string.default_look_name));
-					break;
-				default:
-					return;
-			}
+			try {
+				switch (requestCode) {
+					case REQUEST_CREATE_POCKET_PAINT_IMAGE:
+						lookUri = Uri.parse(data.getExtras().getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT));
+						break;
+					case REQUEST_SELECT_IMAGE:
+						lookUri = decodeUri(data.getData());
+						newObjectName = new File(lookUri.toString()).getName();
+						break;
+					case REQUEST_TAKE_PICTURE:
+						lookUri = UtilCamera.rotatePictureIfNecessary(lookUri, getString(R.string.default_look_name));
+						break;
+					default:
+						return;
+				}
 
-			NewSpriteDialog dialog = new NewSpriteDialog(DialogWizardStep.STEP_2, lookUri, newObjectName,
-					requestedAction, spinnerAdapter);
-			dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
-			dismiss();
+				NewSpriteDialog dialog = new NewSpriteDialog(DialogWizardStep.STEP_2, lookUri, newObjectName,
+						requestedAction, spinnerAdapter);
+				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+				dismiss();
+			} catch (NullPointerException e) {
+				Utils.showErrorDialog(getActivity(), R.string.error_load_image);
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
 		}
 	}
 
@@ -214,8 +220,8 @@ public class NewSpriteDialog extends DialogFragment {
 		}
 	}
 
-	private Uri decodeUri(Uri uri) {
-		String[] filePathColumn = { MediaStore.Images.Media.DATA };
+	private Uri decodeUri(Uri uri) throws NullPointerException {
+		String[] filePathColumn = {MediaStore.Images.Media.DATA};
 		Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
 		cursor.moveToFirst();
 		int columnIndex = cursor.getColumnIndexOrThrow(filePathColumn[0]);
@@ -228,14 +234,14 @@ public class NewSpriteDialog extends DialogFragment {
 	private void setupPaintroidButton(View parentView) {
 		View paintroidButton = parentView.findViewById(R.id.dialog_new_object_paintroid);
 
-		Intent intent = new Intent("android.intent.action.MAIN");
+		final Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-		if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
-			paintroidButton.setOnClickListener(new View.OnClickListener() {
 
-				@Override
-				public void onClick(View view) {
+		paintroidButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
 					Intent intent = new Intent("android.intent.action.MAIN");
 					intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 							Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
@@ -250,12 +256,10 @@ public class NewSpriteDialog extends DialogFragment {
 					intent.addCategory("android.intent.category.LAUNCHER");
 					startActivityForResult(intent, REQUEST_CREATE_POCKET_PAINT_IMAGE);
 				}
-			});
-		} else {
-			LinearLayout linearLayout = (LinearLayout) parentView.findViewById(R.id.dialog_new_object_chooser_layout);
-			paintroidButton.setVisibility(View.GONE);
-			linearLayout.setWeightSum(2f);
-		}
+			}
+
+		});
+
 	}
 
 	private void setupGalleryButton(View parentView) {
@@ -298,7 +302,7 @@ public class NewSpriteDialog extends DialogFragment {
 			newSpriteName = editText.getText().toString().trim();
 		}
 		if (newSpriteName.contains(".")) {
-			int fileExtensionPosition = newSpriteName.indexOf(".");
+			int fileExtensionPosition = newSpriteName.indexOf('.');
 			newSpriteName = newSpriteName.substring(0, fileExtensionPosition);
 		}
 
@@ -328,10 +332,14 @@ public class NewSpriteDialog extends DialogFragment {
 			lookData = new LookData();
 			lookData.setLookFilename(imageFileName);
 			lookData.setLookName(newSpriteName);
-		} catch (IOException exception) {
+		} catch (IOException ioException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_load_image);
-			exception.printStackTrace();
-
+			Log.e(TAG, Log.getStackTraceString(ioException));
+			return false;
+		} catch (NullPointerException e) {
+			Utils.showErrorDialog(getActivity(), R.string.error_load_image);
+			Log.e(TAG, "somebody might have selected an image and deleted it before it was added");
+			Log.e(TAG, Log.getStackTraceString(e));
 			return false;
 		}
 
@@ -357,5 +365,15 @@ public class NewSpriteDialog extends DialogFragment {
 		}
 		dismiss();
 		return true;
+	}
+
+	public enum ActionAfterFinished {
+		ACTION_FORWARD_TO_NEW_OBJECT, ACTION_UPDATE_SPINNER;
+		static final String KEY = "action";
+	}
+
+	public enum DialogWizardStep {
+		STEP_1, STEP_2;
+		static final String KEY = "step";
 	}
 }

@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
  * Copyright for original "String buildPath" held by:
@@ -52,6 +52,7 @@ import android.view.WindowManager;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -65,6 +66,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
@@ -80,11 +82,8 @@ import java.util.Locale;
 public final class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
-	public static final int PICTURE_INTENT = 1;
-	public static final int FILE_INTENT = 2;
+
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
-	private static final int DEFAULT_SCREEN_WIDTH = 1280;
-	private static final int DEFAULT_SCREEN_HEIGHT = 768;
 
 	// Suppress default constructor for noninstantiability
 	private Utils() {
@@ -124,8 +123,7 @@ public final class Utils {
 			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
 		} else {
 			//a null-context should never be passed. However, an educated guess is needed in that case.
-			ScreenValues.SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
-			ScreenValues.SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
+			ScreenValues.setToDefaultSreenSize();
 		}
 
 	}
@@ -150,7 +148,7 @@ public final class Utils {
 		StringBuilder result = new StringBuilder("/");
 
 		for (String pathElement : pathElements) {
-			result.append(pathElement).append("/");
+			result.append(pathElement).append('/');
 		}
 
 		String returnValue = result.toString().replaceAll("/+", "/");
@@ -163,7 +161,7 @@ public final class Utils {
 	}
 
 	public static String buildProjectPath(String projectName) {
-		return buildPath(Constants.DEFAULT_ROOT, deleteSpecialCharactersInString(projectName));
+		return buildPath(Constants.DEFAULT_ROOT, UtilFile.encodeSpecialCharsForFileSystem(projectName));
 	}
 
 	public static void showErrorDialog(Context context, int errorMessageId) {
@@ -179,12 +177,12 @@ public final class Utils {
 		errorDialog.show();
 	}
 
-	public static View addSelectAllActionModeButton(LayoutInflater inflator, ActionMode mode, Menu menu) {
+	public static View addSelectAllActionModeButton(LayoutInflater inflater, ActionMode mode, Menu menu) {
 		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+		MenuItem item = menu.findItem(R.id.select_all);
 		View view = item.getActionView();
 		if (view.getId() == R.id.select_all) {
-			View selectAllView = inflator.inflate(R.layout.action_mode_select_all, null);
+			View selectAllView = inflater.inflate(R.layout.action_mode_select_all, null);
 			item.setActionView(selectAllView);
 			return selectAllView;
 		}
@@ -194,6 +192,11 @@ public final class Utils {
 	public static String md5Checksum(File file) {
 
 		if (!file.isFile()) {
+			Log.e(TAG, String.format("md5Checksum() Error with file %s isFile: %s isDirectory: %s exists: %s",
+					file.getName(),
+						Boolean.valueOf(file.isFile()),
+							Boolean.valueOf(file.isDirectory()),
+								Boolean.valueOf(file.exists())));
 			return null;
 		}
 
@@ -204,8 +207,7 @@ public final class Utils {
 			fis = new FileInputStream(file);
 			byte[] buffer = new byte[Constants.BUFFER_8K];
 
-			int length = 0;
-
+			int length;
 			while ((length = fis.read(buffer)) != -1) {
 				messageDigest.update(buffer, 0, length);
 			}
@@ -233,14 +235,15 @@ public final class Utils {
 	}
 
 	private static String toHex(byte[] messageDigest) {
-		StringBuilder md5StringBuilder = new StringBuilder(2 * messageDigest.length);
+		final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
-		for (byte b : messageDigest) {
-			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
-			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0x0F)));
+		char[] hexBuffer = new char[messageDigest.length * 2];
+		for (int i = 0, j = 0; i < messageDigest.length; i++) {
+			hexBuffer[j++] = hexChars[(messageDigest[i] & 0xF0) >> 4];
+			hexBuffer[j++] = hexChars[messageDigest[i] & 0x0F];
 		}
 
-		return md5StringBuilder.toString();
+		return String.valueOf(hexBuffer);
 	}
 
 	private static MessageDigest getMD5MessageDigest() {
@@ -253,18 +256,6 @@ public final class Utils {
 		}
 
 		return messageDigest;
-	}
-
-	public static int getVersionCode(Context context) {
-		int versionCode = -1;
-		try {
-			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
-					PackageManager.GET_META_DATA);
-			versionCode = packageInfo.versionCode;
-		} catch (NameNotFoundException nameNotFoundException) {
-			Log.e(TAG, "Name not found", nameNotFoundException);
-		}
-		return versionCode;
 	}
 
 	public static String getVersionName(Context context) {
@@ -281,8 +272,7 @@ public final class Utils {
 
 	public static int getPhysicalPixels(int densityIndependentPixels, Context context) {
 		final float scale = context.getResources().getDisplayMetrics().density;
-		int physicalPixels = (int) (densityIndependentPixels * scale + 0.5f);
-		return physicalPixels;
+		return (int) (densityIndependentPixels * scale + 0.5f);
 	}
 
 	public static void saveToPreferences(Context context, String key, String message) {
@@ -292,18 +282,29 @@ public final class Utils {
 		edit.commit();
 	}
 
+	public static void removeFromPreferences(Context context, String key) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor edit = preferences.edit();
+		edit.remove(key);
+		edit.commit();
+	}
+
 	public static void loadProjectIfNeeded(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
-			if (projectName != null) {
-				ProjectManager.getInstance().loadProject(projectName, context, false);
-			} else if (ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name),
-					context, false)) {
-			} else {
+			if (projectName == null || !StorageHandler.getInstance().projectExists(projectName)) {
+				projectName = context.getString(R.string.default_project_name);
+			}
+
+			try {
+				ProjectManager.getInstance().loadProject(projectName, context);
+			} catch (ProjectException projectException) {
+				Log.e(TAG, "Project cannot load", projectException);
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
+
 		}
 	}
 
@@ -311,7 +312,11 @@ public final class Utils {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-			if (currentProjectName == null) {
+			if (currentProjectName == null || !StorageHandler.getInstance().projectExists(currentProjectName)) {
+				List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
+				if (projectNameList.isEmpty()) {
+					ProjectManager.getInstance().initializeDefaultProject(context);
+				}
 				currentProjectName = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).get(0);
 			}
 			return currentProjectName;
@@ -398,7 +403,7 @@ public final class Utils {
 	}
 
 	public static Pixmap getPixmapFromFile(File imageFile) {
-		Pixmap pixmap = null;
+		Pixmap pixmap;
 		try {
 			GdxNativesLoader.load();
 			pixmap = new Pixmap(new FileHandle(imageFile));
@@ -413,7 +418,7 @@ public final class Utils {
 	public static void rewriteImageFileForStage(Context context, File lookFile) throws IOException {
 		// if pixmap cannot be created, image would throw an Exception in stage
 		// so has to be loaded again with other Config
-		Pixmap pixmap = null;
+		Pixmap pixmap;
 		pixmap = Utils.getPixmapFromFile(lookFile);
 
 		if (pixmap == null) {
@@ -429,9 +434,9 @@ public final class Utils {
 	}
 
 	public static String getUniqueProjectName() {
-		String projectName = "project_" + String.valueOf(System.currentTimeMillis());
+		String projectName = "project_" + System.currentTimeMillis();
 		while (StorageHandler.getInstance().projectExists(projectName)) {
-			projectName = "project_" + String.valueOf(System.currentTimeMillis());
+			projectName = "project_" + System.currentTimeMillis();
 		}
 		return projectName;
 	}
@@ -444,7 +449,7 @@ public final class Utils {
 			int start = standardProjectXMLString.indexOf("<objectList>");
 			int end = standardProjectXMLString.indexOf("</objectList>");
 			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
-			ProjectManager.getInstance().deleteCurrentProject();
+			ProjectManager.getInstance().deleteCurrentProject(null);
 
 			ProjectManager.getInstance().setProject(projectToCheck);
 			ProjectManager.getInstance().saveProject();
@@ -456,10 +461,9 @@ public final class Utils {
 
 			return standardProjectSpriteList.contentEquals(projectToCheckStringList);
 		} catch (IllegalArgumentException illegalArgumentException) {
-			illegalArgumentException.printStackTrace();
-		} catch (IOException exception) {
-			// TODO Auto-generated catch block
-			exception.printStackTrace();
+			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 		return true;
 

@@ -150,7 +150,7 @@ public class MonitorSensorBrick extends BrickBaseType implements OnItemSelectedL
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		MonitorSensorBrick copyBrick = (MonitorSensorBrick) clone();
 		copyBrick.sprite = sprite;
 		return copyBrick;
@@ -184,7 +184,7 @@ public class MonitorSensorBrick extends BrickBaseType implements OnItemSelectedL
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite s, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.monitorSensorAction(SensorEnum));
 		return null;
 	}

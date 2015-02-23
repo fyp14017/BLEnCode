@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.ui.dialogs;
 
@@ -34,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,10 +58,14 @@ public class NewProjectDialog extends DialogFragment {
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
 	public static final String SHARED_PREFERENCES_EMPTY_PROJECT = "shared_preferences_empty_project";
 
+	private static final String TAG = NewProjectDialog.class.getSimpleName();
+
 	private EditText newProjectEditText;
 	private Dialog newProjectDialog;
 	private CheckBox emptyProjectCheckBox;
 	private SharedPreferences sharedPreferences;
+
+	private boolean openendFromProjectList = false;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -150,10 +155,12 @@ public class NewProjectDialog extends DialogFragment {
 
 		try {
 			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty);
-
-		} catch (IOException e) {
+		} catch (IllegalArgumentException illegalArgumentException) {
+			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+			return;
+		} catch (IOException ioException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
-			e.printStackTrace();
+			Log.e(TAG, Log.getStackTraceString(ioException));
 			dismiss();
 			return;
 		}
@@ -162,8 +169,23 @@ public class NewProjectDialog extends DialogFragment {
 
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
+
+		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+
+		if (isOpenendFromProjectList()) {
+			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+		}
+
 		getActivity().startActivity(intent);
 
 		dismiss();
+	}
+
+	public boolean isOpenendFromProjectList() {
+		return openendFromProjectList;
+	}
+
+	public void setOpenendFromProjectList(boolean openendFromProjectList) {
+		this.openendFromProjectList = openendFromProjectList;
 	}
 }

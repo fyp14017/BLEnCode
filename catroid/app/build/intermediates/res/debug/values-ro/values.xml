@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid/app/src/main/res/values-ro/strings.xml -->
+    <!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid1/app/src/main/res/values-ro/strings.xml -->
     <eat-comment/>
     <string name="action_doubleTapped">Apăsat dublu</string>
     <string name="action_longPressed">Apăsat lung</string>
@@ -95,6 +95,9 @@
     <string name="error_project_exists">Un proiect cu această denumire deja există.\nIntroduceți altă denumire, vă rog</string>
     <string name="error_project_upload">O eroare a avut loc la încărcarea proiectului.</string>
     <string name="error_screenshot_failed">O eroare a avut loc la salvarea imaginii.</string>
+    <string name="formula_editor_new_string_dialog_hint">Tip nou text aici.</string>
+    <string name="formula_editor_new_string_name">text nou</string>
+    <string name="formula_editor_string">Abc</string>
     <string name="just_a_v">v</string>
     <string name="loading">Încărcare…</string>
     <string name="login_or_register">Intrare sau Registrare</string>
@@ -125,7 +128,6 @@
     <string name="nxt_tone_frequency">Frecvența</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="ok">OK</string>
-    <string name="pairing_message">Conectare după împerechere.</string>
     <string name="password">Parola:</string>
     <string name="password_forgotten">Parola este uitată</string>
     <string name="please_wait">Așteptați</string>

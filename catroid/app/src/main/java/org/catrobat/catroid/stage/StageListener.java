@@ -1,37 +1,37 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.stage;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.Color;
 import android.os.SystemClock;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -43,21 +43,30 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
+import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StageListener implements ApplicationListener {
 
@@ -65,6 +74,8 @@ public class StageListener implements ApplicationListener {
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
 	private static final boolean DEBUG = false;
+	private static final java.lang.String SEQUENCE = "Sequence(";
+	public static final String BROADCAST_NOTIFY = ", BroadcastNotify)";
 
 	// needed for UiTests - is disabled to fix crashes with EMMA coverage
 	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 1 LINES
@@ -82,7 +93,8 @@ public class StageListener implements ApplicationListener {
 	private boolean firstStart = true;
 	private boolean reloadProject = false;
 
-	private static boolean makeAutomaticScreenshot = true;
+	private static boolean checkIfAutomaticScreenshotShouldBeTaken = true;
+	private boolean makeAutomaticScreenshot = false;
 	private boolean makeScreenshot = false;
 	private String pathForScreenshot;
 	private int screenshotWidth;
@@ -99,6 +111,7 @@ public class StageListener implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private BitmapFont font;
+	private Passepartout passepartout;
 
 	private List<Sprite> sprites;
 
@@ -106,12 +119,6 @@ public class StageListener implements ApplicationListener {
 	private float virtualHeightHalf;
 	private float virtualWidth;
 	private float virtualHeight;
-
-	private enum ScreenModes {
-		STRETCH, MAXIMIZE
-	};
-
-	private ScreenModes screenMode;
 
 	private Texture axes;
 
@@ -151,13 +158,11 @@ public class StageListener implements ApplicationListener {
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
 
-		screenMode = ScreenModes.STRETCH;
-
 		stage = new Stage(virtualWidth, virtualHeight, true);
 		batch = stage.getSpriteBatch();
 
-		camera = (OrthographicCamera) stage.getCamera();
-		camera.position.set(0, 0, 0);
+		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		initScreenMode();
 
 		sprites = project.getSpriteList();
 		for (Sprite sprite : sprites) {
@@ -167,9 +172,9 @@ public class StageListener implements ApplicationListener {
 			sprite.resume();
 		}
 
-		if (sprites.size() > 0) {
-			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-		}
+		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
+				maximizeViewPortHeight, virtualWidth, virtualHeight);
+		stage.addActor(passepartout);
 
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
@@ -184,6 +189,21 @@ public class StageListener implements ApplicationListener {
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		skipFirstFrameForAutomaticScreenshot = true;
+		if (checkIfAutomaticScreenshotShouldBeTaken) {
+			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
+		}
+
+	}
+
+	void activityResume() {
+		if (!paused) {
+			FaceDetectionHandler.resumeFaceDetection();
+		}
+
+	}
+
+	void activityPause() {
+		FaceDetectionHandler.pauseFaceDetection();
 	}
 
 	void menuResume() {
@@ -191,6 +211,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		paused = false;
+		FaceDetectionHandler.resumeFaceDetection();
 		SoundManager.getInstance().resume();
 		for (Sprite sprite : sprites) {
 			sprite.resume();
@@ -202,6 +223,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		paused = true;
+		FaceDetectionHandler.pauseFaceDetection();
 		SoundManager.getInstance().pause();
 		for (Sprite sprite : sprites) {
 			sprite.pause();
@@ -215,6 +237,8 @@ public class StageListener implements ApplicationListener {
 		this.stageDialog = stageDialog;
 
 		project.getUserVariables().resetAllUserVariables();
+		LedUtil.reset();
+		VibratorUtil.reset();
 
 		reloadProject = true;
 	}
@@ -222,6 +246,7 @@ public class StageListener implements ApplicationListener {
 	@Override
 	public void resume() {
 		if (!paused) {
+			FaceDetectionHandler.resumeFaceDetection();
 			SoundManager.getInstance().resume();
 			for (Sprite sprite : sprites) {
 				sprite.resume();
@@ -229,7 +254,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		for (Sprite sprite : sprites) {
-			sprite.look.refreshTextures();
+            sprite.look.refreshTextures();
 		}
 
 	}
@@ -240,6 +265,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		if (!paused) {
+			FaceDetectionHandler.pauseFaceDetection();
 			SoundManager.getInstance().pause();
 			for (Sprite sprite : sprites) {
 				sprite.pause();
@@ -250,17 +276,15 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
-		if (thumbnail != null) {
+		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
-
 	}
 
 	@Override
 	public void render() {
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		if (reloadProject) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
@@ -280,6 +304,7 @@ public class StageListener implements ApplicationListener {
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
+			stage.addActor(passepartout);
 
 			paused = true;
 			firstStart = true;
@@ -289,24 +314,6 @@ public class StageListener implements ApplicationListener {
 			}
 		}
 
-		switch (screenMode) {
-			case MAXIMIZE:
-				Gdx.gl.glViewport(maximizeViewPortX, maximizeViewPortY, maximizeViewPortWidth, maximizeViewPortHeight);
-				screenshotWidth = maximizeViewPortWidth;
-				screenshotHeight = maximizeViewPortHeight;
-				screenshotX = maximizeViewPortX;
-				screenshotY = maximizeViewPortY;
-				break;
-			case STRETCH:
-			default:
-				Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
-				screenshotWidth = ScreenValues.SCREEN_WIDTH;
-				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
-				screenshotX = 0;
-				screenshotY = 0;
-				break;
-		}
-
 		batch.setProjectionMatrix(camera.combined);
 
 		if (firstStart) {
@@ -314,14 +321,22 @@ public class StageListener implements ApplicationListener {
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 			}
-			Sprite sprite;
-			for (int i = 0; i < spriteSize; i++) {
-				sprite = sprites.get(i);
-				sprite.createStartScriptActionSequence();
+			Map<String, List<String>> scriptActions = new HashMap<String, List<String>>();
+			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
+				Sprite sprite = sprites.get(currentSprite);
+				sprite.createStartScriptActionSequenceAndPutToMap(scriptActions);
 				if (!sprite.getLookDataList().isEmpty()) {
 					sprite.look.setLookData(sprite.getLookDataList().get(0));
 				}
 			}
+
+			if (scriptActions.get(Constants.BROADCAST_SCRIPT) != null && !scriptActions.get(Constants.BROADCAST_SCRIPT).isEmpty()) {
+				List<String> broadcastWaitNotifyActions = reconstructNotifyActions(scriptActions);
+				Map<String, List<String>> notifyMap = new HashMap<String, List<String>>();
+				notifyMap.put(Constants.BROADCAST_NOTIFY_ACTION, broadcastWaitNotifyActions);
+				scriptActions.putAll(notifyMap);
+			}
+			precomputeActionsForBroadcastEvents(scriptActions);
 			firstStart = false;
 		}
 		if (!paused) {
@@ -390,6 +405,68 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	private List<String> reconstructNotifyActions(Map<String, List<String>> actions) {
+		List<String> broadcastWaitNotifyActions = new ArrayList<String>();
+		for (String actionString : actions.get(Constants.BROADCAST_SCRIPT)) {
+			String broadcastNotifyString = SEQUENCE + actionString.substring(0, actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR)) + BROADCAST_NOTIFY + actionString.substring(actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+			broadcastWaitNotifyActions.add(broadcastNotifyString);
+		}
+		return broadcastWaitNotifyActions;
+	}
+
+	public void precomputeActionsForBroadcastEvents(Map<String, List<String>> currentActions) {
+		Multimap<String, String> actionsToRestartMap = BroadcastHandler.getActionsToRestartMap();
+		if (!actionsToRestartMap.isEmpty()) {
+			return;
+		}
+		List<String> actions = new ArrayList<String>();
+		if (currentActions.get(Constants.START_SCRIPT) != null) {
+			actions.addAll(currentActions.get(Constants.START_SCRIPT));
+		}
+		if (currentActions.get(Constants.BROADCAST_SCRIPT) != null) {
+			actions.addAll(currentActions.get(Constants.BROADCAST_SCRIPT));
+		}
+		if (currentActions.get(Constants.BROADCAST_NOTIFY_ACTION) != null) {
+			actions.addAll(currentActions.get(Constants.BROADCAST_NOTIFY_ACTION));
+		}
+		for (String action : actions) {
+			for (String actionOfLook : actions) {
+				if (action.equals(actionOfLook)
+						|| isFirstSequenceActionAndEqualsSecond(action, actionOfLook)
+						|| isFirstSequenceActionAndEqualsSecond(actionOfLook, action)) {
+					if (!actionsToRestartMap.containsKey(action)) {
+						actionsToRestartMap.put(action, actionOfLook);
+					} else {
+						actionsToRestartMap.get(action).add(actionOfLook);
+					}
+				}
+			}
+		}
+	}
+
+	private static boolean isFirstSequenceActionAndEqualsSecond(String action1, String action2) {
+		String spriteOfAction1 = action1.substring(action1.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+		String spriteOfAction2 = action2.substring(action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+
+		if (!spriteOfAction1.equals(spriteOfAction2)) {
+			return false;
+		}
+
+		if (!action1.startsWith(SEQUENCE) || !action1.contains(BROADCAST_NOTIFY)) {
+			return false;
+		}
+
+		int startIndex1 = action1.indexOf(Constants.OPENING_BRACE) + 1;
+		int endIndex1 = action1.indexOf(BROADCAST_NOTIFY);
+		String innerAction1 = action1.substring(startIndex1, endIndex1);
+
+		String action2Sub = action2.substring(0, action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+		if (innerAction1.equals(action2Sub)) {
+			return true;
+		}
+		return false;
+	}
+
 	private void drawAxes() {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -435,8 +512,12 @@ public class StageListener implements ApplicationListener {
 		Bitmap centerSquareBitmap;
 		int[] colors = new int[length / 4];
 
+		if (colors.length != screenshotWidth * screenshotHeight || colors.length == 0) {
+			return false;
+		}
+
 		for (int i = 0; i < length; i += 4) {
-			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
+			colors[i / 4] = android.graphics.Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
 					screenshot[i + 2] & 0xFF);
 		}
 		fullScreenBitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
@@ -475,18 +556,53 @@ public class StageListener implements ApplicationListener {
 		while (makeTestPixels) {
 			Thread.yield();
 		}
-		return testPixels;
+		byte[] copyOfTestPixels = new byte[testPixels.length];
+		System.arraycopy(testPixels, 0, copyOfTestPixels, 0, testPixels.length);
+		return copyOfTestPixels;
 	}
 
-	public void changeScreenSize() {
-		switch (screenMode) {
+	public void toggleScreenMode() {
+		switch (project.getScreenMode()) {
 			case MAXIMIZE:
-				screenMode = ScreenModes.STRETCH;
+				project.setScreenMode(ScreenModes.STRETCH);
 				break;
 			case STRETCH:
-				screenMode = ScreenModes.MAXIMIZE;
+				project.setScreenMode(ScreenModes.MAXIMIZE);
 				break;
 		}
+
+		initScreenMode();
+
+		if (checkIfAutomaticScreenshotShouldBeTaken) {
+			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
+		}
+	}
+
+	private void initScreenMode() {
+		switch (project.getScreenMode()) {
+			case STRETCH:
+				stage.setViewport(virtualWidth, virtualHeight, false);
+				screenshotWidth = ScreenValues.SCREEN_WIDTH;
+				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
+				screenshotX = 0;
+				screenshotY = 0;
+				break;
+
+			case MAXIMIZE:
+				stage.setViewport(virtualWidth, virtualHeight, true);
+				screenshotWidth = maximizeViewPortWidth;
+				screenshotHeight = maximizeViewPortHeight;
+				screenshotX = maximizeViewPortX;
+				screenshotY = maximizeViewPortY;
+				break;
+
+			default:
+				break;
+
+		}
+		camera = (OrthographicCamera) stage.getCamera();
+		camera.position.set(0, 0, 0);
+		camera.update();
 	}
 
 	private LookData createWhiteBackgroundLookData() {

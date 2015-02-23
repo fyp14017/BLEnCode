@@ -1,44 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *    
- *    This file incorporates work covered by the following copyright and  
- *    permission notice: 
- *    
- *		   	Copyright 2010 Guenther Hoelzl, Shawn Brown
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
  *
- *		   	This file is part of MINDdroid.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- * 		  	MINDdroid is free software: you can redistribute it and/or modify
- * 		  	it under the terms of the GNU Affero General Public License as
- * 		  	published by the Free Software Foundation, either version 3 of the
- *   		License, or (at your option) any later version.
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
  *
- *   		MINDdroid is distributed in the hope that it will be useful,
- *   		but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   		GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
  *
- *   		You should have received a copy of the GNU Affero General Public License
- *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.legonxt;
 
@@ -91,14 +71,38 @@ public abstract class LegoNXTCommunicator extends Thread {
 	public static final int GENERAL_COMMAND = 100;
 	public static final int MOTOR_COMMAND = 102;
 	public static final int TONE_COMMAND = 101;
+	// receive messages from the UI
+	// TODO should be fixed - could lead to problems
+	@SuppressLint("HandlerLeak")
+	final Handler myHandler = new Handler() {
+		@Override
+		public void handleMessage(Message myMessage) {
 
+			switch (myMessage.what) {
+				case TONE_COMMAND:
+					doBeep(myMessage.getData().getInt("frequency"), myMessage.getData().getInt("duration"));
+					break;
+				case DISCONNECT:
+					break;
+				default:
+					int motor;
+					int speed;
+					int angle;
+					motor = myMessage.getData().getInt("motor");
+					speed = myMessage.getData().getInt("speed");
+					angle = myMessage.getData().getInt("angle");
+					moveMotor(motor, speed, angle);
+
+					break;
+
+			}
+		}
+	};
+	protected static ArrayList<byte[]> receivedMessages = new ArrayList<byte[]>();
+	private static boolean requestConfirmFromDevice = false;
 	protected boolean connected = false;
 	protected Handler uiHandler;
-	private static boolean requestConfirmFromDevice = false;
-
-	protected static ArrayList<byte[]> receivedMessages = new ArrayList<byte[]>();
 	protected byte[] returnMessage;
-
 	protected Resources resources;
 
 	public LegoNXTCommunicator(Handler uiHandler, Resources resources) {
@@ -119,7 +123,10 @@ public abstract class LegoNXTCommunicator extends Thread {
 	}
 
 	public byte[] getReturnMessage() {
-		return returnMessage;
+
+		byte[] copy = new byte[returnMessage.length];
+		System.arraycopy(returnMessage, 0, copy, 0, returnMessage.length);
+		return copy;
 	}
 
 	/**
@@ -180,9 +187,11 @@ public abstract class LegoNXTCommunicator extends Thread {
 	 */
 
 	protected void sendState(int message) {
-		Bundle myBundle = new Bundle();
-		myBundle.putInt("message", message);
-		sendBundle(myBundle);
+		if (uiHandler != null) {
+			Bundle myBundle = new Bundle();
+			myBundle.putInt("message", message);
+			sendBundle(myBundle);
+		}
 	}
 
 	protected void sendMessageAndState(byte[] message) {
@@ -302,32 +311,4 @@ public abstract class LegoNXTCommunicator extends Thread {
 			sendMessageAndState(test);
 		}
 	}
-
-	// receive messages from the UI
-	// TODO should be fixed - could lead to problems
-	@SuppressLint("HandlerLeak")
-	final Handler myHandler = new Handler() {
-		@Override
-		public void handleMessage(Message myMessage) {
-
-			switch (myMessage.what) {
-				case TONE_COMMAND:
-					doBeep(myMessage.getData().getInt("frequency"), myMessage.getData().getInt("duration"));
-					break;
-				case DISCONNECT:
-					break;
-				default:
-					int motor;
-					int speed;
-					int angle;
-					motor = myMessage.getData().getInt("motor");
-					speed = myMessage.getData().getInt("speed");
-					angle = myMessage.getData().getInt("angle");
-					moveMotor(motor, speed, angle);
-
-					break;
-
-			}
-		}
-	};
 }

@@ -112,7 +112,7 @@ public class SensorChooserBrick extends BrickBaseType implements OnItemSelectedL
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		SensorChooserBrick copyBrick = (SensorChooserBrick) clone();
 		copyBrick.sprite = sprite;
 		return copyBrick;
@@ -136,7 +136,7 @@ public class SensorChooserBrick extends BrickBaseType implements OnItemSelectedL
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite s, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.connectSensorTagAction());
 		return null;
 	}

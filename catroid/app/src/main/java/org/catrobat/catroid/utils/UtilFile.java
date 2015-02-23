@@ -1,31 +1,35 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -42,9 +46,7 @@ import java.util.List;
 import java.util.Locale;
 
 public final class UtilFile {
-	public enum FileType {
-		TYPE_IMAGE_FILE, TYPE_SOUND_FILE
-	}
+	private static final String TAG = UtilFile.class.getSimpleName();
 
 	// Suppress default constructor for noninstantiability
 	private UtilFile() {
@@ -94,26 +96,40 @@ public final class UtilFile {
 		return String.format(Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit, exponent), prefix);
 	}
 
-	public static boolean clearDirectory(File path) {
-		if (path.exists()) {
-			File[] filesInDirectory = path.listFiles();
-			if (filesInDirectory == null) {
+	public static boolean deleteDirectory(File fileOrDirectory) {
+		return deleteDirectory(fileOrDirectory, 0);
+	}
+
+	private static boolean deleteDirectory(File fileOrDirectory, int space) {
+		if (fileOrDirectory == null) {
+			return false;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < space; i++) {
+			sb.append('-');
+		}
+
+		boolean success = true;
+		if (fileOrDirectory.exists() && fileOrDirectory.isDirectory()) {
+			// Please note: especially with MyProjectsActivityTest.testAddNewProjectMixedCase(), it happens that listFiles
+			// returns null (although fileOrDirectory exists and is a directory). This should definitely not happen
+			// and there is probably an I/O Error from the system. So we just check this manually and abort if so.
+			File[] files = fileOrDirectory.listFiles();
+			if (files == null) {
 				return false;
 			}
-			for (File file : filesInDirectory) {
-				if (file.isDirectory()) {
-					deleteDirectory(file);
-				} else {
-					file.delete();
+
+			for (File child : files) {
+				success = deleteDirectory(child, space + 1);
+				if (!success) {
+					return false;
 				}
 			}
 		}
-		return true;
-	}
 
-	public static boolean deleteDirectory(File path) {
-		clearDirectory(path);
-		return (path.delete());
+		Log.v(TAG, sb.toString() + "delete: " + fileOrDirectory.getName());
+		return fileOrDirectory.delete();
 	}
 
 	public static File saveFileToProject(String project, String name, int fileID, Context context, FileType type) {
@@ -154,16 +170,30 @@ public final class UtilFile {
 			out.close();
 
 			return file;
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 			return null;
 		}
 	}
 
 	public static void createStandardProjectIfRootDirectoryIsEmpty(Context context) {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
-		if (rootDirectory == null || rootDirectory.listFiles() == null || rootDirectory.listFiles().length == 0) {
+		if (rootDirectory == null || rootDirectory.listFiles() == null || getProjectNames(rootDirectory).size() == 0) {
 			ProjectManager.getInstance().initializeDefaultProject(context);
+		}
+	}
+
+	public static void loadExistingOrCreateStandardDroneProject(Context context) {
+		String droneStandardProjectName = context.getString(R.string.default_drone_project_name);
+		try {
+			ProjectManager.getInstance().loadProject(droneStandardProjectName, context);
+		} catch (ProjectException cannotLoadDroneProjectException) {
+			Log.e(TAG, "Cannot load standard drone project" + cannotLoadDroneProjectException);
+		}
+
+		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
+		if (!currentName.equals(droneStandardProjectName)) {
+			ProjectManager.getInstance().initializeDroneProject(context);
 		}
 	}
 
@@ -182,14 +212,14 @@ public final class UtilFile {
 			};
 			for (File file : fileList) {
 				if (file.isDirectory() && file.list(filenameFilter).length != 0) {
-					projectList.add(file.getName());
+					projectList.add(decodeSpecialCharsForFileSystem(file.getName()));
 				}
 			}
 		}
 		return projectList;
 	}
 
-	public static File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
+	public static File copyFile(File destinationFile, File sourceFile) throws IOException {
 		FileInputStream inputStream = null;
 		FileChannel inputChannel = null;
 		FileOutputStream outputStream = null;
@@ -248,9 +278,10 @@ public final class UtilFile {
 	}
 
 	public static File copySoundFromResourceIntoProject(String projectName, String outputFilename, int resourceId,
-			Context context, boolean prependMd5ToFilename) throws IOException {
-		if (!outputFilename.toLowerCase(Locale.US).endsWith(Constants.RECORDING_EXTENSION)) {
-			outputFilename = outputFilename + Constants.RECORDING_EXTENSION;
+			Context context, boolean prependMd5ToFilename) throws IllegalArgumentException, IOException {
+		if (!outputFilename.toLowerCase(Locale.US).endsWith(SoundRecorder.RECORDING_EXTENSION)) {
+			throw new IllegalArgumentException("Only Files with extension " + SoundRecorder.RECORDING_EXTENSION
+					+ " allowed");
 		}
 		return copyFromResourceIntoProject(projectName, Constants.SOUND_DIRECTORY, outputFilename, resourceId, context,
 				prependMd5ToFilename);
@@ -261,7 +292,7 @@ public final class UtilFile {
 		if (scaleFactor <= 0) {
 			throw new IllegalArgumentException("scale factor is smaller or equal zero");
 		}
-		outputFilename = Utils.deleteSpecialCharactersInString(outputFilename);
+		outputFilename = UtilFile.encodeSpecialCharsForFileSystem(outputFilename);
 		if (!outputFilename.toLowerCase(Locale.US).endsWith(Constants.IMAGE_STANDARD_EXTENTION)) {
 			outputFilename = outputFilename + Constants.IMAGE_STANDARD_EXTENTION;
 		}
@@ -287,4 +318,41 @@ public final class UtilFile {
 		return fileWithMd5;
 	}
 
+	public static String encodeSpecialCharsForFileSystem(String projectName) {
+		if (projectName.equals(".") || projectName.equals("..")) {
+			projectName = projectName.replace(".", "%2E");
+		} else {
+			projectName = projectName.replace("%", "%25");
+			projectName = projectName.replace("\"", "%22");
+			projectName = projectName.replace("/", "%2F");
+			projectName = projectName.replace(":", "%3A");
+			projectName = projectName.replace("<", "%3C");
+			projectName = projectName.replace(">", "%3E");
+			projectName = projectName.replace("?", "%3F");
+			projectName = projectName.replace("\\", "%5C");
+			projectName = projectName.replace("|", "%7C");
+			projectName = projectName.replace("*", "%2A");
+		}
+		return projectName;
+	}
+
+	public static String decodeSpecialCharsForFileSystem(String projectName) {
+		projectName = projectName.replace("%2E", ".");
+
+		projectName = projectName.replace("%2A", "*");
+		projectName = projectName.replace("%7C", "|");
+		projectName = projectName.replace("%5C", "\\");
+		projectName = projectName.replace("%3F", "?");
+		projectName = projectName.replace("%3E", ">");
+		projectName = projectName.replace("%3C", "<");
+		projectName = projectName.replace("%3A", ":");
+		projectName = projectName.replace("%2F", "/");
+		projectName = projectName.replace("%22", "\"");
+		projectName = projectName.replace("%25", "%");
+		return projectName;
+	}
+
+	public enum FileType {
+		TYPE_IMAGE_FILE, TYPE_SOUND_FILE
+	}
 }

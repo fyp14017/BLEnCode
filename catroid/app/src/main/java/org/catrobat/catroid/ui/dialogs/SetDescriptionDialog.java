@@ -1,31 +1,34 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.ui.dialogs;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.utils.Utils;
 
 public class SetDescriptionDialog extends MultiLineTextDialog {
 
@@ -60,11 +63,17 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
 			input.setText(projectManager.getCurrentProject().getDescription());
 		} else {
-
-			projectManager.loadProject(projectToChangeName, getActivity(), false); //TODO: check something
-			input.setText(projectManager.getCurrentProject().getDescription());
-			projectManager.loadProject(currentProjectName, getActivity(), false);
-
+			try {
+				projectManager.loadProject(projectToChangeName, getActivity());
+				input.setText(projectManager.getCurrentProject().getDescription());
+				projectManager.loadProject(currentProjectName, getActivity());
+			} catch (ProjectException projectException) {
+				Log.e(DIALOG_FRAGMENT_TAG, "Getting description of an incompatible project isn't possible",
+						projectException);
+				Utils.showErrorDialog(getActivity(), R.string.error_load_project);
+				dismiss();
+				return;
+			}
 		}
 	}
 
@@ -80,11 +89,19 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 			return false;
 		}
 
-		projectManager.loadProject(projectToChangeName, getActivity(), false);
-		setDescription(description);
-		projectManager.loadProject(currentProjectName, getActivity(), false);
+		try {
+			projectManager.loadProject(projectToChangeName, getActivity());
+			setDescription(description);
+			projectManager.loadProject(currentProjectName, getActivity());
+			updateProjectDescriptionListener();
+		} catch (ProjectException projectException) {
+			Log.e(DIALOG_FRAGMENT_TAG, "Changing description of an incompatible project isn\'t possible.",
+					projectException);
+			Utils.showErrorDialog(getActivity(), R.string.error_changing_description_of_incompatible_project);
+			dismiss();
+			return false;
+		}
 
-		updateProjectDescriptionListener();
 		dismiss();
 		return true;
 	}

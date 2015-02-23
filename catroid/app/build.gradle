@@ -1,13 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 18
+    compileSdkVersion 19
     buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "org.catrobat.catroid"
-        minSdkVersion 10
-        targetSdkVersion 18
 
         testApplicationId "org.catrobat.catroid.test.cucumber"
         testInstrumentationRunner "cucumber.api.android.CucumberInstrumentation"
@@ -15,20 +13,39 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt'
         }
     }
+}
+
+ext {
+    projectVersion = "0.9"
+    featuresEnabled = [
+            "lego_nxt"                          : true,
+            "led_brick"                         : false,
+            "vibration_brick"                   : false,
+            "backpack"                          : false,
+            "parrot_ar_drone"                   : false,
+            "apk_generator"                     : false,
+            "computer_vision_enhancement"       : true,
+            "formula_editor_lists"              : false,
+            "physics_engine_collision_filtering": false,
+            "time_capsule"                      : false,
+            "userbricks"                        : false
+    ]
 }
 
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:18.0.0'
+    compile group: 'com.google.guava', name: 'guava', version: '15.0'
     compile files('libs/gdx-backend-android.jar')
     compile files('libs/gdx.jar')
     compile files('libs/http-request-5.4.1.jar')
     compile files('libs/okhttp-1.2.1-jar-with-dependencies.jar')
-    compile files('libs/xstream-1.4.4.jar')
+    compile files('libs/ParrotARDroneCatroidAdaptation-8a582f1dc8.jar')
+    compile files('libs/xstream-1.4.7.jar')
     compile 'com.parse.bolts:bolts-android:1.+'
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
     androidTestCompile files('libs/cucumber-android-1.1.6-20131016.185452-24.jar')

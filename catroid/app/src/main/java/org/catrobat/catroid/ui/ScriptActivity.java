@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.ui;
 
@@ -40,7 +40,8 @@ import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.content.BroadcastHandler;
+import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -52,7 +53,9 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.fragment.SensorTagFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.ui.fragment.UserBrickDataEditorFragment;
 
 import java.util.concurrent.locks.Lock;
 
@@ -75,16 +78,13 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
 	public static final String ACTION_SOUNDS_LIST_INIT = "org.catrobat.catroid.SOUNDS_LIST_INIT";
 	public static final String ACTION_VARIABLE_DELETED = "org.catrobat.catroid.VARIABLE_DELETED";
-
+	private static int currentFragmentPosition;
 	private FragmentManager fragmentManager = getSupportFragmentManager();
-
 	private ScriptFragment scriptFragment = null;
 	private LookFragment lookFragment = null;
 	private SoundFragment soundFragment = null;
-
 	private ScriptActivityFragment currentFragment = null;
-
-	private static int currentFragmentPosition;
+	private DeleteModeListener deleteModeListener;
 	private String currentFragmentTag;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
@@ -116,14 +116,34 @@ public class ScriptActivity extends BaseActivity {
 		updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 		fragmentTransaction.commit();
 
+		setupActionBar();
+		setupBottomBar();
+
+		buttonAdd = (ImageButton) findViewById(R.id.button_add);
+		updateHandleAddButtonClickListener();
+	}
+
+	private void setupBottomBar() {
+		BottomBar.showBottomBar(this);
+		BottomBar.showAddButton(this);
+		BottomBar.showPlayButton(this);
+		updateHandleAddButtonClickListener();
+
+	}
+
+	public void setupActionBar() {
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
 		actionBar.setTitle(currentSprite);
+	}
 
-		buttonAdd = (ImageButton) findViewById(R.id.button_add);
-		updateHandleAddButtonClickListener();
+	@Override
+	public void onResume() {
+		super.onResume();
+		setupActionBar();
+		setupBottomBar();
 	}
 
 	public void updateHandleAddButtonClickListener() {
@@ -209,10 +229,8 @@ public class ScriptActivity extends BaseActivity {
 		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
 				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
 
-		if (formulaEditorVariableListFragment != null) {
-			if (formulaEditorVariableListFragment.isVisible()) {
-				return super.onOptionsItemSelected(item);
-			}
+		if (formulaEditorVariableListFragment != null && formulaEditorVariableListFragment.isVisible()) {
+			return super.onOptionsItemSelected(item);
 		}
 
 		switch (item.getItemId()) {
@@ -250,7 +268,11 @@ public class ScriptActivity extends BaseActivity {
 				break;
 
 			case R.id.delete:
-				currentFragment.startDeleteActionMode();
+				if (deleteModeListener != null) {
+					deleteModeListener.startDeleteActionMode();
+				} else {
+					currentFragment.startDeleteActionMode();
+				}
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -263,12 +285,9 @@ public class ScriptActivity extends BaseActivity {
 		updateHandleAddButtonClickListener();
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			SensorHandler.startSensorListener(this);
 			Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
-			startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
-		}
-		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
-			SensorHandler.stopSensorListeners();
+			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
+			startActivity(intent);
 		}
 	}
 
@@ -278,46 +297,45 @@ public class ScriptActivity extends BaseActivity {
 
 		for (String tag : FormulaEditorListFragment.TAGS) {
 			FormulaEditorListFragment fragment = (FormulaEditorListFragment) fragmentManager.findFragmentByTag(tag);
-			if (fragment != null) {
-				if (fragment.isVisible()) {
-					return fragment.onKey(null, keyCode, event);
-				}
+			if (fragment != null && fragment.isVisible()) {
+				return fragment.onKey(null, keyCode, event);
 			}
+
+		}
+
+		String tag1 = UserBrickDataEditorFragment.BRICK_DATA_EDITOR_FRAGMENT_TAG;
+		UserBrickDataEditorFragment fragment = (UserBrickDataEditorFragment) fragmentManager.findFragmentByTag(tag1);
+		if (fragment != null && fragment.isVisible()) {
+				return fragment.onKey(null, keyCode, event);
 		}
 
 		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
 				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
 
-		if (formulaEditorVariableListFragment != null) {
-			if (formulaEditorVariableListFragment.isVisible()) {
-				return formulaEditorVariableListFragment.onKey(null, keyCode, event);
-			}
+		if (formulaEditorVariableListFragment != null && formulaEditorVariableListFragment.isVisible()) {
+			return formulaEditorVariableListFragment.onKey(null, keyCode, event);
 		}
+
+        SensorTagFragment sensorTagFragment = (SensorTagFragment) getSupportFragmentManager().findFragmentByTag(SensorTagFragment.SENSOR_TAG_FRAGMENT_TAG);
+
+        if(sensorTagFragment != null && sensorTagFragment.isVisible()){
+            return sensorTagFragment.onKey(null, keyCode, event);
+        }
 
 		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSupportFragmentManager().findFragmentByTag(
 				FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 
-		if (formulaEditor != null) {
-			if (formulaEditor.isVisible()) {
-				scriptFragment.getAdapter().updateProjectBrickList();
-				return formulaEditor.onKey(null, keyCode, event);
-			}
+		if (formulaEditor != null && formulaEditor.isVisible()) {
+			scriptFragment.getAdapter().updateProjectBrickList();
+			return formulaEditor.onKey(null, keyCode, event);
 		}
 
-		if (soundFragment != null) {
-			if (soundFragment.isVisible()) {
-				if (soundFragment.onKey(null, keyCode, event)) {
-					return true;
-				}
-			}
+		if (soundFragment != null && soundFragment.isVisible() && soundFragment.onKey(null, keyCode, event)) {
+			return true;
 		}
 
-		if (lookFragment != null) {
-			if (lookFragment.isVisible()) {
-				if (lookFragment.onKey(null, keyCode, event)) {
-					return true;
-				}
-			}
+		if (lookFragment != null && lookFragment.isVisible() && lookFragment.onKey(null, keyCode, event)) {
+			return true;
 		}
 
 		int backStackEntryCount = fragmentManager.getBackStackEntryCount();
@@ -331,18 +349,17 @@ public class ScriptActivity extends BaseActivity {
 			}
 		}
 
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (currentFragmentPosition == FRAGMENT_SCRIPTS) {
-				DragAndDropListView listView = scriptFragment.getListView();
-				if (listView.isCurrentlyDragging()) {
-					listView.resetDraggingScreen();
+		if (keyCode == KeyEvent.KEYCODE_BACK && currentFragmentPosition == FRAGMENT_SCRIPTS) {
+			DragAndDropListView listView = scriptFragment.getListView();
+			if (listView.isCurrentlyDragging()) {
+				listView.resetDraggingScreen();
 
-					BrickAdapter adapter = scriptFragment.getAdapter();
-					adapter.removeDraggedBrick();
-					return true;
-				}
+				BrickAdapter adapter = scriptFragment.getAdapter();
+				adapter.removeDraggedBrick();
+				return true;
 			}
 		}
+
 		return super.onKeyDown(keyCode, event);
 	}
 
@@ -350,16 +367,13 @@ public class ScriptActivity extends BaseActivity {
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
-			if (soundFragment != null) {
-				if (soundFragment.isVisible()) {
-					sendBroadcast(new Intent(ScriptActivity.ACTION_SOUNDS_LIST_INIT));
+			if (soundFragment != null && soundFragment.isVisible()) {
+				sendBroadcast(new Intent(ScriptActivity.ACTION_SOUNDS_LIST_INIT));
 
-				}
 			}
-			if (lookFragment != null) {
-				if (lookFragment.isVisible()) {
-					sendBroadcast(new Intent(ScriptActivity.ACTION_LOOKS_LIST_INIT));
-				}
+
+			if (lookFragment != null && lookFragment.isVisible()) {
+				sendBroadcast(new Intent(ScriptActivity.ACTION_LOOKS_LIST_INIT));
 			}
 
 		}
@@ -382,7 +396,7 @@ public class ScriptActivity extends BaseActivity {
 			fragmentTransaction.remove(formulaEditorFragment);
 			fragmentTransaction.commit();
 		}
-
+		BroadcastHandler.clearActionMaps();
 		if (isHoveringActive()) {
 			scriptFragment.getListView().animateHoveringBrick();
 		} else {
@@ -402,24 +416,21 @@ public class ScriptActivity extends BaseActivity {
 		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
 				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
 
-		if (formulaEditorVariableListFragment != null) {
-			if (formulaEditorVariableListFragment.isVisible()) {
-				ListAdapter adapter = formulaEditorVariableListFragment.getListAdapter();
-				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
-				return super.dispatchKeyEvent(event);
-			}
+		if (formulaEditorVariableListFragment != null && formulaEditorVariableListFragment.isVisible()) {
+			ListAdapter adapter = formulaEditorVariableListFragment.getListAdapter();
+			((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
+			return super.dispatchKeyEvent(event);
 		}
 
-		if (currentFragment != null && currentFragment.getActionModeActive()) {
-			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-				ListAdapter adapter = null;
-				if (currentFragment instanceof ScriptFragment) {
-					adapter = ((ScriptFragment) currentFragment).getAdapter();
-				} else {
-					adapter = currentFragment.getListAdapter();
-				}
-				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
+		if (currentFragment != null && currentFragment.getActionModeActive()
+				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+			ListAdapter adapter = null;
+			if (currentFragment instanceof ScriptFragment) {
+				adapter = ((ScriptFragment) currentFragment).getAdapter();
+			} else {
+				adapter = currentFragment.getListAdapter();
 			}
+			((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
 		}
 
 		return super.dispatchKeyEvent(event);
@@ -436,6 +447,10 @@ public class ScriptActivity extends BaseActivity {
 		currentFragment.setShowDetails(showDetails);
 
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
+	}
+
+	public void setDeleteModeListener(DeleteModeListener listener) {
+		deleteModeListener = listener;
 	}
 
 	public ScriptActivityFragment getFragment(int fragmentPosition) {
@@ -510,6 +525,21 @@ public class ScriptActivity extends BaseActivity {
 
 	public void setIsLookFragmentHandleAddButtonHandled(boolean isLookFragmentHandleAddButtonHandled) {
 		this.isLookFragmentHandleAddButtonHandled = isLookFragmentHandleAddButtonHandled;
+	}
+
+	public void setupBrickAdapter(BrickAdapter adapter) {
+	}
+
+	public ScriptFragment getScriptFragment() {
+		return scriptFragment;
+	}
+
+	public void setScriptFragment(ScriptFragment scriptFragment) {
+		this.scriptFragment = scriptFragment;
+	}
+
+	public void redrawBricks() {
+		scriptFragment.getAdapter().notifyDataSetInvalidated();
 	}
 
 	public void switchToFragmentFromScriptFragment(int fragmentPosition) {

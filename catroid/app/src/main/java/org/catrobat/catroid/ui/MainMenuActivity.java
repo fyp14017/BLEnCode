@@ -1,29 +1,28 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.ui;
 
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,21 +36,18 @@ import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.parse.Parse;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -80,6 +76,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "eLVYhF8lasRdIv2iaUbYiu7g5yczFEEndwYw8ECM", "ekJo8KK0tivuPNT4O8O3nlfvxt2nFjO3wRi3LlWg");
 		setContentView(R.layout.activity_main_menu);
+
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setTitle(R.string.app_name);
@@ -97,16 +94,26 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!BackPackListManager.isBackpackFlag()) {
 			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
 		}
+
+		//TODO Drone do not create project for now
+		//if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && DroneUtils.isDroneSharedPreferenceEnabled(getApplication(), false)) {
+		//	UtilFile.loadExistingOrCreateStandardDroneProject(this);
+		//}
+		//SettingsActivity.setTermsOfServiceAgreedPermanently(this, false);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
 
+		findViewById(R.id.progress_circle).setVisibility(View.GONE);
+
 		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
+
 		PreStageActivity.shutdownPersistentResources();
 		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
@@ -124,42 +131,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject != null) {
 			ProjectManager.getInstance().saveProject();
-			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.getInstance()
-					.getCurrentProject().getName());
-		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_main_menu, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.menu_rate_app:
-				launchMarket();
-				return true;
-			case R.id.menu_about:
-				AboutDialogFragment aboutDialog = new AboutDialogFragment();
-				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
-				return true;
-
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	// Taken from http://stackoverflow.com/a/11270668
-	private void launchMarket() {
-		Uri uri = Uri.parse("market://details?id=" + getPackageName());
-		Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
-		try {
-			startActivity(myAppLinkToMarket);
-		} catch (ActivityNotFoundException e) {
-			Toast.makeText(this, R.string.main_menu_play_store_not_installed, Toast.LENGTH_SHORT).show();
+			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, currentProject.getName());
 		}
 	}
 
@@ -169,7 +144,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleContinueButton() {
-		loadProjectInBackground(Utils.getCurrentProjectName(this));
+		Intent intent = new Intent(this, ProjectActivity.class);
+		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, Utils.getCurrentProjectName(this));
+		startActivity(intent);
 	}
 
 	private void loadProjectInBackground(String projectName) {
@@ -198,6 +175,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleProgramsButton(View view) {
+		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -209,8 +187,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL));
-		startActivity(browserIntent);
+
+		startWebViewActivity(Constants.CATROBAT_HELP_URL);
 	}
 
 	public void handleWebButton(View view) {
@@ -218,6 +196,11 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
+		startWebViewActivity(Constants.BASE_URL_HTTPS);
+
+	}
+
+	public void startWebViewActivity(String url) {
 		// TODO just a quick fix for not properly working webview on old devices
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -229,9 +212,13 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 				startActivity(browserIntent);
 			}
 		} else {
-			Intent intent = new Intent(MainMenuActivity.this, ExploreProjectsActivity.class);
-			startActivity(intent);
+			/*Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
+			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+			startActivity(intent);*/
+            Intent intent = new Intent(MainMenuActivity.this, ExploreProjectsActivity.class);
+            startActivity(intent);
 		}
+
 	}
 
 	private void showWebWarningDialog() {
@@ -305,5 +292,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
 		mainMenuButtonContinue.setText(spannableStringBuilder);
+	}
+
+	@Override
+	public void onLoadProjectFailure() {
+
 	}
 }

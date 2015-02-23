@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.ui.fragment;
 
@@ -42,18 +42,26 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.bricks.MonitorSensorBrick;
+import org.catrobat.catroid.web.ServerCalls;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 public class FormulaEditorListFragment extends SherlockListFragment implements Dialog.OnKeyListener {
 
 	public static final String OBJECT_TAG = "objectFragment";
-	public static final String MATH_TAG = "mathFragment";
+	public static final String FUNCTION_TAG = "functionFragment";
 	public static final String LOGIC_TAG = "logicFragment";
 	public static final String SENSOR_TAG = "sensorFragment";
 
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 
-	public static final String[] TAGS = { OBJECT_TAG, MATH_TAG, LOGIC_TAG, SENSOR_TAG };
+	public static final String[] TAGS = { OBJECT_TAG, FUNCTION_TAG, LOGIC_TAG, SENSOR_TAG };
+
+    public static int numOfSensorTags=10;
 
 	private static final int[] OBJECT_ITEMS = { R.string.formula_editor_object_x, R.string.formula_editor_object_y,
 			R.string.formula_editor_object_ghosteffect, R.string.formula_editor_object_brightness,
@@ -67,7 +75,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not, R.string.formula_editor_function_true,
 			R.string.formula_editor_function_false };
 
-	private static final int[] MATH_ITEMS = { R.string.formula_editor_function_sin,
+	private static final int[] FUNCTIONS_ITEMS = { R.string.formula_editor_function_sin,
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
 			R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
 			R.string.formula_editor_function_pi, R.string.formula_editor_function_sqrt,
@@ -75,16 +83,31 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_function_round, R.string.formula_editor_function_mod,
 			R.string.formula_editor_function_arcsin, R.string.formula_editor_function_arccos,
 			R.string.formula_editor_function_arctan, R.string.formula_editor_function_exp,
-			R.string.formula_editor_function_max, R.string.formula_editor_function_min };
+			R.string.formula_editor_function_max, R.string.formula_editor_function_min,
+			R.string.formula_editor_function_length, R.string.formula_editor_function_letter,
+			R.string.formula_editor_function_join };
 
-	private static final int[] SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
+	private static final int[] FUNCTIONS_PARAMETERS = { R.string.formula_editor_function_sin_parameter,
+			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
+			R.string.formula_editor_function_ln_parameter, R.string.formula_editor_function_log_parameter,
+			R.string.formula_editor_function_pi_parameter, R.string.formula_editor_function_sqrt_parameter,
+			R.string.formula_editor_function_rand_parameter, R.string.formula_editor_function_abs_parameter,
+			R.string.formula_editor_function_round_parameter, R.string.formula_editor_function_mod_parameter,
+			R.string.formula_editor_function_arcsin_parameter, R.string.formula_editor_function_arccos_parameter,
+			R.string.formula_editor_function_arctan_parameter, R.string.formula_editor_function_exp_parameter,
+			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter,
+			R.string.formula_editor_function_length_parameter, R.string.formula_editor_function_letter_parameter,
+			R.string.formula_editor_function_join_parameter };
+
+	private static int[] SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
 			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
 			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness,
-			R.string.sensor_temperature, R.string.sensor_accelerometer_abs, R.string.sensor_accelerometer_x,
-			R.string.sensor_accelerometer_y, R.string.sensor_accelerometer_z, R.string.sensor_gyroscope_x,
-			R.string.sensor_gyroscope_y, R.string.sensor_gyroscope_z, R.string.sensor_magnetometer_abs,
-			R.string.sensor_magnetometer_x, R.string.sensor_magnetometer_y, R.string.sensor_magnetometer_z };
+			R.string.formula_editor_sensor_face_detected, R.string.formula_editor_sensor_face_size,
+			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position,
+    };
+
+
 
 	private String tag;
 	private String[] items;
@@ -93,14 +116,31 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
-		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity().getSupportFragmentManager()
-				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		if (formulaEditor != null) {
-			formulaEditor.addResourceToActiveFormula(itemsIds[position]);
-			formulaEditor.updateButtonViewOnKeyboard();
-		}
-		KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
-		onKey(null, keyEvent.getKeyCode(), keyEvent);
+        if (position >= itemsIds.length){
+            SensorTagFragment sensorTagFragment;
+            FragmentManager fm = getSherlockActivity().getSupportFragmentManager();
+            sensorTagFragment=(SensorTagFragment)fm.findFragmentByTag(SensorTagFragment.SENSOR_TAG_FRAGMENT_TAG);
+            if(sensorTagFragment == null){
+                sensorTagFragment = new SensorTagFragment();
+                FragmentTransaction ft=fm.beginTransaction();
+                ft.add(R.id.script_fragment_container, sensorTagFragment,SensorTagFragment.SENSOR_TAG_FRAGMENT_TAG);
+                ft.hide(this);
+                ft.commit();
+            }else{
+                FragmentTransaction ft=fm.beginTransaction();
+                ft.hide(this).show(sensorTagFragment).commit();
+            }
+        }else {
+            FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity().getSupportFragmentManager()
+                    .findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+            if (formulaEditor != null) {
+                formulaEditor.addResourceToActiveFormula(itemsIds[position]);
+                formulaEditor.updateButtonViewOnKeyboard();
+                KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
+                onKey(null, keyEvent.getKeyCode(), keyEvent);
+            }
+        }
+
 	}
 
 	public FormulaEditorListFragment() {
@@ -118,20 +158,33 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 		if (tag == OBJECT_TAG) {
 			itemsIds = OBJECT_ITEMS;
-		} else if (tag == MATH_TAG) {
-			itemsIds = MATH_ITEMS;
+		} else if (tag == FUNCTION_TAG) {
+			itemsIds = FUNCTIONS_ITEMS;
 		} else if (tag == LOGIC_TAG) {
 			itemsIds = LOGIC_ITEMS;
 		} else if (tag == SENSOR_TAG) {
 			itemsIds = SENSOR_ITEMS;
 		}
 
-		items = new String[itemsIds.length];
-		int index = 0;
-		for (Integer item : itemsIds) {
-			items[index] = getString(item);
-			index++;
-		}
+        if(tag == SENSOR_TAG){
+            items = new String[itemsIds.length+numOfSensorTags];
+            int index=0;
+            for (index = 0; index < items.length - numOfSensorTags; index++) {
+                items[index] = tag == FUNCTION_TAG ? getString(itemsIds[index]) + getString(FUNCTIONS_PARAMETERS[index])
+                        : getString(itemsIds[index]);
+            }
+            int sensorTagCounter=1;
+            for(int i=index; i<items.length;i++){
+                items[i] = "Sensor Tag "+ Integer.valueOf(sensorTagCounter);
+                sensorTagCounter++;
+            }
+        }else{
+            items = new String[itemsIds.length];
+            for (int index = 0; index < items.length; index++) {
+                items[index] = tag == FUNCTION_TAG ? getString(itemsIds[index]) + getString(FUNCTIONS_PARAMETERS[index])
+                        : getString(itemsIds[index]);
+            }
+        }
 
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
 				R.layout.fragment_formula_editor_list_item, items);
@@ -168,6 +221,19 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		fragTransaction.show(this);
 		fragTransaction.commit();
 	}
+
+    public void showFragmentFromSensorFragment(Context context) {
+        SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
+        Fragment sensorFragment = fragmentManager
+                .findFragmentByTag(SensorTagFragment.SENSOR_TAG_FRAGMENT_TAG);
+
+        fragTransaction.hide(sensorFragment);
+
+        fragTransaction.show(this);
+        fragTransaction.commit();
+    }
 
 	@Override
 	public boolean onKey(DialogInterface d, int keyCode, KeyEvent event) {

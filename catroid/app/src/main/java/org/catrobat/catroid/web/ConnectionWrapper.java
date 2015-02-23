@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.web;
 
@@ -65,62 +65,68 @@ public class ConnectionWrapper {
 
 		String answer = "";
 		String fileName = postValues.get(TAG_PROJECT_TITLE);
-		String username = postValues.get(Constants.USERNAME);
+        String username = postValues.get(Constants.USERNAME);
         String description = postValues.get("projectDescription");
+
 		if (filePath != null) {
 			OkHttpClient okHttpClient = new OkHttpClient();
 			okHttpClient.setTransports(Arrays.asList("http/1.1"));
 			HttpRequest.setConnectionFactory(new OkConnectionFactory(okHttpClient));
 			HttpRequest uploadRequest = HttpRequest.post(urlString).chunk(0);
 
-			for (String key : postValues.keySet()) {
-				uploadRequest.part(key, postValues.get(key));
+			for (HashMap.Entry<String, String> entry : postValues.entrySet()) {
+				uploadRequest.part(entry.getKey(), entry.getValue());
 			}
 			File file = new File(filePath);
 			uploadRequest.part(fileTag, fileName, file);
 
-			//This is the Parse cloud upload
+            //This is the Parse cloud upload
 
-			byte[] fileData = new byte[(int) file.length()];
-			FileInputStream fis = new FileInputStream(file);
-			fis.read(fileData);
-			fis.close();
+            byte[] fileData = new byte[(int) file.length()];
+            FileInputStream fis = new FileInputStream(file);
+            fis.read(fileData);
+            fis.close();
 
-			ParseFile pf = new ParseFile(fileName + ".zip", fileData);
-			try {
-				pf.save();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            ParseFile pf = new ParseFile(fileName + ".zip", fileData);
+            try {
+                pf.save();
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
-			ParseObject parseZipFile = new ParseObject("test3");
-			parseZipFile.put("username", username);
+            ParseObject parseZipFile = new ParseObject("test3");
+            parseZipFile.put("username", username);
             parseZipFile.put("projectName", fileName);
             parseZipFile.put("description", description);
-			parseZipFile.put("zipFileData", pf);
+            parseZipFile.put("zipFileData", pf);
+            try {
+                parseZipFile.save();
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            //ENDOF Parse cloud upload
+
 			try {
-				parseZipFile.save();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				int responseCode = uploadRequest.code();
+				if (!(responseCode == 200 || responseCode == 201)) {
+					throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
+				}
+				if (!uploadRequest.ok()) {
+					Log.v(TAG, "Upload not successful");
+					StatusBarNotificationManager.getInstance().cancelNotification(notificationId);
+				} else {
+					StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
+				}
 
-			//ENDOF Parse cloud upload
-
-			int responseCode = uploadRequest.code();
-			if (!(responseCode == 200 || responseCode == 201)) {
-				throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
+				answer = uploadRequest.body();
+				Log.v(TAG, "Upload response is: " + answer);
+			} catch (HttpRequest.HttpRequestException exception) {
+				Log.e(TAG, "OkHttpError", exception);
+				throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "OkHttp threw an exception");
 			}
-			if (!uploadRequest.ok()) {
-				Log.v(TAG, "Upload not successful");
-				StatusBarNotificationManager.getInstance().cancelNotification(notificationId);
-			} else {
-				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
-			}
-
-			answer = uploadRequest.body();
-			Log.v(TAG, "Upload response is: " + answer);
 		}
 		return answer;
 	}
@@ -129,7 +135,9 @@ public class ConnectionWrapper {
 			ResultReceiver receiver, Integer notificationId) throws IOException {
 		HttpRequest request = HttpRequest.post(urlString);
 		File file = new File(filePath);
-		file.getParentFile().mkdirs();
+		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
+			throw (new IOException("Folder not created"));
+		}
 
 		request = request.form(postValues).acceptGzipEncoding();
 		long fileSize = request.contentLength();
@@ -142,8 +150,8 @@ public class ConnectionWrapper {
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws WebconnectionException {
 		try {
 			return HttpRequest.post(urlString).form(postValues).body();
-		} catch (HttpRequestException e) {
-			e.printStackTrace();
+		} catch (HttpRequestException httpRequestException) {
+			Log.e(TAG, Log.getStackTraceString(httpRequestException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
 		}
@@ -156,7 +164,7 @@ public class ConnectionWrapper {
 	 * Call {@link HttpRequest#setConnectionFactory(HttpRequest.ConnectionFactory)} with an instance of this class to
 	 * enable.
 	 */
-	private class OkConnectionFactory implements HttpRequest.ConnectionFactory {
+	private static class OkConnectionFactory implements HttpRequest.ConnectionFactory {
 		private final OkHttpClient client;
 
 		@SuppressWarnings("unused")

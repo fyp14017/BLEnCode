@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.formulaeditor;
 
@@ -64,6 +64,9 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.MIN.name(), R.string.formula_editor_function_min);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.TRUE.name(), R.string.formula_editor_function_true);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.FALSE.name(), R.string.formula_editor_function_false);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LENGTH.name(), R.string.formula_editor_function_length);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LETTER.name(), R.string.formula_editor_function_letter);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.JOIN.name(), R.string.formula_editor_function_join);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.X_ACCELERATION.name(),
 				R.string.formula_editor_sensor_x_acceleration);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_ACCELERATION.name(),
@@ -76,19 +79,26 @@ public class InternToExternGenerator {
 				R.string.formula_editor_sensor_x_inclination);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_INCLINATION.name(),
 				R.string.formula_editor_sensor_y_inclination);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_DETECTED.name(),
+				R.string.formula_editor_sensor_face_detected);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_SIZE.name(), R.string.formula_editor_sensor_face_size);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_X_POSITION.name(),
+				R.string.formula_editor_sensor_face_x_position);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_Y_POSITION.name(),
+				R.string.formula_editor_sensor_face_y_position);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOUDNESS.name(), R.string.formula_editor_sensor_loudness);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SENSOR_TAG_TEMPERATURE.name(), R.string.sensor_temperature);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ACCELEROMETER_ABS.name(), R.string.sensor_accelerometer_abs);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ACCELEROMETER_X.name(), R.string.sensor_accelerometer_x);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ACCELEROMETER_Y.name(), R.string.sensor_accelerometer_y);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ACCELEROMETER_Z.name(), R.string.sensor_accelerometer_z);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GYROSCOPE_X.name(), R.string.sensor_gyroscope_x);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GYROSCOPE_Y.name(), R.string.sensor_gyroscope_y);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GYROSCOPE_Z.name(), R.string.sensor_gyroscope_z);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_ABS.name(), R.string.sensor_magnetometer_abs);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_X.name(), R.string.sensor_magnetometer_x);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_Y.name(), R.string.sensor_magnetometer_y);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_Z.name(), R.string.sensor_magnetometer_z);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SENSOR_TAG_TEMPERATURE.name(), R.string.sensor_temperature);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ACCELEROMETER_ABS.name(), R.string.sensor_accelerometer_abs);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ACCELEROMETER_X.name(), R.string.sensor_accelerometer_x);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ACCELEROMETER_Y.name(), R.string.sensor_accelerometer_y);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ACCELEROMETER_Z.name(), R.string.sensor_accelerometer_z);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GYROSCOPE_X.name(), R.string.sensor_gyroscope_x);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GYROSCOPE_Y.name(), R.string.sensor_gyroscope_y);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GYROSCOPE_Z.name(), R.string.sensor_gyroscope_z);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_ABS.name(), R.string.sensor_magnetometer_abs);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_X.name(), R.string.sensor_magnetometer_x);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_Y.name(), R.string.sensor_magnetometer_y);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_Z.name(), R.string.sensor_magnetometer_z);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X.name(), R.string.formula_editor_object_x);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y.name(), R.string.formula_editor_object_y);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_GHOSTEFFECT.name(),
@@ -180,8 +190,8 @@ public class InternToExternGenerator {
 					return number;
 				}
 
-				String left = number.substring(0, number.indexOf("."));
-				String right = number.substring(number.indexOf(".") + 1);
+				String left = number.substring(0, number.indexOf('.'));
+				String right = number.substring(number.indexOf('.') + 1);
 
 				return left + getExternStringForInternTokenValue(".", context) + right;
 
@@ -202,6 +212,8 @@ public class InternToExternGenerator {
 				return ",";
 			case USER_VARIABLE:
 				return "\"" + internToken.getTokenStringValue() + "\"";
+			case STRING:
+				return "\'" + internToken.getTokenStringValue() + "\'";
 
 			default:
 				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);

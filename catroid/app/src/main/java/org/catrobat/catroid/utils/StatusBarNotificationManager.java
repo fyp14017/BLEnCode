@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.utils;
 
@@ -34,6 +34,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 
 public final class StatusBarNotificationManager {
 	public static final String EXTRA_PROJECT_NAME = "projectName";
+	public static final int MAXIMUM_PERCENT = 100;
 
 	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
@@ -67,7 +68,7 @@ public final class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, uploadIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
+		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_stat, programName,
 				R.string.notification_upload_title_pending, R.string.notification_upload_title_finished,
 				R.string.notification_upload_pending, R.string.notification_upload_finished);
 
@@ -89,7 +90,7 @@ public final class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, copyIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
+		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_stat, programName,
 				R.string.notification_copy_title_pending, R.string.notification_title_open,
 				R.string.notification_copy_pending, R.string.notification_copy_finished);
 
@@ -111,7 +112,7 @@ public final class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, downloadIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
+		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_stat, programName,
 				R.string.notification_download_title_pending, R.string.notification_title_open,
 				R.string.notification_download_pending, R.string.notification_download_finished);
 
@@ -151,6 +152,18 @@ public final class StatusBarNotificationManager {
 					.setAutoCancel(true).setContentIntent(notificationData.getPendingIntent()).setOngoing(false);
 			notificationManager.notify(id, notificationBuilder.build());
 		}
+	}
+
+	public void abortProgressNotificationWithMessage(int id, String changeDoneText) {
+
+		NotificationData notificationData = notificationDataMap.get(id);
+		if (notificationData == null) {
+			return;
+		}
+		notificationData.setNotificationTextDone(changeDoneText);
+		notificationDataMap.put(id, notificationData);
+
+		showOrUpdateNotification(id, MAXIMUM_PERCENT);
 	}
 
 	public void cancelNotification(int id) {

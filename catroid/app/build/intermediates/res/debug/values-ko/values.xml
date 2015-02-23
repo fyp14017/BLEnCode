@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid/app/src/main/res/values-ko/strings.xml -->
+    <!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid1/app/src/main/res/values-ko/strings.xml -->
     <eat-comment/>
     <string name="about">"Catroid에 대하여"</string>
     <string name="about_catroid_license_link_text">"Catroid 라이센스"</string>
@@ -101,6 +101,7 @@
     <string name="description">"설명:"</string>
     <string name="edit_look">"수정"</string>
     <string name="error">"오류"</string>
+    <string name="error_changing_description_of_incompatible_project">"호환되지 않는 프로젝트의 설명을 변경하는 것은 불가능합니다"</string>
     <string name="error_copy_project">"프로젝트를 복사하는 동안 오류가 발생했습니다."</string>
     <string name="error_internet_connection">"알 수 없는 오류가 발생했습니다. 인터넷 연결을 확인하십시오."</string>
     <string name="error_load_image">"이미지를 로드하는 동안 오류가 발생했습니다."</string>
@@ -115,6 +116,7 @@
     <string name="error_project_download">"프로젝트를 다운로드하는 동안 오류가 발생했습니다."</string>
     <string name="error_project_exists">"같은 이름의 프로젝트가 이미 존재합니다. \n 다른 이름을 넣으세요."</string>
     <string name="error_project_upload">"프로젝트를 업로드하는 중에 오류가 발생했습니다."</string>
+    <string name="error_rename_incompatible_project">"호환되지 않는 프로젝트의 이름을 변경 할 수 없습니다"</string>
     <string name="error_rename_project">"동안 이름을 변경 업로드하기 전에 프로젝트를 오류가 발생했습니다."</string>
     <string name="error_screenshot_failed">"스크린 샷을 저장하는 중에 오류가 발생했습니다."</string>
     <string name="formula_editor_changes_discarded">"변경 내용이 취소되었습니다."</string>
@@ -132,6 +134,8 @@
     <string name="formula_editor_function_sin">"sin"</string>
     <string name="formula_editor_function_sqrt">"sqrt"</string>
     <string name="formula_editor_function_tan">"tan"</string>
+    <string name="formula_editor_new_string_dialog_hint">여기에 새로운 텍스트를 입력.</string>
+    <string name="formula_editor_new_string_name">새로운 텍스트</string>
     <string name="formula_editor_object_brightness">"looks-brightness"</string>
     <string name="formula_editor_object_ghosteffect">"looks-ghosteffect"</string>
     <string name="formula_editor_object_layer">"looks-layer"</string>
@@ -147,6 +151,7 @@
     <string name="formula_editor_sensor_y_acceleration">y_acceleration</string>
     <string name="formula_editor_sensor_y_inclination">y_inclination</string>
     <string name="formula_editor_sensor_z_acceleration">z_acceleration</string>
+    <string name="formula_editor_string">알파벳</string>
     <string name="formula_editor_title">"수식 편집기"</string>
     <string name="formula_nothing_selected">"블록의 입력 값을 정의"</string>
     <string name="forum">"포럼"</string>
@@ -200,7 +205,6 @@
     <string name="overwrite_rename">"다운로드 프로젝트의 이름 변경"</string>
     <string name="overwrite_replace">"기존 프로젝트를 대체"</string>
     <string name="overwrite_text">"같은 이름의 프로젝트가 이미 존재합니다!"</string>
-    <string name="pairing_message">"페어링 후, 연결하십시오."</string>
     <string name="password">"비밀번호:"</string>
     <string name="password_forgotten">"비밀번호 분실"</string>
     <string name="please_wait">"잠시만 기다려주십시오…"</string>

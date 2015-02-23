@@ -48,7 +48,7 @@ public class ExploreProjectsActivity extends Activity {
                 final String[] temp = item.split("oCISxD");
                 final String projectName = temp[0].split("\\(")[0].trim();
                 //Toast.makeText(ExploreProjectsActivity.this, item, Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ExploreProjectsActivity.this);
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ExploreProjectsActivity.this);
                 alertDialogBuilder.setMessage("Do you want to download the project \""+ projectName +"\" ?");
                 alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener (){
 
@@ -81,6 +81,7 @@ public class ExploreProjectsActivity extends Activity {
 
                                     } else {
                                         // something went wrong
+                                        Toast.makeText(ExploreProjectsActivity.this, "Unable to download "+projectName,Toast.LENGTH_SHORT ).show();
                                     }
                                 }
                             });
@@ -94,7 +95,7 @@ public class ExploreProjectsActivity extends Activity {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        dialogInterface.dismiss();
                     }
                 });
                 alertDialogBuilder.create().show();

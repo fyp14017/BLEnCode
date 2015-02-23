@@ -1,28 +1,26 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.transfers;
-
-import static android.widget.Toast.LENGTH_SHORT;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -35,6 +33,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
@@ -124,11 +123,11 @@ public class ProjectUploadService extends IntentService {
 					language, token, username, receiver, notificationId, context);
 
 			zipFile.delete();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 			result = false;
-		} catch (WebconnectionException webException) {
-			serverAnswer = webException.getMessage();
+		} catch (WebconnectionException webconnectionException) {
+			serverAnswer = webconnectionException.getMessage();
 			Log.e(TAG, serverAnswer);
 			result = false;
 		}
@@ -137,10 +136,13 @@ public class ProjectUploadService extends IntentService {
 	@Override
 	public void onDestroy() {
 		if (!result) {
-			Toast.makeText(this, R.string.error_project_upload, LENGTH_SHORT).show();
-			return;
+			Toast.makeText(this, getResources().getText(R.string.error_project_upload).toString() + " " + serverAnswer,
+					Toast.LENGTH_SHORT).show();
+			StatusBarNotificationManager.getInstance().abortProgressNotificationWithMessage(notificationId,
+					getResources().getString(R.string.notification_upload_rejected));
+		} else {
+			Toast.makeText(this, R.string.notification_upload_finished, Toast.LENGTH_SHORT).show();
 		}
-		Toast.makeText(this, R.string.notification_upload_finished, LENGTH_SHORT).show();
 		super.onDestroy();
 	}
 

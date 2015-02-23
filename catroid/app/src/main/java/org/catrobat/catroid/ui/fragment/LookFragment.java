@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.ui.fragment;
 
@@ -42,12 +42,12 @@ import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -63,6 +63,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -138,7 +139,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -169,7 +170,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -209,7 +210,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -229,8 +230,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_look, null);
-		return rootView;
+		return inflater.inflate(R.layout.fragment_look, container, false);
 	}
 
 	@Override
@@ -238,7 +238,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		super.onActivityCreated(savedInstanceState);
 
 		listView = getListView();
-		registerForContextMenu(listView);
+		
+		if (listView != null) {
+			registerForContextMenu(listView);
+		}
 
 		if (savedInstanceState != null) {
 			selectedLookData = (LookData) savedInstanceState
@@ -250,7 +253,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(defLookName);
 			}
 		}
-		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+		try {
+			lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+		} catch (NullPointerException e){
+			Log.e(TAG, e.getMessage());
+		}
 
 		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
 			TextView emptyViewHeading = (TextView) getActivity().findViewById(R.id.fragment_look_text_heading);
@@ -278,12 +285,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		menu.findItem(R.id.show_details).setVisible(true);
 		menu.findItem(R.id.settings).setVisible(true);
 
-		boolean visibility = false;
-		if (BuildConfig.DEBUG) {
-			visibility = true;
+		if (!false) {
+			menu.findItem(R.id.backpack).setVisible(false);
+			menu.findItem(R.id.unpacking).setVisible(false);
 		}
-		menu.findItem(R.id.backpack).setVisible(visibility);
-		menu.findItem(R.id.unpacking).setVisible(false);
+
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -418,7 +424,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 
 		if (requestCode == LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE) {
-			StorageHandler.getInstance().deletTempImageCopy();
+			StorageHandler.getInstance().deleteTempImageCopy();
 		}
 	}
 
@@ -436,7 +442,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
-	public boolean onContextItemSelected(MenuItem item) {
+	public boolean onContextItemSelected(android.view.MenuItem item) {
 
 		switch (item.getItemId()) {
 			case R.id.context_menu_copy:
@@ -509,7 +515,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	public void addLookChooseImage() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		Intent intent = new Intent(Intent.ACTION_PICK);
 
 		Bundle bundleForPocketCode = new Bundle();
 		bundleForPocketCode.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
@@ -585,8 +591,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		NewLookDialog dialog = new NewLookDialog();
-		dialog.showDialog(getActivity().getSupportFragmentManager(), this);
+		NewLookDialog dialog = NewLookDialog.newInstance();
+		dialog.showDialog(this);
 	}
 
 	@Override
@@ -671,14 +677,13 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 
-		int position = selectedPosition;
-		selectedLookData = lookDataList.get(position);
+		selectedLookData = lookDataList.get(selectedPosition);
 
 		Bundle bundleForPocketPaint = new Bundle();
 
 		try {
 			File tempCopy = StorageHandler.getInstance()
-					.makeTempImageCopy(lookDataList.get(position).getAbsolutePath());
+					.makeTempImageCopy(lookDataList.get(selectedPosition).getAbsolutePath());
 
 			bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, tempCopy.getAbsolutePath());
 			bundleForPocketPaint.putInt(Constants.EXTRA_X_VALUE_POCKET_PAINT, 0);
@@ -687,9 +692,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			intent.addCategory("android.intent.category.LAUNCHER");
 			startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+		}
+		catch (NullPointerException e) {
+			Log.e(TAG, e.getMessage());
 		}
 
 	}
@@ -732,6 +739,13 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
+			}
+		});
+
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
 				clearCheckedLooksAndEnableButtons();
 			}
 		});
