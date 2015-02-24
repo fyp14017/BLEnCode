@@ -45,4 +45,4 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
     </org.catrobat.catroid.ui.DragNDropBrickLayout>
 
-</LinearLayout><!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid1/app/src/main/res/layout/brick_user_editable.xml -->
+</LinearLayout><!-- From: file:/C:/Users/arpitbrijgupta/AndroidStudioProjects/catroid/app/src/main/res/layout/brick_user_editable.xml -->

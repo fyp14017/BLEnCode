@@ -4,4 +4,4 @@
     <item android:id="@+id/action_settings" android:title="Settings"
         android:orderInCategory="100" android:showAsAction="never" />
 </menu>
-<!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid1/app/src/main/res/menu/menu_explore_projects.xml -->
+<!-- From: file:/C:/Users/arpitbrijgupta/AndroidStudioProjects/catroid/app/src/main/res/menu/menu_explore_projects.xml -->

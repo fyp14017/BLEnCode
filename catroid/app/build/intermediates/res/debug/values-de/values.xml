@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid1/app/src/main/res/values-de/strings.xml -->
+    <!-- From: file:/C:/Users/arpitbrijgupta/AndroidStudioProjects/catroid/app/src/main/res/values-de/strings.xml -->
     <eat-comment/>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">Ebene nach hinten</item>

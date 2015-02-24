@@ -52,4 +52,4 @@
         android:layout_above="@id/bottom_bar"
         class="org.catrobat.catroid.ui.fragment.ProjectsListFragment" />
 
-</RelativeLayout><!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid1/app/src/main/res/layout/activity_my_projects.xml -->
+</RelativeLayout><!-- From: file:/C:/Users/arpitbrijgupta/AndroidStudioProjects/catroid/app/src/main/res/layout/activity_my_projects.xml -->

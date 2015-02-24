@@ -504,7 +504,12 @@ public class PreStageActivity extends BaseActivity {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 Log.d("dev", "Services done");
                 connectingProgressDialog.dismiss();
-                startStage();
+                SensorTagCounter--;
+                if(SensorTagCounter==0) {
+                    startStage();
+                }else{
+                    startBluetoothCommunication(true);
+                }
             }
         }
 
