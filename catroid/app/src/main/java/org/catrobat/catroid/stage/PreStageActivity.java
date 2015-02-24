@@ -83,7 +83,7 @@ public class PreStageActivity extends BaseActivity {
     public static BluetoothGatt bg;
 	private int resources = Brick.NO_RESOURCES;
 	private int requiredResourceCounter;
-
+    public static int SensorTagCounter;
 	private static LegoNXT legoNXT;
 	private boolean autoConnect = false;
 	private ProgressDialog connectingProgressDialog;
@@ -104,9 +104,13 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		setContentView(R.layout.activity_prestage);
-
+        SensorTagCounter = 0;
 		int requiredResources = getRequiredRessources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
+
+
+        //Arpit, at this point you have the number of SensorTags the program will need in SensorTagCounter
+
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
@@ -116,7 +120,7 @@ public class PreStageActivity extends BaseActivity {
 
         if ((requiredResources & Brick.BLUETOOTH_BLE_SENSORS) > 0) {
             BluetoothManager bluetoothManager = new BluetoothManager(this);
-
+            Log.d("dev","entered bitwise");
             int bluetoothState = bluetoothManager.activateBluetooth();
             if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
 
@@ -130,9 +134,9 @@ public class PreStageActivity extends BaseActivity {
             }
         }
 
-		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+		/*if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothManager bluetoothManager = new BluetoothManager(this);
-
+            Log.d("dev","entered lego");
 			int bluetoothState = bluetoothManager.activateBluetooth();
 			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
 
@@ -145,7 +149,7 @@ public class PreStageActivity extends BaseActivity {
 					resourceInitialized();
 				}
 			}
-		}
+		}*/
 
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
 			droneInitializer = getDroneInitializer();
@@ -232,13 +236,10 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		List<String> supportedFlashModes = parameters.getSupportedFlashModes();
-		if (supportedFlashModes == null || supportedFlashModes.isEmpty() ||
-				supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
-			return false;
-		}
+        return !(supportedFlashModes == null || supportedFlashModes.isEmpty() ||
+                supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF));
 
-		return true;
-	}
+    }
 
 	@Override
 	public void onResume() {

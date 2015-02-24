@@ -102,7 +102,7 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
         paired = new ArrayList<BluetoothDevice>();
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.device_list);
-        setTitle(R.string.select_device);
+        setTitle("Select SensorTag device");
 
         setResult(Activity.RESULT_CANCELED);
 
@@ -263,7 +263,7 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 setProgressBarIndeterminateVisibility(false);
-                setTitle(R.string.select_device);
+                setTitle("Select SensorTag device");
                 if (newDevicesArrayAdapter.getCount() == 0) {
                     String noDevices = getResources().getText(R.string.none_found).toString();
                     newDevicesArrayAdapter.add(noDevices);
@@ -287,15 +287,15 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
         }
     }
 
-    private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+    /*private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             //Log.d(TAG, "Connection State Change: "+status+" -> "+connectionState(newState));
             if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_CONNECTED) {
-				/*
+				*//*
 				 * Once successfully connected, we must next discover all the services on the
 				 * device before we can read and write their characteristics.
-				 */
+				 *//*
                 //Toast.makeText(getApplicationContext(), "Connected to SensorTag", Toast.LENGTH_SHORT).show();
                 Log.d("dev", "Connected to SensorTag");
                 gatt.discoverServices();
@@ -310,6 +310,6 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
             }
 
         }
-    };
+    };*/
 
 }

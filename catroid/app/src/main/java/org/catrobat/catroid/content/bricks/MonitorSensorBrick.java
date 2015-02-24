@@ -179,11 +179,6 @@ public class MonitorSensorBrick extends BrickBaseType implements OnItemSelectedL
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_BLE_SENSORS;
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(Sprite s, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.monitorSensorAction(SensorEnum));
 		return null;
