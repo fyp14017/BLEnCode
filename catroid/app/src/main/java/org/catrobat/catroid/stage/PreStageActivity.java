@@ -84,6 +84,7 @@ public class PreStageActivity extends BaseActivity {
 	private int resources = Brick.NO_RESOURCES;
 	private int requiredResourceCounter;
     public static int SensorTagCounter;
+    public boolean connectingProgressDialogFlag = true;
 	private static LegoNXT legoNXT;
 	private boolean autoConnect = false;
 	private ProgressDialog connectingProgressDialog;
@@ -93,6 +94,9 @@ public class PreStageActivity extends BaseActivity {
 	private DroneInitializer droneInitializer = null;
 
 	private Intent returnToActivityIntent = null;
+
+    public static BluetoothGatt[] bgs;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -105,12 +109,8 @@ public class PreStageActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_prestage);
         SensorTagCounter = 0;
-		int requiredResources = getRequiredRessources();
+		int requiredResources = getRequiredResources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
-
-
-        //Arpit, at this point you have the number of SensorTags the program will need in SensorTagCounter
-
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
@@ -120,7 +120,6 @@ public class PreStageActivity extends BaseActivity {
 
         if ((requiredResources & Brick.BLUETOOTH_BLE_SENSORS) > 0) {
             BluetoothManager bluetoothManager = new BluetoothManager(this);
-            Log.d("dev","entered bitwise");
             int bluetoothState = bluetoothManager.activateBluetooth();
             if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
 
@@ -130,7 +129,7 @@ public class PreStageActivity extends BaseActivity {
                 if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
                     startBluetoothCommunication(true);
                 }
-                resourceInitialized();
+                //resourceInitialized();
             }
         }
 
@@ -330,14 +329,19 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	private void startBluetoothCommunication(boolean autoConnect) {
-		connectingProgressDialog = ProgressDialog.show(this, "",
-				getResources().getString(R.string.connecting_please_wait), true);
+		if(connectingProgressDialogFlag) {
+            connectingProgressDialog = ProgressDialog.show(this, "",
+                    getResources().getString(R.string.connecting_please_wait), true);
+            connectingProgressDialogFlag=false;
+        }else{
+            connectingProgressDialog.show();
+        }
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
 		serverIntent.putExtra(DeviceListActivity.AUTO_CONNECT, autoConnect);
 		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 
-	private int getRequiredRessources() {
+	private int getRequiredResources() {
 		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
 
@@ -503,11 +507,21 @@ public class PreStageActivity extends BaseActivity {
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 Log.d("dev", "Services done");
-                connectingProgressDialog.dismiss();
+                Log.d("dev", "SensorTagCounter is " + Integer.toString(SensorTagCounter));
                 SensorTagCounter--;
+                /*connectingProgressDialog.dismiss();
+                startStage();*/
                 if(SensorTagCounter==0) {
+                    connectingProgressDialog.dismiss();
                     startStage();
                 }else{
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            connectingProgressDialog.hide();
+                        }
+                    });
                     startBluetoothCommunication(true);
                 }
             }

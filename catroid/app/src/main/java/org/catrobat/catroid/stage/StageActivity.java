@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.stage;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
@@ -181,12 +182,15 @@ public class StageActivity extends AndroidApplication {
 		}
 	}
 
-	@Override
+	@SuppressLint("NewApi")
+    @Override
 	protected void onDestroy() {
 		if (droneConnection != null) {
 			droneConnection.destroy();
 		}
 		Log.d(TAG, "Destroy");
+        PreStageActivity.bg.disconnect();
+        PreStageActivity.bg=null;
 		LedUtil.destroy();
 		VibratorUtil.destroy();
 		super.onDestroy();
