@@ -72,6 +72,7 @@ import java.util.List;
 import java.util.Locale;
 
 @SuppressWarnings("deprecation")
+@SuppressLint("NewApi")
 public class PreStageActivity extends BaseActivity {
 
 	private static final String TAG = PreStageActivity.class.getSimpleName();
@@ -96,7 +97,7 @@ public class PreStageActivity extends BaseActivity {
 	private Intent returnToActivityIntent = null;
 
     public static BluetoothGatt[] bgs;
-
+    public static BluetoothGattCallback[] mGattCallBacks;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -110,6 +111,202 @@ public class PreStageActivity extends BaseActivity {
 		setContentView(R.layout.activity_prestage);
         SensorTagCounter = 0;
 		int requiredResources = getRequiredResources();
+
+        bgs = new BluetoothGatt[SensorTagCounter];
+        for(int a =0 ; a < SensorTagCounter; a++){
+            bgs[a] = null;
+        }
+
+        mGattCallBacks = new BluetoothGattCallback[SensorTagCounter];
+        for(int a=0; a <SensorTagCounter ;a++){
+            mGattCallBacks[a] = new BluetoothGattCallback() {
+
+                private int[] p_cals;
+
+                @Override
+                public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+                    //Log.d(TAG, "Connection State Change: "+status+" -> "+connectionState(newState));
+                    if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_CONNECTED) {
+				/*
+				 * Once successfully connected, we must next discover all the services on the
+				 * device before we can read and write their characteristics.
+				 */
+                        Log.d("dev", "Connected to SensorTag " + gatt.getDevice().getAddress());
+                        gatt.discoverServices();
+                    }
+                }
+
+                @Override
+                public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+                    if (status == BluetoothGatt.GATT_SUCCESS) {
+                        Log.d("dev", "Services done");
+                        Log.d("dev", "SensorTagCounter is " + Integer.toString(SensorTagCounter));
+                        SensorTagCounter--;
+                /*connectingProgressDialog.dismiss();
+                startStage();*/
+                        if(SensorTagCounter==0) {
+                            connectingProgressDialog.dismiss();
+                            startStage();
+                        }else{
+                            runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    connectingProgressDialog.hide();
+                                }
+                            });
+                            startBluetoothCommunication(true);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+			/*
+			 * After notifications are enabled, all updates from the device on characteristic
+			 * value changes will be posted here. Similar to read, we hand these up to the
+			 * UI thread to update the display.
+			 */
+                    if (MonitorSensorAction.PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
+                        Log.d("dev", "reading pressure");
+                        if (p_cals == null) {
+                            return;
+                        }
+                        //double pressure = SensorInfo.extractBarometer(characteristic, p_cals);
+                        double temp = SensorInfo.extractBarTemperature(characteristic, p_cals);
+
+                        String t = String.format("%.1f\u00B0C", temp);
+                        Log.d("dev", t.substring(0, 4));
+                        SensorInfo.Temp = Float.parseFloat(t.substring(0, 4));
+                    }
+                    if (MonitorSensorAction.PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
+                        p_cals = SensorInfo.extractCalibrationCoefficients(characteristic);
+                        Log.d("dev", "reading cals");
+                        //double pressure = SensorInfo.extractBarometer(characteristic, p_cals);
+                        double temp = SensorInfo.extractBarTemperature(characteristic, p_cals);
+
+                        String t = String.format("%.1f\u00B0C", temp);
+                        Log.d("dev", t.substring(0, 4));
+                        SensorInfo.Temp = Float.parseFloat(t.substring(0, 4));
+                    }
+                    if (MonitorSensorAction.ACC_DATA_CHAR.equals(characteristic.getUuid())) {
+                        float[] arr = SensorInfo.extractAccInfo(characteristic);
+                        SensorInfo.Acc_x = arr[0];
+                        SensorInfo.Acc_y = arr[1];
+                        SensorInfo.Acc_z = arr[2];
+                        Log.d("dev", "x=" + arr[0] + " y=" + arr[1] + " z=" + arr[2]);
+                    }
+                    if (MonitorSensorAction.GYRO_DATA_CHAR.equals(characteristic.getUuid())) {
+                        float[] arr = SensorInfo.extractGyroInfo(characteristic);
+                        SensorInfo.Gyro_x = arr[0];
+                        SensorInfo.Gyro_y = arr[1];
+                        SensorInfo.Gyro_z = arr[2];
+                        Log.d("dev", "gyro_x=" + arr[0] + " gyro_y=" + arr[1] + " gyro_z=" + arr[2]);
+                    }
+                    if (MonitorSensorAction.MAG_DATA_CHAR.equals(characteristic.getUuid())) {
+                        float[] arr = SensorInfo.extractMagInfo(characteristic);
+                        SensorInfo.Mag_x = arr[0];
+                        SensorInfo.Mag_y = arr[1];
+                        SensorInfo.Mag_z = arr[2];
+
+                        Log.d("dev", "mag_x=" + arr[0] + " mag_y=" + arr[1] + " mag_z=" + arr[2]);
+                    }
+                }
+
+                @Override
+                public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+                    if (MonitorSensorAction.PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
+                        Log.d("dev", "reading pressure");
+                        if (p_cals == null) {
+                            return;
+                        }
+                        double pressure = SensorInfo.extractBarometer(characteristic, p_cals);
+                        double temp = SensorInfo.extractBarTemperature(characteristic, p_cals);
+                        String t = String.format("%.1f\u00B0C", temp);
+                        Log.d("dev", t.substring(0, 4));
+                        SensorInfo.Temp = Float.parseFloat(t.substring(0, 4));
+                    }
+                    if (MonitorSensorAction.PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
+                        p_cals = SensorInfo.extractCalibrationCoefficients(characteristic);
+                        Log.d("dev", "reading cals");
+                    }
+                    if (MonitorSensorAction.ACC_DATA_CHAR.equals(characteristic.getUuid())) {
+                        float[] arr = SensorInfo.extractAccInfo(characteristic);
+                        SensorInfo.Acc_x = arr[0];
+                        SensorInfo.Acc_y = arr[1];
+                        SensorInfo.Acc_z = arr[2];
+                        Log.d("dev", "x=" + arr[0] + " y=" + arr[1] + " z=" + arr[2]);
+                    }
+                    if (MonitorSensorAction.GYRO_DATA_CHAR.equals(characteristic.getUuid())) {
+                        float[] arr = SensorInfo.extractGyroInfo(characteristic);
+                        SensorInfo.Gyro_x = arr[0];
+                        SensorInfo.Gyro_y = arr[1];
+                        SensorInfo.Gyro_z = arr[2];
+                        Log.d("dev", "gyro_x=" + arr[0] + " gyro_y=" + arr[1] + " gyro_z=" + arr[2]);
+                    }
+                    if (MonitorSensorAction.MAG_DATA_CHAR.equals(characteristic.getUuid())) {
+                        float[] arr = SensorInfo.extractMagInfo(characteristic);
+                        SensorInfo.Mag_x = arr[0];
+                        SensorInfo.Mag_y = arr[1];
+                        SensorInfo.Mag_z = arr[2];
+
+                        Log.d("dev", "mag_x=" + arr[0] + " mag_y=" + arr[1] + " mag_z=" + arr[2]);
+                    }
+                    gatt.setCharacteristicNotification(characteristic, true);
+                    BluetoothGattDescriptor d = characteristic.getDescriptor(MonitorSensorAction.CONFIG_DESCRIPTOR);
+                    d.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                    gatt.writeDescriptor(d);
+                }
+
+                @Override
+                public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor d, int status) {
+                    if (d.getCharacteristic().equals(
+                            gatt.getService(MonitorSensorAction.PRESSURE_SERVICE).getCharacteristic(
+                                    MonitorSensorAction.PRESSURE_CAL_CHAR))) {
+                        BluetoothGattCharacteristic c = gatt.getService(MonitorSensorAction.PRESSURE_SERVICE)
+                                .getCharacteristic(MonitorSensorAction.PRESSURE_CONFIG_CHAR);
+                        c.setValue(new byte[] { 0x01 });
+                        gatt.writeCharacteristic(c);
+                    } else {
+                        return;
+                    }
+                }
+
+                int i = 1;
+
+                @Override
+                public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+                    if (MonitorSensorAction.PRESSURE_CONFIG_CHAR.equals(characteristic.getUuid())) {
+                        if (i == 1) {
+                            Log.d("dev", "cal enabled");
+                            i++;
+                            gatt.readCharacteristic(gatt.getService(MonitorSensorAction.PRESSURE_SERVICE).getCharacteristic(
+                                    MonitorSensorAction.PRESSURE_CAL_CHAR));
+                        } else {
+                            Log.d("dev", "data enabled");
+                            gatt.readCharacteristic(gatt.getService(MonitorSensorAction.PRESSURE_SERVICE).getCharacteristic(
+                                    MonitorSensorAction.PRESSURE_DATA_CHAR));
+                        }
+                    }
+                    if (MonitorSensorAction.ACC_CONFIG_CHAR.equals(characteristic.getUuid())) {
+                        Log.d("dev", "accelerometer enabled");
+                        gatt.readCharacteristic(gatt.getService(MonitorSensorAction.ACC_SERVICE).getCharacteristic(
+                                MonitorSensorAction.ACC_DATA_CHAR));
+                    }
+                    if (MonitorSensorAction.GYRO_CONFIG_CHAR.equals(characteristic.getUuid())) {
+                        Log.d("dev", "gyroscope enabled");
+                        gatt.readCharacteristic(gatt.getService(MonitorSensorAction.GYRO_SERVICE).getCharacteristic(
+                                MonitorSensorAction.GYRO_DATA_CHAR));
+                    }
+                    if (MonitorSensorAction.MAG_CONFIG_CHAR.equals(characteristic.getUuid())) {
+                        Log.d("dev", "magnetometer enabled");
+                        gatt.readCharacteristic(gatt.getService(MonitorSensorAction.MAG_SERVICE).getCharacteristic(
+                                MonitorSensorAction.MAG_DATA_CHAR));
+                    }
+                }
+            };
+        }
+
 		requiredResourceCounter = Integer.bitCount(requiredResources);
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
@@ -129,7 +326,6 @@ public class PreStageActivity extends BaseActivity {
                 if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
                     startBluetoothCommunication(true);
                 }
-                //resourceInitialized();
             }
         }
 
@@ -351,7 +547,7 @@ public class PreStageActivity extends BaseActivity {
 		}
 		return resources;
 	}
-
+    int i = 0;
 	@SuppressLint("NewApi")
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -374,10 +570,17 @@ public class PreStageActivity extends BaseActivity {
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-                        if (bg == null) {
-                            bg = sensorTag.connectGatt(getBaseContext(), false, mGattCallback);
-                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (bgs[i] == null) {
+                                    bgs[i] = sensorTag.connectGatt(getBaseContext(), false, mGattCallBacks[i]);
+                                    i++;
+                                }
+                            }
+                        });
                         break;
+
 
 					case Activity.RESULT_CANCELED:
 						connectingProgressDialog.dismiss();
@@ -496,10 +699,8 @@ public class PreStageActivity extends BaseActivity {
 				 * Once successfully connected, we must next discover all the services on the
 				 * device before we can read and write their characteristics.
 				 */
-                //Toast.makeText(getApplicationContext(), "Connected to SensorTag", Toast.LENGTH_SHORT).show();
-                Log.d("dev", "Connected to SensorTag");
+                Log.d("dev", "Connected to SensorTag " + gatt.getDevice().getAddress());
                 gatt.discoverServices();
-
             }
         }
 
@@ -592,7 +793,6 @@ public class PreStageActivity extends BaseActivity {
                 String t = String.format("%.1f\u00B0C", temp);
                 Log.d("dev", t.substring(0, 4));
                 SensorInfo.Temp = Float.parseFloat(t.substring(0, 4));
-
             }
             if (MonitorSensorAction.PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
                 p_cals = SensorInfo.extractCalibrationCoefficients(characteristic);

@@ -33,12 +33,6 @@ import org.catrobat.catroid.stage.PreStageActivity;
 public class ConnectSensorTagAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
-		if (PreStageActivity.bg != null) {
-			Log.d("dev", "Gatt connected");
-
-		} else {
-			Log.d("dev", "Gatt null");
-		}
 
 	}
 }

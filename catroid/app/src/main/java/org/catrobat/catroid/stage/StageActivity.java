@@ -23,6 +23,7 @@
 package org.catrobat.catroid.stage;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothGatt;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
@@ -189,8 +190,14 @@ public class StageActivity extends AndroidApplication {
 			droneConnection.destroy();
 		}
 		Log.d(TAG, "Destroy");
-        PreStageActivity.bg.disconnect();
-        PreStageActivity.bg=null;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for(int a =0 ; a < PreStageActivity.SensorTagCounter; a++){
+                    PreStageActivity.bgs[a] = null;
+                }
+            }
+        });
 		LedUtil.destroy();
 		VibratorUtil.destroy();
 		super.onDestroy();
