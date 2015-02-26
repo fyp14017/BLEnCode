@@ -208,6 +208,8 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
             BluetoothDevice sensorTag = newDevices.get(arg2);
             PreStageActivity.sensorTag = sensorTag;
 
+            DeviceListActivity.this.unregisterReceiver(receiver);
+
             Intent intent = new Intent();
             Bundle data = new Bundle();
             data.putString(DEVICE_NAME_AND_ADDRESS, info);
@@ -236,6 +238,8 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
             BluetoothDevice sensorTag = paired.get(arg2);
             PreStageActivity.sensorTag = sensorTag;
 
+            DeviceListActivity.this.unregisterReceiver(receiver);
+
             Intent intent = new Intent();
             Bundle data = new Bundle();
             data.putString(DEVICE_NAME_AND_ADDRESS, info);
@@ -256,9 +260,11 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if ((device.getBondState() != BluetoothDevice.BOND_BONDED)) {
-                    if (device.getName().equals("SensorTag")) {
-                        newDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
-                        newDevices.add(device);
+                    if(device.getName() != null) {
+                        if (device.getName().equals("SensorTag")) {
+                            newDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
+                            newDevices.add(device);
+                        }
                     }
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {

@@ -530,7 +530,12 @@ public class PreStageActivity extends BaseActivity {
                     getResources().getString(R.string.connecting_please_wait), true);
             connectingProgressDialogFlag=false;
         }else{
-            connectingProgressDialog.show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    connectingProgressDialog.show();
+                }
+            });
         }
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
 		serverIntent.putExtra(DeviceListActivity.AUTO_CONNECT, autoConnect);
