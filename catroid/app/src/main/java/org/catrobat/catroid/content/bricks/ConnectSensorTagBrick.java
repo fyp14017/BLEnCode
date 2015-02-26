@@ -28,9 +28,11 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -51,9 +53,24 @@ public class ConnectSensorTagBrick extends BrickBaseType implements OnItemSelect
 
 	private transient AdapterView<?> adapterView;
 
-	public ConnectSensorTagBrick(Sprite sprite) {
-		this.sprite = sprite;
+    public static enum SensorTag{
+        TAG1, TAG2, TAG3, TAG4, TAG5, TAG6, TAG7, TAG8, TAG9, TAG10
+    }
+    private transient SensorTag tagEnum;
+    private String tag;
+
+	public ConnectSensorTagBrick(Sprite sprite, SensorTag tagEnum) {
+		this.tagEnum = tagEnum;
+        this.tag = tagEnum.name();
+        this.sprite = sprite;
 	}
+
+    protected Object readResolve() {
+        if (tag!=null){
+            tagEnum = SensorTag.valueOf(tag);
+        }
+        return this;
+    }
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
@@ -75,18 +92,37 @@ public class ConnectSensorTagBrick extends BrickBaseType implements OnItemSelect
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
+        ArrayAdapter<CharSequence> sensorTagAdapter = ArrayAdapter.createFromResource(context, R.array.sensortag_chooser,
+                android.R.layout.simple_spinner_item);
+        sensorTagAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner sensorTagSpinner = (Spinner) view.findViewById(R.id.connect_sensortag_spinner);
+        sensorTagSpinner.setOnItemSelectedListener(this);
+
+        if (!(checkbox.getVisibility() == View.VISIBLE)) {
+            sensorTagSpinner.setClickable(true);
+            sensorTagSpinner.setEnabled(true);
+        } else {
+            sensorTagSpinner.setClickable(false);
+            sensorTagSpinner.setEnabled(false);
+        }
+
+        sensorTagSpinner.setAdapter(sensorTagAdapter);
+        sensorTagSpinner.setSelection(tagEnum.ordinal());
+
 		return view;
 	}
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
+        tagEnum = SensorTag.values()[position];
+        tag = tagEnum.name();
 		adapterView = parent;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ConnectSensorTagBrick(getSprite());
+		return new ConnectSensorTagBrick(getSprite(), tagEnum);
 	}
 
 	@Override
@@ -100,7 +136,9 @@ public class ConnectSensorTagBrick extends BrickBaseType implements OnItemSelect
 
 			TextView TempLabel = (TextView) view.findViewById(R.id.ble_temp_label);
 			TempLabel.setTextColor(TempLabel.getTextColors().withAlpha(alphaValue));
+            Spinner sensorTagSpinner = (Spinner) view.findViewById(R.id.connect_sensortag_spinner);
 			ColorStateList color = TempLabel.getTextColors().withAlpha(alphaValue);
+            sensorTagSpinner.getBackground().setAlpha(alphaValue);
 			if (adapterView != null) {
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
@@ -127,6 +165,14 @@ public class ConnectSensorTagBrick extends BrickBaseType implements OnItemSelect
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_ble_connect_sensor_tag, null);
+        Spinner sensorTagSpinner = (Spinner) prototypeView.findViewById(R.id.connect_sensortag_spinner);
+        sensorTagSpinner.setFocusableInTouchMode(false);
+        sensorTagSpinner.setFocusable(false);
+        ArrayAdapter<CharSequence> sensorTagAdapter = ArrayAdapter.createFromResource(context, R.array.sensortag_chooser,
+                android.R.layout.simple_spinner_item);
+        sensorTagAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sensorTagSpinner.setAdapter(sensorTagAdapter);
+        sensorTagSpinner.setSelection(tagEnum.ordinal());
 		return prototypeView;
 	}
 

@@ -336,6 +336,16 @@
     <!--  -->
 
     <!-- BLE Sensor Strings -->
+    <string name="sensortag1">Sensor Tag 1</string>
+    <string name="sensortag2">Sensor Tag 2</string>
+    <string name="sensortag3">Sensor Tag 3</string>
+    <string name="sensortag4">Sensor Tag 4</string>
+    <string name="sensortag5">Sensor Tag 5</string>
+    <string name="sensortag6">Sensor Tag 6</string>
+    <string name="sensortag7">Sensor Tag 7</string>
+    <string name="sensortag8">Sensor Tag 8</string>
+    <string name="sensortag9">Sensor Tag 9</string>
+    <string name="sensortag10">Sensor Tag 10</string>
     <string name="sensor_temperature">Temperature</string>
     <string name="sensor_humidity">Humidity</string>
     <string name="sensor_pressure">Pressure</string>

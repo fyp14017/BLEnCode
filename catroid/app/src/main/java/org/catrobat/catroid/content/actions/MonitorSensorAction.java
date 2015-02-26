@@ -29,7 +29,8 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ble.SensorInfo;
-import org.catrobat.catroid.content.bricks.MonitorSensorBrick.Sensor;
+import org.catrobat.catroid.content.bricks.MonitorSensorBrick;
+import org.catrobat.catroid.content.bricks.MonitorSensorBrick.*;
 import org.catrobat.catroid.stage.PreStageActivity;
 
 import java.util.UUID;
@@ -38,6 +39,7 @@ import java.util.UUID;
 public class MonitorSensorAction extends TemporalAction {
 
 	private Sensor sensor;
+    private MonitorSensorBrick.SensorTag tag;
 
 	public static final UUID PRESSURE_SERVICE = UUID.fromString("f000aa40-0451-4000-b000-000000000000");
 	public static final UUID PRESSURE_DATA_CHAR = UUID.fromString("f000aa41-0451-4000-b000-000000000000");
@@ -67,7 +69,42 @@ public class MonitorSensorAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		Log.d("dev", "sensor=" + sensor.name());
+        PreStageActivity.bg = null;
+		switch(tag){
+            case TAG1:
+                PreStageActivity.bg = PreStageActivity.bgs[0];
+                break;
+            case TAG2:
+                PreStageActivity.bg = PreStageActivity.bgs[1];
+                break;
+            case TAG3:
+                PreStageActivity.bg = PreStageActivity.bgs[2];
+                break;
+            case TAG4:
+                PreStageActivity.bg = PreStageActivity.bgs[3];
+                break;
+            case TAG5:
+                PreStageActivity.bg = PreStageActivity.bgs[4];
+                break;
+            case TAG6:
+                PreStageActivity.bg = PreStageActivity.bgs[5];
+                break;
+            case TAG7:
+                PreStageActivity.bg = PreStageActivity.bgs[6];
+                break;
+            case TAG8:
+                PreStageActivity.bg = PreStageActivity.bgs[7];
+                break;
+            case TAG9:
+                PreStageActivity.bg = PreStageActivity.bgs[8];
+                break;
+            case TAG10:
+                PreStageActivity.bg = PreStageActivity.bgs[9];
+                break;
+            default:
+                Log.d("dev", "bg is null");
+                break;
+        }
 		if (sensor.equals(Sensor.TEMPERATURE)) {
 			SensorInfo.Temp = 0f;
 			BluetoothGattCharacteristic p_config = PreStageActivity.bg.getService(PRESSURE_SERVICE).getCharacteristic(
@@ -101,7 +138,7 @@ public class MonitorSensorAction extends TemporalAction {
 		}
 	}
 
-	public void setEnum(Sensor sensor) {
-		this.sensor = sensor;
+	public void setEnum(Sensor sensor, MonitorSensorBrick.SensorTag tag) {
+		this.sensor = sensor; this.tag = tag;
 	}
 }

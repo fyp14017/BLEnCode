@@ -40,6 +40,19 @@
         <item>@string/sensor_magnetometer</item>
     </string-array>
 
+    <string-array name="sensortag_chooser">
+        <item>@string/sensortag1</item>
+        <item>@string/sensortag2</item>
+        <item>@string/sensortag3</item>
+        <item>@string/sensortag4</item>
+        <item>@string/sensortag5</item>
+        <item>@string/sensortag6</item>
+        <item>@string/sensortag7</item>
+        <item>@string/sensortag8</item>
+        <item>@string/sensortag9</item>
+        <item>@string/sensortag10</item>
+    </string-array>
+
     <string-array name="nxt_stop_motor_chooser" >
         <item >@string/nxt_motor_a</item >
         <item >@string/nxt_motor_b</item >
@@ -55,6 +68,7 @@
  		<item >@string/add_line_break</item >
  		<item >@string/close</item >
  	</string-array >
+
 
 
 </resources>

@@ -29,6 +29,18 @@
         <item>@string/sensor_gyroscope</item>
         <item>@string/sensor_magnetometer</item>
     </string-array>
+    <string-array name="sensortag_chooser">
+        <item>@string/sensortag1</item>
+        <item>@string/sensortag2</item>
+        <item>@string/sensortag3</item>
+        <item>@string/sensortag4</item>
+        <item>@string/sensortag5</item>
+        <item>@string/sensortag6</item>
+        <item>@string/sensortag7</item>
+        <item>@string/sensortag8</item>
+        <item>@string/sensortag9</item>
+        <item>@string/sensortag10</item>
+    </string-array>
     <!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid/app/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference|color" name="background"/>
@@ -728,6 +740,16 @@
     <string name="sensor_magnetometer_z">Magnetometer_z</string>
     <string name="sensor_pressure">Pressure</string>
     <string name="sensor_temperature">Temperature</string>
+    <string name="sensortag1">Sensor Tag 1</string>
+    <string name="sensortag10">Sensor Tag 10</string>
+    <string name="sensortag2">Sensor Tag 2</string>
+    <string name="sensortag3">Sensor Tag 3</string>
+    <string name="sensortag4">Sensor Tag 4</string>
+    <string name="sensortag5">Sensor Tag 5</string>
+    <string name="sensortag6">Sensor Tag 6</string>
+    <string name="sensortag7">Sensor Tag 7</string>
+    <string name="sensortag8">Sensor Tag 8</string>
+    <string name="sensortag9">Sensor Tag 9</string>
     <string name="separator">|</string>
     <string name="set_description">Set description</string>
     <string name="settings">Settings</string>

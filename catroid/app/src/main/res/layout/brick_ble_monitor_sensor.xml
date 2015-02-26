@@ -52,11 +52,20 @@
         </TextView>
 
         <Spinner
-            android:id="@+id/sensor_spinner"
+            android:id="@+id/tag_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false" />
+
+        <Spinner
+        android:id="@+id/sensor_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false" />
+
+
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

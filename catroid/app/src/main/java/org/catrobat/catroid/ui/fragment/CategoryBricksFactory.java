@@ -257,8 +257,8 @@ public class CategoryBricksFactory {
     private List<Brick> setupBLESensorsCategoryList(Sprite sprite, Context context) {
         List<Brick> BLESensorsBrickList = new ArrayList<Brick>();
 
-        BLESensorsBrickList.add(new ConnectSensorTagBrick(sprite));
-        BLESensorsBrickList.add(new MonitorSensorBrick(sprite, MonitorSensorBrick.Sensor.TEMPERATURE));
+        BLESensorsBrickList.add(new ConnectSensorTagBrick(sprite, ConnectSensorTagBrick.SensorTag.TAG1));
+        BLESensorsBrickList.add(new MonitorSensorBrick(sprite, MonitorSensorBrick.Sensor.TEMPERATURE, MonitorSensorBrick.SensorTag.TAG1));
         return BLESensorsBrickList;
     }
 
