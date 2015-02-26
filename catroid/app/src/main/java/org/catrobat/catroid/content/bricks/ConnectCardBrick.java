@@ -28,7 +28,7 @@ public class ConnectCardBrick extends BrickBaseType implements OnItemSelectedLis
 
     private transient AdapterView<?> adapterView;
 
-    ConnectCardBrick(Sprite sprite)
+    public ConnectCardBrick(Sprite sprite)
     {
         this.sprite = sprite;
     }

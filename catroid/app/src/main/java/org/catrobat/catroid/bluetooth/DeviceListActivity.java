@@ -261,7 +261,7 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if ((device.getBondState() != BluetoothDevice.BOND_BONDED)) {
                     if(device.getName() != null) {
-                        if (device.getName().equals("SensorTag")) {
+                        if (device.getName().equals("SensorTag") || device.getName().equals("MIDbot eCard")) {
                             newDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
                             newDevices.add(device);
                         }
