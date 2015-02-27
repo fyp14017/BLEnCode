@@ -51,4 +51,4 @@
         android:id="@+id/context_menu_rename"
         android:title="@string/rename" />
 
-</menu><!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid/app/src/main/res/menu/context_menu_default.xml -->
+</menu><!-- From: file:/C:/Users/Yatharth/AndroidStudioProjects/catroid/app/src/main/res/menu/context_menu_default.xml -->

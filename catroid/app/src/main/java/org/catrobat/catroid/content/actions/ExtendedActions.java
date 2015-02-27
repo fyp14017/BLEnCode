@@ -187,6 +187,11 @@ public class ExtendedActions extends Actions {
         return action;
     }
 
+    public static ConnectCardAction connectCardAction() {
+        ConnectCardAction action = action(ConnectCardAction.class);
+        return action;
+    }
+
     public static MonitorSensorAction monitorSensorAction(MonitorSensorBrick.Sensor sensor, MonitorSensorBrick.SensorTag tag) {
         MonitorSensorAction action = action(MonitorSensorAction.class);
         action.setEnum(sensor, tag);
