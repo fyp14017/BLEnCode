@@ -68,7 +68,17 @@ public class ConnectCardBrick extends BrickBaseType implements OnItemSelectedLis
     }
 
     @Override
-    public int getRequiredResources() { return BLUETOOTH_BLE_SENSORS; }
+    public View getPrototypeView(Context context) {
+        View prototypeView = View.inflate(context, R.layout.brick_ble_connect_card, null);
+        return prototypeView;
+    }
+
+    @Override
+    public int getRequiredResources()
+    {
+        PreStageActivity.CardCounter++;
+        return BLUETOOTH_BLE_SENSORS;
+    }
 
     @Override
     public List<SequenceAction> addActionToSequence(Sprite s, SequenceAction sequence)
