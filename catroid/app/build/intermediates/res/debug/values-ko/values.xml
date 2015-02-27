@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid/app/src/main/res/values-ko/strings.xml -->
+    <!-- From: file:/C:/Users/Yatharth/AndroidStudioProjects/catroid/app/src/main/res/values-ko/strings.xml -->
     <eat-comment/>
     <string name="about">"Catroid에 대하여"</string>
     <string name="about_catroid_license_link_text">"Catroid 라이센스"</string>
