@@ -47,11 +47,9 @@
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_when" >
+            android:text="When" >
         </TextView >
 
-        <!--
-    inactive - to be revived when there are more actions for the spinner 
 	<Spinner
 		android:id="@+id/brick_when_spinner"
 		android:layout_height="wrap_content"
@@ -62,8 +60,7 @@
 		android:focusable="false"
 		
 	/>
-        -->
 
     </org.catrobat.catroid.ui.BrickLayout >
 
-</LinearLayout><!-- From: file:/C:/Users/Yatharth/AndroidStudioProjects/catroid/app/src/main/res/layout/brick_when.xml -->
+</LinearLayout><!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/brick_when.xml -->
