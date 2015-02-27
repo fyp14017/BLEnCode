@@ -122,11 +122,17 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
             sensorTagFragment=(SensorTagFragment)fm.findFragmentByTag(SensorTagFragment.SENSOR_TAG_FRAGMENT_TAG);
             if(sensorTagFragment == null){
                 sensorTagFragment = new SensorTagFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("Tag number", position - (itemsIds.length-1));
+                sensorTagFragment.setArguments(bundle);
                 FragmentTransaction ft=fm.beginTransaction();
                 ft.add(R.id.script_fragment_container, sensorTagFragment,SensorTagFragment.SENSOR_TAG_FRAGMENT_TAG);
                 ft.hide(this);
                 ft.commit();
             }else{
+                Bundle bundle = new Bundle();
+                bundle.putInt("Tag number", position - (itemsIds.length-1));
+                sensorTagFragment.setArguments(bundle);
                 FragmentTransaction ft=fm.beginTransaction();
                 ft.hide(this).show(sensorTagFragment).commit();
             }

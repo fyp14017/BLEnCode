@@ -141,29 +141,29 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_face_y_position:
 				return buildSensor(Sensors.FACE_Y_POSITION);
             case R.string.sensor_temperature:
-                return buildSensor(Sensors.SENSOR_TAG_TEMPERATURE);
+                return buildSensor(Sensors.SENSOR_TAG_TEMPERATURE , name);
             case R.string.sensor_accelerometer_abs:
-                return buildSensor(Sensors.ACCELEROMETER_ABS);
+                return buildSensor(Sensors.ACCELEROMETER_ABS, name);
             case R.string.sensor_accelerometer_x:
-                return buildSensor(Sensors.ACCELEROMETER_X);
+                return buildSensor(Sensors.ACCELEROMETER_X, name);
             case R.string.sensor_accelerometer_y:
-                return buildSensor(Sensors.ACCELEROMETER_Y);
+                return buildSensor(Sensors.ACCELEROMETER_Y, name);
             case R.string.sensor_accelerometer_z:
-                return buildSensor(Sensors.ACCELEROMETER_Z);
+                return buildSensor(Sensors.ACCELEROMETER_Z, name);
             case R.string.sensor_gyroscope_x:
-                return buildSensor(Sensors.GYROSCOPE_X);
+                return buildSensor(Sensors.GYROSCOPE_X, name);
             case R.string.sensor_gyroscope_y:
-                return buildSensor(Sensors.GYROSCOPE_Y);
+                return buildSensor(Sensors.GYROSCOPE_Y, name);
             case R.string.sensor_gyroscope_z:
-                return buildSensor(Sensors.GYROSCOPE_Z);
+                return buildSensor(Sensors.GYROSCOPE_Z, name);
             case R.string.sensor_magnetometer_abs:
-                return buildSensor(Sensors.MAGNETOMETER_ABS);
+                return buildSensor(Sensors.MAGNETOMETER_ABS, name);
             case R.string.sensor_magnetometer_x:
-                return buildSensor(Sensors.MAGNETOMETER_X);
+                return buildSensor(Sensors.MAGNETOMETER_X, name);
             case R.string.sensor_magnetometer_y:
-                return buildSensor(Sensors.MAGNETOMETER_Y);
+                return buildSensor(Sensors.MAGNETOMETER_Y, name);
             case R.string.sensor_magnetometer_z:
-                return buildSensor(Sensors.MAGNETOMETER_Z);
+                return buildSensor(Sensors.MAGNETOMETER_Z, name);
 
 				//PERIOD
 			case R.id.formula_editor_keyboard_decimal_mark:
@@ -274,7 +274,13 @@ public class InternFormulaKeyboardAdapter {
 		return returnList;
 	}
 
-	private List<InternToken> buildSensor(Sensors sensor) {
+    private List<InternToken> buildSensor(Sensors sensor, String name) {
+        List<InternToken> returnList = new LinkedList<InternToken>();
+        returnList.add(new InternToken(InternTokenType.SENSOR, name));
+        return returnList;
+    }
+
+    private List<InternToken> buildSensor(Sensors sensor) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		return returnList;

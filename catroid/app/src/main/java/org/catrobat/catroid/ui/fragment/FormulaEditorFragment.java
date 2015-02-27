@@ -547,6 +547,10 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	}
 
+    public void addResourceToActiveFormula(int resource, String name) {
+        formulaEditorEditText.handleKeyEvent(resource, name);
+    }
+
 	public void addResourceToActiveFormula(int resource) {
 		formulaEditorEditText.handleKeyEvent(resource, "");
 	}

@@ -25,6 +25,7 @@ import org.catrobat.catroid.R;
 public class SensorTagFragment extends SherlockListFragment implements Dialog.OnKeyListener{
 
     public static final String SENSOR_TAG_FRAGMENT_TAG = "sensor_tag_fragment";
+    private int number;
 
     private static int[] SensorTagElements = {
             R.string.sensor_temperature, R.string.sensor_accelerometer_abs, R.string.sensor_accelerometer_x,
@@ -38,8 +39,9 @@ public class SensorTagFragment extends SherlockListFragment implements Dialog.On
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        number = getArguments().getInt("Tag number");
         getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSherlockActivity().getSupportActionBar().setTitle("Sensor Tag");
+        getSherlockActivity().getSupportActionBar().setTitle("Sensor Tag " + Integer.toString(number));
         items = new String [SensorTagElements.length];
         for (int index = 0; index < items.length; index++) {
             items[index] = getString(SensorTagElements[index]);
@@ -65,7 +67,7 @@ public class SensorTagFragment extends SherlockListFragment implements Dialog.On
         FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity().getSupportFragmentManager()
                 .findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
         if (formulaEditor != null) {
-            formulaEditor.addResourceToActiveFormula(SensorTagElements[position]);
+            formulaEditor.addResourceToActiveFormula(SensorTagElements[position], "SensorTag "+ Integer.toString(number)+"."+ getActivity().getBaseContext().getString(SensorTagElements[position]));
             formulaEditor.updateButtonViewOnKeyboard();
         }
         /*KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);

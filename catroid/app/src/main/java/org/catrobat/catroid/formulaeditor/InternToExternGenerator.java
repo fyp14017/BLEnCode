@@ -214,7 +214,14 @@ public class InternToExternGenerator {
 				return "\"" + internToken.getTokenStringValue() + "\"";
 			case STRING:
 				return "\'" + internToken.getTokenStringValue() + "\'";
-
+            case SENSOR:
+                Log.d("dev" , "Sensor name is " + internToken.getTokenStringValue());
+                if(internToken.getTokenStringValue().startsWith("SensorTag")){
+                    return internToken.getTokenStringValue();
+                }
+                else{
+                    return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);
+                }
 			default:
 				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);
 
