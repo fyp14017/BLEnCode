@@ -152,20 +152,19 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
 
-		/*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean("setting_mindstorm_bricks", false)) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
-		}*/
+		}
 
 		categories.add(inflater.inflate(R.layout.brick_category_uservariables, null));
         categories.add(inflater.inflate(R.layout.brick_category_ble_sensors, null));
+        categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 
-        //categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 
-
-		/*if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false)) {
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false)) {
 			categories.add(inflater.inflate(R.layout.brick_category_drone, null));
-		}*/
+		}
 
 		adapter = new BrickCategoryAdapter(categories);
 		this.setListAdapter(adapter);
