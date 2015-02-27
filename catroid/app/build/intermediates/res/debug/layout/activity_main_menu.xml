@@ -86,4 +86,4 @@
         android:onClick="handleUploadButton"
         android:text="@string/main_menu_upload" />
 
-</LinearLayout><!-- From: file:/C:/Users/Yatharth/AndroidStudioProjects/catroid/app/src/main/res/layout/activity_main_menu.xml -->
+</LinearLayout><!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid/app/src/main/res/layout/activity_main_menu.xml -->

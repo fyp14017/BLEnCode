@@ -46,4 +46,4 @@
         android:summary="@string/preference_description_select_camera"
         android:defaultValue="0" />
 </PreferenceScreen>
-<!-- From: file:/C:/Users/Yatharth/AndroidStudioProjects/catroid/app/src/main/res/xml/preferences.xml -->
+<!-- From: file:/C:/Users/User%20HP/AndroidStudioProjects/catroid/app/src/main/res/xml/preferences.xml -->

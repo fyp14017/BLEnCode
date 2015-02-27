@@ -42,7 +42,6 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
-import org.catrobat.catroid.content.bricks.ConnectCardBrick;
 import org.catrobat.catroid.content.bricks.ConnectSensorTagBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneLandBrick;
@@ -260,7 +259,6 @@ public class CategoryBricksFactory {
 
         BLESensorsBrickList.add(new ConnectSensorTagBrick(sprite, ConnectSensorTagBrick.SensorTag.TAG1));
         BLESensorsBrickList.add(new MonitorSensorBrick(sprite, MonitorSensorBrick.Sensor.TEMPERATURE, MonitorSensorBrick.SensorTag.TAG1));
-        BLESensorsBrickList.add(new ConnectCardBrick(sprite));
         return BLESensorsBrickList;
     }
 

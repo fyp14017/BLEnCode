@@ -85,8 +85,6 @@ public class PreStageActivity extends BaseActivity {
 	private int resources = Brick.NO_RESOURCES;
 	private int requiredResourceCounter;
     public static int SensorTagCounter;
-    public static int CardCounter;
-    public static String bleDeviceName;
     public boolean connectingProgressDialogFlag = true;
 	private static LegoNXT legoNXT;
 	private boolean autoConnect = false;
@@ -100,7 +98,6 @@ public class PreStageActivity extends BaseActivity {
 
     public static BluetoothGatt[] bgs;
     public static BluetoothGattCallback[] mGattCallBacks;
-    public static BluetoothGatt[] card_bgs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -113,7 +110,6 @@ public class PreStageActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_prestage);
         SensorTagCounter = 0;
-        CardCounter = 0;
 		int requiredResources = getRequiredResources();
 
         bgs = new BluetoothGatt[SensorTagCounter];
@@ -121,13 +117,8 @@ public class PreStageActivity extends BaseActivity {
             bgs[a] = null;
         }
 
-        card_bgs = new BluetoothGatt[CardCounter];
-        for(int a =0 ; a < CardCounter; a++){
-            card_bgs[a] = null;
-        }
-
-        mGattCallBacks = new BluetoothGattCallback[SensorTagCounter + CardCounter];
-        for(int a=0; a <(SensorTagCounter+CardCounter) ;a++){
+        mGattCallBacks = new BluetoothGattCallback[SensorTagCounter];
+        for(int a=0; a <SensorTagCounter ;a++){
             mGattCallBacks[a] = new BluetoothGattCallback() {
 
                 private int[] p_cals;
@@ -150,15 +141,10 @@ public class PreStageActivity extends BaseActivity {
                     if (status == BluetoothGatt.GATT_SUCCESS) {
                         Log.d("dev", "Services done");
                         Log.d("dev", "SensorTagCounter is " + Integer.toString(SensorTagCounter));
-                        Log.d("yathu", "CardCounter is " + Integer.toString(CardCounter));
-                        if(gatt.getDevice().getName().equals("SensorTag")) {
-                            SensorTagCounter--;
-                        } else {
-                            CardCounter--;
-                        }
-                        /*connectingProgressDialog.dismiss();
-                        startStage();*/
-                        if(SensorTagCounter==0 && CardCounter==0) {
+                        SensorTagCounter--;
+                /*connectingProgressDialog.dismiss();
+                startStage();*/
+                        if(SensorTagCounter==0) {
                             connectingProgressDialog.dismiss();
                             startStage();
                         }else{
@@ -566,7 +552,7 @@ public class PreStageActivity extends BaseActivity {
 		}
 		return resources;
 	}
-    int sensorTagPosition = 0, cardPosition = 0, j=0;
+    int i = 0;
 	@SuppressLint("NewApi")
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -592,16 +578,9 @@ public class PreStageActivity extends BaseActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if(bleDeviceName.equals("SensorTag")) {
-                                    if (bgs[sensorTagPosition] == null) {
-                                        bgs[sensorTagPosition] = sensorTag.connectGatt(getBaseContext(), false, mGattCallBacks[j]);
-                                        sensorTagPosition++; j++;
-                                    }
-                                } else {
-                                    if (card_bgs[cardPosition] == null) {
-                                        card_bgs[cardPosition] = sensorTag.connectGatt(getBaseContext(), false, mGattCallBacks[j]);
-                                        cardPosition++; j++;
-                                    }
+                                if (bgs[i] == null) {
+                                    bgs[i] = sensorTag.connectGatt(getBaseContext(), false, mGattCallBacks[i]);
+                                    i++;
                                 }
                             }
                         });

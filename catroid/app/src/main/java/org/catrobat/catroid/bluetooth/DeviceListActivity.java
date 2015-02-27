@@ -207,7 +207,6 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
             String address = info.substring(info.lastIndexOf('-') + 1);
             BluetoothDevice sensorTag = newDevices.get(arg2);
             PreStageActivity.sensorTag = sensorTag;
-            PreStageActivity.bleDeviceName = sensorTag.getName();
 
             DeviceListActivity.this.unregisterReceiver(receiver);
 
@@ -238,7 +237,6 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
             String address = info.substring(info.lastIndexOf('-') + 1);
             BluetoothDevice sensorTag = paired.get(arg2);
             PreStageActivity.sensorTag = sensorTag;
-            PreStageActivity.bleDeviceName = sensorTag.getName();
 
             DeviceListActivity.this.unregisterReceiver(receiver);
 
@@ -262,13 +260,11 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if ((device.getBondState() != BluetoothDevice.BOND_BONDED)) {
-                    Log.d("yathu", device.getName());
                     if(device.getName() != null) {
-                        //if (device.getName().equals("SensorTag") || device.getName().equals("MIDbot eCard")) {
-                        newDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
-                        Log.d("yathu", device.getName() + "-" + device.getAddress());
-                        newDevices.add(device);
-                        //}
+                        if (device.getName().equals("SensorTag")) {
+                            newDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
+                            newDevices.add(device);
+                        }
                     }
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {

@@ -25,7 +25,10 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -89,43 +92,46 @@ public class WhenBrick extends ScriptBrick {
 		 */
 
 		// inactive until spinner has more than one element
-		//		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_when_spinner);
-		//		spinner.setFocusable(false);
-		//		spinner.setClickable(true);
-		//		ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
-		//				android.R.layout.simple_spinner_item);
-		//		spinnerAdapter.add(context.getString(R.string.action_tapped));
+            final Spinner spinner = (Spinner) view.findViewById(R.id.brick_when_spinner);
+            spinner.setFocusable(false);
+            spinner.setClickable(true);
+            ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
+                    android.R.layout.simple_spinner_item);
+            spinnerAdapter.add("Tapped");
 
-		//		TODO: not working with OpenGL yet, uncomment this when it does
-		//		spinnerAdapter.add(context.getString(R.string.action_doubleTapped));
-		//		spinnerAdapter.add(context.getString(R.string.action_longPressed));
-		//		spinnerAdapter.add(context.getString(R.string.action_swipeUp));
-		//		spinnerAdapter.add(context.getString(R.string.action_swipeDown));
-		//		spinnerAdapter.add(context.getString(R.string.action_swipeLeft));
-		//		spinnerAdapter.add(context.getString(R.string.action_swipeRight));
+            //TODO: not working with OpenGL yet, uncomment this when it does
+            spinnerAdapter.add("Double Tapped");
+            spinnerAdapter.add("Long Pressed");
+            spinnerAdapter.add("Swipe Up");
+            spinnerAdapter.add("Swipe Down");
+            spinnerAdapter.add("Swipe Left");
+            spinnerAdapter.add("Swipe Right");
 
-		//		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		//		spinner.setAdapter(spinnerAdapter);
-		//
-		//		if (whenScript.getAction() != null) {
-		//			spinner.setSelection(whenScript.getPosition(), true);
-		//		}
-		//
-		//		if (spinner.getSelectedItem() == null) {
-		//			spinner.setSelection(0);
-		//		}
-		//
-		//		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-		//			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		//				spinner.setSelected(true);
-		//				whenScript.setAction(position);
-		//				spinner.setSelection(position);
-		//				adapter.notifyDataSetChanged();
-		//			}
-		//
-		//			public void onNothingSelected(AdapterView<?> parent) {
-		//			}
-		//		});
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(spinnerAdapter);
+
+            if(whenScript == null){
+                whenScript = new WhenScript();
+            }
+            if (whenScript.getAction() != null) {
+                spinner.setSelection(whenScript.getPosition(), true);
+            }
+
+            if (spinner.getSelectedItem() == null) {
+                spinner.setSelection(0);
+            }
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    spinner.setSelected(true);
+                    whenScript.setAction(position);
+                    spinner.setSelection(position);
+                    adapter.notifyDataSetChanged();
+                }
+
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
 		return view;
 	}
 
@@ -135,8 +141,10 @@ public class WhenBrick extends ScriptBrick {
 		if (view != null) {
 
 			View layout = view.findViewById(R.id.brick_when_layout);
+            Spinner spinner = (Spinner) view.findViewById(R.id.brick_when_spinner);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
+            spinner.getBackground().setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);
 
 		}
@@ -146,7 +154,12 @@ public class WhenBrick extends ScriptBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
+		View v = View.inflate(context, R.layout.brick_when, null);
+        Spinner spinner = (Spinner) v.findViewById(R.id.brick_when_spinner);
+        spinner.setFocusable(false);
+        spinner.setFocusableInTouchMode(false);
+        spinner.setSelection(0);
+        return v;
 	}
 
 	@Override
