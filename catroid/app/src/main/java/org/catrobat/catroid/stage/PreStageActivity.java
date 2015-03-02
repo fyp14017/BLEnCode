@@ -49,6 +49,7 @@ import android.widget.Toast;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ble.SensorInfo;
+import org.catrobat.catroid.ble.SensorTag;
 import org.catrobat.catroid.bluetooth.BluetoothManager;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
 import org.catrobat.catroid.camera.CameraManager;
@@ -93,7 +94,7 @@ public class PreStageActivity extends BaseActivity {
 	private ProgressDialog connectingProgressDialog;
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
-
+    public static ArrayList<SensorTag> sensorTags;
 	private DroneInitializer droneInitializer = null;
 
 	private Intent returnToActivityIntent = null;
@@ -115,7 +116,7 @@ public class PreStageActivity extends BaseActivity {
         SensorTagCounter = 0;
         CardCounter = 0;
 		int requiredResources = getRequiredResources();
-
+        sensorTags = new ArrayList<SensorTag>();
         bgs = new BluetoothGatt[SensorTagCounter];
         for(int a =0 ; a < SensorTagCounter; a++){
             bgs[a] = null;
@@ -153,6 +154,7 @@ public class PreStageActivity extends BaseActivity {
                         Log.d("yathu", "CardCounter is " + Integer.toString(CardCounter));
                         if(gatt.getDevice().getName().equals("SensorTag")) {
                             SensorTagCounter--;
+                            sensorTags.add(new SensorTag());
                         } else {
                             CardCounter--;
                         }
@@ -180,7 +182,13 @@ public class PreStageActivity extends BaseActivity {
 			 * After notifications are enabled, all updates from the device on characteristic
 			 * value changes will be posted here. Similar to read, we hand these up to the
 			 * UI thread to update the display.
-			 */
+			 */     int gatt_position=0;
+                    for(gatt_position=0; gatt_position < bgs.length; gatt_position++){
+                        if(gatt.equals(bgs[gatt_position])){
+                            break;
+                        }
+                    }
+                    Log.d("dev" , "Gatt position = " + gatt_position);
                     if (MonitorSensorAction.PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
                         Log.d("dev", "reading pressure");
                         if (p_cals == null) {
@@ -191,7 +199,7 @@ public class PreStageActivity extends BaseActivity {
 
                         String t = String.format("%.1f\u00B0C", temp);
                         Log.d("dev", t.substring(0, 4));
-                        SensorInfo.Temp = Float.parseFloat(t.substring(0, 4));
+                        sensorTags.get(gatt_position).info.Temp = Float.parseFloat(t.substring(0, 4));
                     }
                     if (MonitorSensorAction.PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
                         p_cals = SensorInfo.extractCalibrationCoefficients(characteristic);
@@ -201,27 +209,27 @@ public class PreStageActivity extends BaseActivity {
 
                         String t = String.format("%.1f\u00B0C", temp);
                         Log.d("dev", t.substring(0, 4));
-                        SensorInfo.Temp = Float.parseFloat(t.substring(0, 4));
+                        sensorTags.get(gatt_position).info.Temp = Float.parseFloat(t.substring(0, 4));
                     }
                     if (MonitorSensorAction.ACC_DATA_CHAR.equals(characteristic.getUuid())) {
                         float[] arr = SensorInfo.extractAccInfo(characteristic);
-                        SensorInfo.Acc_x = arr[0];
-                        SensorInfo.Acc_y = arr[1];
-                        SensorInfo.Acc_z = arr[2];
+                        sensorTags.get(gatt_position).info.Acc_x = arr[0];
+                        sensorTags.get(gatt_position).info.Acc_y = arr[1];
+                        sensorTags.get(gatt_position).info.Acc_z = arr[2];
                         Log.d("dev", "x=" + arr[0] + " y=" + arr[1] + " z=" + arr[2]);
                     }
                     if (MonitorSensorAction.GYRO_DATA_CHAR.equals(characteristic.getUuid())) {
                         float[] arr = SensorInfo.extractGyroInfo(characteristic);
-                        SensorInfo.Gyro_x = arr[0];
-                        SensorInfo.Gyro_y = arr[1];
-                        SensorInfo.Gyro_z = arr[2];
+                        sensorTags.get(gatt_position).info.Gyro_x = arr[0];
+                        sensorTags.get(gatt_position).info.Gyro_y = arr[1];
+                        sensorTags.get(gatt_position).info.Gyro_z = arr[2];
                         Log.d("dev", "gyro_x=" + arr[0] + " gyro_y=" + arr[1] + " gyro_z=" + arr[2]);
                     }
                     if (MonitorSensorAction.MAG_DATA_CHAR.equals(characteristic.getUuid())) {
                         float[] arr = SensorInfo.extractMagInfo(characteristic);
-                        SensorInfo.Mag_x = arr[0];
-                        SensorInfo.Mag_y = arr[1];
-                        SensorInfo.Mag_z = arr[2];
+                        sensorTags.get(gatt_position).info.Mag_x = arr[0];
+                        sensorTags.get(gatt_position).info.Mag_y = arr[1];
+                        sensorTags.get(gatt_position).info.Mag_z = arr[2];
 
                         Log.d("dev", "mag_x=" + arr[0] + " mag_y=" + arr[1] + " mag_z=" + arr[2]);
                     }
@@ -229,6 +237,13 @@ public class PreStageActivity extends BaseActivity {
 
                 @Override
                 public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+                    int gatt_position=0;
+                    for(gatt_position=0; gatt_position < bgs.length; gatt_position++){
+                        if(gatt.equals(bgs[gatt_position])){
+                            break;
+                        }
+                    }
+                    Log.d("dev" , "Gatt position = " + gatt_position);
                     if (MonitorSensorAction.PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
                         Log.d("dev", "reading pressure");
                         if (p_cals == null) {
@@ -238,7 +253,7 @@ public class PreStageActivity extends BaseActivity {
                         double temp = SensorInfo.extractBarTemperature(characteristic, p_cals);
                         String t = String.format("%.1f\u00B0C", temp);
                         Log.d("dev", t.substring(0, 4));
-                        SensorInfo.Temp = Float.parseFloat(t.substring(0, 4));
+                        sensorTags.get(gatt_position).info.Temp = Float.parseFloat(t.substring(0, 4));
                     }
                     if (MonitorSensorAction.PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
                         p_cals = SensorInfo.extractCalibrationCoefficients(characteristic);
@@ -246,23 +261,23 @@ public class PreStageActivity extends BaseActivity {
                     }
                     if (MonitorSensorAction.ACC_DATA_CHAR.equals(characteristic.getUuid())) {
                         float[] arr = SensorInfo.extractAccInfo(characteristic);
-                        SensorInfo.Acc_x = arr[0];
-                        SensorInfo.Acc_y = arr[1];
-                        SensorInfo.Acc_z = arr[2];
+                        sensorTags.get(gatt_position).info.Acc_x = arr[0];
+                        sensorTags.get(gatt_position).info.Acc_y = arr[1];
+                        sensorTags.get(gatt_position).info.Acc_z = arr[2];
                         Log.d("dev", "x=" + arr[0] + " y=" + arr[1] + " z=" + arr[2]);
                     }
                     if (MonitorSensorAction.GYRO_DATA_CHAR.equals(characteristic.getUuid())) {
                         float[] arr = SensorInfo.extractGyroInfo(characteristic);
-                        SensorInfo.Gyro_x = arr[0];
-                        SensorInfo.Gyro_y = arr[1];
-                        SensorInfo.Gyro_z = arr[2];
+                        sensorTags.get(gatt_position).info.Gyro_x = arr[0];
+                        sensorTags.get(gatt_position).info.Gyro_y = arr[1];
+                        sensorTags.get(gatt_position).info.Gyro_z = arr[2];
                         Log.d("dev", "gyro_x=" + arr[0] + " gyro_y=" + arr[1] + " gyro_z=" + arr[2]);
                     }
                     if (MonitorSensorAction.MAG_DATA_CHAR.equals(characteristic.getUuid())) {
                         float[] arr = SensorInfo.extractMagInfo(characteristic);
-                        SensorInfo.Mag_x = arr[0];
-                        SensorInfo.Mag_y = arr[1];
-                        SensorInfo.Mag_z = arr[2];
+                        sensorTags.get(gatt_position).info.Mag_x = arr[0];
+                        sensorTags.get(gatt_position).info.Mag_y = arr[1];
+                        sensorTags.get(gatt_position).info.Mag_z = arr[2];
 
                         Log.d("dev", "mag_x=" + arr[0] + " mag_y=" + arr[1] + " mag_z=" + arr[2]);
                     }
@@ -712,7 +727,7 @@ public class PreStageActivity extends BaseActivity {
 		}
 	};
 
-    @SuppressLint("NewApi")
+    /*@SuppressLint("NewApi")
     public BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
 
         private int[] p_cals;
@@ -721,10 +736,10 @@ public class PreStageActivity extends BaseActivity {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             //Log.d(TAG, "Connection State Change: "+status+" -> "+connectionState(newState));
             if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_CONNECTED) {
-				/*
+				*//*
 				 * Once successfully connected, we must next discover all the services on the
 				 * device before we can read and write their characteristics.
-				 */
+				 *//*
                 Log.d("dev", "Connected to SensorTag " + gatt.getDevice().getAddress());
                 gatt.discoverServices();
             }
@@ -736,8 +751,8 @@ public class PreStageActivity extends BaseActivity {
                 Log.d("dev", "Services done");
                 Log.d("dev", "SensorTagCounter is " + Integer.toString(SensorTagCounter));
                 SensorTagCounter--;
-                /*connectingProgressDialog.dismiss();
-                startStage();*/
+                *//*connectingProgressDialog.dismiss();
+                startStage();*//*
                 if(SensorTagCounter==0) {
                     connectingProgressDialog.dismiss();
                     startStage();
@@ -756,11 +771,11 @@ public class PreStageActivity extends BaseActivity {
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-			/*
+			*//*
 			 * After notifications are enabled, all updates from the device on characteristic
 			 * value changes will be posted here. Similar to read, we hand these up to the
 			 * UI thread to update the display.
-			 */
+			 *//*
             if (MonitorSensorAction.PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
                 Log.d("dev", "reading pressure");
                 if (p_cals == null) {
@@ -898,7 +913,7 @@ public class PreStageActivity extends BaseActivity {
                         MonitorSensorAction.MAG_DATA_CHAR));
             }
         }
-    };
+    };*/
 
 	private void ledInitialize() {
 		if ( hasFlash() ) {

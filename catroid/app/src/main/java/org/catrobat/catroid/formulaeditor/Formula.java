@@ -25,6 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -114,6 +115,7 @@ public class Formula implements Serializable {
 
 	public Double interpretDouble(Sprite sprite) throws InterpretationException {
         try{
+            //Log.d("dev","FormulaTree is = " + formulaTree.leftChild.getValue() + " type = " + formulaTree.leftChild.getElementType());
             Double returnValue = (Double) formulaTree.interpretRecursive(sprite);
             if (returnValue.isNaN()) {
                 throw new InterpretationException("NaN in interpretDouble()");

@@ -45,7 +45,7 @@ public class FormulaElement implements Serializable {
 
 	private ElementType type;
 	private String value;
-	private FormulaElement leftChild = null;
+	public FormulaElement leftChild = null;
 	private FormulaElement rightChild = null;
 	private transient FormulaElement parent = null;
 
@@ -155,7 +155,6 @@ public class FormulaElement implements Serializable {
 	public Object interpretRecursive(Sprite sprite) {
 
 		Object returnValue = 0d;
-
 		switch (type) {
 			case BRACKET:
 				returnValue = rightChild.interpretRecursive(sprite);
@@ -204,12 +203,19 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretSensor(Sprite sprite) {
-		Sensors sensor = Sensors.getSensorByValue(value);
-		if (sensor.isObjectSensor) {
-			return interpretObjectSensor(sensor, sprite);
-		} else {
-			return SensorHandler.getSensorValue(sensor);
-		}
+		Sensors sensor;
+        if(value.startsWith("SensorTag")){
+            sensor = Sensors.getSensorByValue(value.substring(value.indexOf(".")+1,value.length()));
+            return SensorHandler.getSensorValue(value.substring(0,value.indexOf(".")),sensor);
+        }
+        else{
+            sensor = Sensors.getSensorByValue(value);
+            if (sensor.isObjectSensor) {
+                return interpretObjectSensor(sensor, sprite);
+            } else {
+                return SensorHandler.getSensorValue(sensor);
+            }
+        }
 	}
 
 	private Object interpretFunction(Functions function, Sprite sprite) {
@@ -755,8 +761,13 @@ public class FormulaElement implements Serializable {
 			ressources |= rightChild.getRequiredResources();
 		}
 		if (type == ElementType.SENSOR) {
-			Sensors sensor = Sensors.getSensorByValue(value);
-			switch (sensor) {
+            Sensors sensor;
+            if(value.startsWith("SensorTag")){
+                sensor = Sensors.getSensorByValue( value.substring(value.indexOf(".")+1,value.length()));
+            }else {
+                sensor = Sensors.getSensorByValue(value);
+            }
+            switch (sensor) {
 				case FACE_DETECTED:
 				case FACE_SIZE:
 				case FACE_X_POSITION:

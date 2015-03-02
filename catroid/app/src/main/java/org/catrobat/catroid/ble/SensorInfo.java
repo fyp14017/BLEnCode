@@ -25,6 +25,8 @@ package org.catrobat.catroid.ble;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothGattCharacteristic;
 
+import org.catrobat.catroid.content.bricks.MonitorSensorBrick;
+
 /**
  * @author User HP
  * 
@@ -32,16 +34,29 @@ import android.bluetooth.BluetoothGattCharacteristic;
 @SuppressLint("NewApi")
 public class SensorInfo {
 
-	public static float Temp;
-	public static float Acc_x;
-	public static float Acc_y;
-	public static float Acc_z;
-	public static float Gyro_x;
-	public static float Gyro_y;
-	public static float Gyro_z;
-	public static float Mag_x;
-	public static float Mag_y;
-	public static float Mag_z;
+	public float Temp;
+	public float Acc_x;
+	public float Acc_y;
+	public float Acc_z;
+	public float Gyro_x;
+	public float Gyro_y;
+	public float Gyro_z;
+	public float Mag_x;
+	public float Mag_y;
+	public float Mag_z;
+
+    public SensorInfo(){
+        Temp = 0f;
+        Acc_x =0f;
+        Acc_y=0f;
+        Acc_z=0f;
+        Gyro_x=0f;
+        Gyro_y=0f;
+        Gyro_z=0f;
+        Mag_x=0f;
+        Mag_y=0f;
+        Mag_z=0f;
+    }
 
 	public static float[] extractGyroInfo(BluetoothGattCharacteristic c) {
 		float y = shortSignedAtOffset(c, 0) * (500f / 65536f) * -1;

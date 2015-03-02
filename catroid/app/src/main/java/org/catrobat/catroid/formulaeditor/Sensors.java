@@ -24,6 +24,10 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.util.Log;
 
+import org.catrobat.catroid.content.bricks.MonitorSensorBrick;
+
+import java.util.HashMap;
+
 public enum Sensors {
 	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, LOUDNESS, FACE_DETECTED, FACE_SIZE, FACE_X_POSITION, FACE_Y_POSITION, OBJECT_X(
 			true), OBJECT_Y(true), OBJECT_GHOSTEFFECT(true), OBJECT_BRIGHTNESS(true), OBJECT_SIZE(true), OBJECT_ROTATION(
@@ -32,6 +36,8 @@ public enum Sensors {
 
 	public final boolean isObjectSensor;
 	public static final String TAG = Sensors.class.getSimpleName();
+
+    public static HashMap<String, Sensors> sensorEnumMap;
 
 	Sensors(boolean isObjectSensor) {
 		this.isObjectSensor = true;
@@ -52,9 +58,27 @@ public enum Sensors {
 		try {
 			return valueOf(value);
 		} catch (IllegalArgumentException illegalArgumentException) {
-			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
+            initSensorEnumMapping();
+            return sensorEnumMap.get(value);
+			//Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
 		}
-		return null;
 	}
+
+    private static void initSensorEnumMapping(){
+        sensorEnumMap = new HashMap<String, Sensors>();
+        sensorEnumMap.put("Temperature", SENSOR_TAG_TEMPERATURE);
+        sensorEnumMap.put("Accelerometer_absolute", ACCELEROMETER_ABS);
+        sensorEnumMap.put("Accelerometer_x", ACCELEROMETER_X);
+        sensorEnumMap.put("Accelerometer_y", ACCELEROMETER_Y);
+        sensorEnumMap.put("Accelerometer_z", ACCELEROMETER_Z);
+        sensorEnumMap.put("Gyroscope_x", GYROSCOPE_X);
+        sensorEnumMap.put("Gyroscope_y", GYROSCOPE_Y);
+        sensorEnumMap.put("Gyroscope_z", GYROSCOPE_Z);
+        sensorEnumMap.put("Magnetometer_absolute", MAGNETOMETER_ABS);
+        sensorEnumMap.put("Magnetometer_x", MAGNETOMETER_X);
+        sensorEnumMap.put("Magnetometer_y", MAGNETOMETER_Y);
+        sensorEnumMap.put("Magnetometer_z", MAGNETOMETER_Z);
+        //TODO Humidity vagerah
+    }
 
 }

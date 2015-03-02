@@ -267,9 +267,12 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement sensor() throws InternFormulaParserException {
-		if (!Sensors.isSensor(currentToken.getTokenStringValue())) {
-			throw new InternFormulaParserException("Parse Error");
-		}
+        Log.d("dev", currentToken.getTokenStringValue());
+        Log.d("dev", currentToken.getTokenStringValue().substring(currentToken.getTokenStringValue().indexOf(".")+1,currentToken.getTokenStringValue().length()));
+
+        /*if (!Sensors.isSensor(currentToken.getTokenStringValue().substring(currentToken.getTokenStringValue().indexOf(".")+1,currentToken.getTokenStringValue().length()))) {
+            throw new InternFormulaParserException("Parse Error");
+		}*/
 
 		FormulaElement sensorTree = new FormulaElement(FormulaElement.ElementType.SENSOR,
 				currentToken.getTokenStringValue(), null);

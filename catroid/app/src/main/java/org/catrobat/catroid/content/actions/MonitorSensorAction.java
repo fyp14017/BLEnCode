@@ -106,7 +106,7 @@ public class MonitorSensorAction extends TemporalAction {
                 break;
         }
 		if (sensor.equals(Sensor.TEMPERATURE)) {
-			SensorInfo.Temp = 0f;
+			//SensorInfo.Temp = 0f;
 			BluetoothGattCharacteristic p_config = PreStageActivity.bg.getService(PRESSURE_SERVICE).getCharacteristic(
 					PRESSURE_CONFIG_CHAR);
 			p_config.setValue(new byte[] { 0x02 });

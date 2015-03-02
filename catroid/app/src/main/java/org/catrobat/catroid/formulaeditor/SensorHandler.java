@@ -30,7 +30,9 @@ import android.hardware.SensorEventListener;
 import android.util.Log;
 
 import org.catrobat.catroid.ble.SensorInfo;
+import org.catrobat.catroid.ble.SensorTag;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.stage.PreStageActivity;
 
 @SuppressLint("NewApi")
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
@@ -169,35 +171,46 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 			case LOUDNESS:
 				return Double.valueOf(instance.loudness);
-            case SENSOR_TAG_TEMPERATURE:
-                return (double) SensorInfo.Temp;
-            case ACCELEROMETER_ABS:
-                return Math.sqrt((SensorInfo.Acc_x * SensorInfo.Acc_x) + (SensorInfo.Acc_y * SensorInfo.Acc_y)
-                        + (SensorInfo.Acc_z * SensorInfo.Acc_z));
-            case ACCELEROMETER_X:
-                return (double) SensorInfo.Acc_x;
-            case ACCELEROMETER_Y:
-                return (double) SensorInfo.Acc_y;
-            case ACCELEROMETER_Z:
-                return (double) SensorInfo.Acc_z;
-            case GYROSCOPE_X:
-                return (double) SensorInfo.Gyro_x;
-            case GYROSCOPE_Y:
-                return (double) SensorInfo.Gyro_y;
-            case GYROSCOPE_Z:
-                return (double) SensorInfo.Gyro_z;
-            case MAGNETOMETER_ABS:
-                return Math.sqrt((SensorInfo.Mag_x * SensorInfo.Mag_x) + (SensorInfo.Mag_y * SensorInfo.Mag_y)
-                        + (SensorInfo.Mag_z * SensorInfo.Mag_z));
-            case MAGNETOMETER_X:
-                return (double) SensorInfo.Mag_x;
-            case MAGNETOMETER_Y:
-                return (double) SensorInfo.Mag_y;
-            case MAGNETOMETER_Z:
-                return (double) SensorInfo.Mag_z;
+
 		}
 		return 0d;
 	}
+
+    public static Double getSensorValue(String tagName, Sensors sensor) {
+        Integer tagNumber = Integer.parseInt(tagName.split(" ")[1]);
+        Log.d("dev" , "entered getSensorValue with tag = "+ tagName + " sensor = "+ sensor.name() + " tagNumber = " + tagNumber);
+        SensorTag tag = PreStageActivity.sensorTags.get(tagNumber-1);
+        switch(sensor){
+            case SENSOR_TAG_TEMPERATURE:
+                return (double) tag.info.Temp;
+            case ACCELEROMETER_ABS:
+                return Math.sqrt((tag.info.Acc_x * tag.info.Acc_x) + (tag.info.Acc_y * tag.info.Acc_y)
+                    + (tag.info.Acc_z * tag.info.Acc_z));
+            case ACCELEROMETER_X:
+                return (double) tag.info.Acc_x;
+            case ACCELEROMETER_Y:
+                return (double) tag.info.Acc_y;
+            case ACCELEROMETER_Z:
+                return (double) tag.info.Acc_z;
+            case GYROSCOPE_X:
+                return (double) tag.info.Gyro_x;
+            case GYROSCOPE_Y:
+                return (double) tag.info.Gyro_y;
+            case GYROSCOPE_Z:
+                return (double) tag.info.Gyro_z;
+            case MAGNETOMETER_ABS:
+                return Math.sqrt((tag.info.Mag_x * tag.info.Mag_x) + (tag.info.Mag_y * tag.info.Mag_y)
+                    + (tag.info.Mag_z * tag.info.Mag_z));
+            case MAGNETOMETER_X:
+                return (double) tag.info.Mag_x;
+            case MAGNETOMETER_Y:
+                return (double) tag.info.Mag_y;
+            case MAGNETOMETER_Z:
+                return (double) tag.info.Mag_z;
+        }
+        return 0d;
+    }
+
 
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {

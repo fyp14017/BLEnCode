@@ -158,6 +158,17 @@ public class WhenBrick extends ScriptBrick {
         Spinner spinner = (Spinner) v.findViewById(R.id.brick_when_spinner);
         spinner.setFocusable(false);
         spinner.setFocusableInTouchMode(false);
+        ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
+                android.R.layout.simple_spinner_item);
+        spinnerAdapter.add("Tapped");
+        spinnerAdapter.add("Double Tapped");
+        spinnerAdapter.add("Long Pressed");
+        spinnerAdapter.add("Swipe Up");
+        spinnerAdapter.add("Swipe Down");
+        spinnerAdapter.add("Swipe Left");
+        spinnerAdapter.add("Swipe Right");
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
         spinner.setSelection(0);
         return v;
     }

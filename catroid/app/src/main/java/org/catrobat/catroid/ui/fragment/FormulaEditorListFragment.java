@@ -130,9 +130,9 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
                 ft.hide(this);
                 ft.commit();
             }else{
-                Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
                 bundle.putInt("Tag number", position - (itemsIds.length-1));
-                sensorTagFragment.setArguments(bundle);
+                sensorTagFragment.setArguments(bundle);*/
                 FragmentTransaction ft=fm.beginTransaction();
                 ft.hide(this).show(sensorTagFragment).commit();
             }
