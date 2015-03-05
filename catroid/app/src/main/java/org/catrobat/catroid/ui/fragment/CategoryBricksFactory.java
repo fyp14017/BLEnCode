@@ -155,7 +155,7 @@ public class CategoryBricksFactory {
 	private List<Brick> setupControlCategoryList(Context context) {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
 		controlBrickList.add(new WhenStartedBrick(null));
-		controlBrickList.add(new WhenBrick(null));
+		controlBrickList.add(new WhenBrick(WhenBrick.ScriptAction.TAPPED, WhenBrick.Keys.LEFT_BUTTON, WhenBrick.SensorTag.TAG1));
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 
 		final String broadcastMessage = MessageContainer.getFirst(context);

@@ -73,8 +73,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 		Utils.updateScreenWidthAndHeight(this);
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "eLVYhF8lasRdIv2iaUbYiu7g5yczFEEndwYw8ECM", "ekJo8KK0tivuPNT4O8O3nlfvxt2nFjO3wRi3LlWg");
 		setContentView(R.layout.activity_main_menu);
 
 		final ActionBar actionBar = getSupportActionBar();

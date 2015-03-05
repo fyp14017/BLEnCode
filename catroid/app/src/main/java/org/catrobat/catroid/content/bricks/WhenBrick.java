@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,18 +38,72 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WhenBrick extends ScriptBrick {
     protected WhenScript whenScript;
     private static final long serialVersionUID = 1L;
 
+    public static enum ScriptAction{
+        TAPPED, SENSORTAG_BUTTON_PRESSED, CARD_BUTTON_PRESSED
+    }
+    public static enum Keys{
+        LEFT_BUTTON, RIGHT_BUTTON
+    }
+    public static enum SensorTag{
+        TAG1, TAG2, TAG3, TAG4, TAG5, TAG6, TAG7, TAG8, TAG9, TAG10
+    }
+    private transient ScriptAction actionEnum;
+    private transient Keys keyEnum;
+    private transient SensorTag tagEnum;
+    private String action;
+    private String key;
+    private String tag;
+    private String[] arr = {"Tapped" , "SensorTag Button Pressed", "Card Button Pressed"};
+    private ArrayList<String> options = new ArrayList<String>(Arrays.asList(arr));
+    private ArrayList<String> keys = new ArrayList<String>(Arrays.asList("Left Button","Right Button"));
     public WhenBrick(WhenScript whenScript) {
         this.whenScript = whenScript;
+        String temp = whenScript.getAction();
+        if(temp.startsWith("SENSORTAG")){
+            this.action = temp.split(" ")[0];
+            this.tag = temp.split(" ")[1];
+            this.key = temp.split(" ")[2];
+        }else {
+            this.action = temp;
+            this.key = Keys.LEFT_BUTTON.name();
+            this.tag = SensorTag.TAG1.name();
+        }
+        this.keyEnum = Keys.valueOf(key);
+        this.tagEnum = SensorTag.valueOf(tag);
+        this.actionEnum = ScriptAction.valueOf(action);
     }
+    public WhenBrick(ScriptAction scriptAction, Keys keys1, SensorTag tag){
 
+        this.actionEnum = scriptAction;
+        this.action = scriptAction.name();
+        this.keyEnum = keys1;
+        this.key = keys1.name();
+        this.tagEnum = tag;
+        this.tag = tag.name();
+    }
     public WhenBrick() {
 
+    }
+
+    protected Object readResolve(){
+        if(action != null){
+            actionEnum = ScriptAction.valueOf(action);
+        }
+        if(key!=null){
+            keyEnum = Keys.valueOf(key);
+        }
+        if(tag!=null){
+            tagEnum = SensorTag.valueOf(tag);
+        }
+        return this;
     }
 
     @Override
@@ -91,47 +146,119 @@ public class WhenBrick extends ScriptBrick {
 		 * });
 		 */
 
-        // inactive until spinner has more than one element
+
         final Spinner spinner = (Spinner) view.findViewById(R.id.brick_when_spinner);
         spinner.setFocusable(false);
         spinner.setClickable(true);
         ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
-                android.R.layout.simple_spinner_item);
-        spinnerAdapter.add("Tapped");
-
-        //TODO: not working with OpenGL yet, uncomment this when it does
-        spinnerAdapter.add("Double Tapped");
-        spinnerAdapter.add("Long Pressed");
-        spinnerAdapter.add("Swipe Up");
-        spinnerAdapter.add("Swipe Down");
-        spinnerAdapter.add("Swipe Left");
-        spinnerAdapter.add("Swipe Right");
+                android.R.layout.simple_spinner_item, (List)options);
 
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
+        /*if(actionEnum == null){
+            actionEnum = ScriptAction.valueOf(action);l
+        }*/
+        spinner.setSelection(actionEnum.ordinal());
+
+        final Spinner tagSpinner = (Spinner) view.findViewById(R.id.brick_when_spinner_tag);
+        tagSpinner.setFocusable(false);
+        tagSpinner.setClickable(true);
+        ArrayAdapter<CharSequence> sensorTagAdapter = ArrayAdapter.createFromResource(context, R.array.sensortag_chooser,
+                android.R.layout.simple_spinner_item);
+        sensorTagAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tagSpinner.setAdapter(sensorTagAdapter);
+        tagSpinner.setSelection(tagEnum.ordinal());
+        tagSpinner.setVisibility(View.GONE);
+
+        final Spinner keySpinner = (Spinner) view.findViewById(R.id.brick_when_spinner_key);
+        keySpinner.setFocusable(false);
+        keySpinner.setClickable(true);
+        ArrayAdapter<CharSequence> keySpinnerAdapter = new ArrayAdapter<CharSequence>(context,
+                android.R.layout.simple_spinner_item, (List)keys);
+        keySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        keySpinner.setAdapter(keySpinnerAdapter);
+        keySpinner.setSelection(keyEnum.ordinal());
+        keySpinner.setVisibility(View.GONE);
+
 
         if(whenScript == null){
-            whenScript = new WhenScript();
+            whenScript = new WhenScript(this);
         }
-        if (whenScript.getAction() != null) {
+        /*if (whenScript.getAction() != null) {
             spinner.setSelection(whenScript.getPosition(), true);
+        }*/
+        /*if(action!=null){
+            spinner.setSelection(options.indexOf(action));
         }
+        if(key!=null){
+            keySpinner.setSelection(keys.indexOf(key));
+        }*/
 
-        if (spinner.getSelectedItem() == null) {
-            spinner.setSelection(0);
-        }
+
+
+        /*String temp = options.get(spinner.getSelectedItemPosition());
+        if(temp.startsWith("SensorTag")){
+            whenScript.setAction(temp + " " + keys.get(keySpinner.getSelectedItemPosition()));
+        }else{
+            whenScript.setAction(temp);
+        }*/
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spinner.setSelected(true);
-                whenScript.setAction(position);
                 spinner.setSelection(position);
-                adapter.notifyDataSetChanged();
+                actionEnum = ScriptAction.values()[position];
+                action = actionEnum.name();
+                //action = options.get(position);
+                whenScript.setAction(action);
+                if(action.startsWith("SENSORTAG")){
+                    tagSpinner.setVisibility(View.VISIBLE);
+                    keySpinner.setVisibility(View.VISIBLE);
+                    whenScript.setAction(action+ " " + tag +" " + key);
+                }else{
+                    tagSpinner.setVisibility(View.GONE);
+                    keySpinner.setVisibility(View.GONE);
+                }
+                //adapter.notifyDataSetChanged();
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        tagSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                tagSpinner.setSelected(true);
+                tagSpinner.setSelection(i);
+                tagEnum = SensorTag.values()[i];
+                tag = tagEnum.name();
+                whenScript.setAction(action + " " +tag+" "+key);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        keySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                keySpinner.setSelected(true);
+                keySpinner.setSelection(i);
+                keyEnum = Keys.values()[i];
+                key = keyEnum.name();
+                whenScript.setAction(action + " " +tag+" "+key);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         return view;
     }
 
@@ -159,23 +286,28 @@ public class WhenBrick extends ScriptBrick {
         spinner.setFocusable(false);
         spinner.setFocusableInTouchMode(false);
         ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
-                android.R.layout.simple_spinner_item);
-        spinnerAdapter.add("Tapped");
-        spinnerAdapter.add("Double Tapped");
-        spinnerAdapter.add("Long Pressed");
-        spinnerAdapter.add("Swipe Up");
-        spinnerAdapter.add("Swipe Down");
-        spinnerAdapter.add("Swipe Left");
-        spinnerAdapter.add("Swipe Right");
+                android.R.layout.simple_spinner_item, (List)options);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        spinner.setSelection(0);
+        spinner.setSelection(actionEnum.ordinal());
+
+        Spinner tagSpinner = (Spinner) v.findViewById(R.id.brick_when_spinner_tag);
+        tagSpinner.setFocusable(false);
+        tagSpinner.setFocusableInTouchMode(false);
+        tagSpinner.setSelection(tagEnum.ordinal());
+        tagSpinner.setVisibility(View.GONE);
+
+        Spinner keySpinner = (Spinner) v.findViewById(R.id.brick_when_spinner_key);
+        keySpinner.setFocusable(false);
+        keySpinner.setFocusableInTouchMode(false);
+        keySpinner.setSelection(keyEnum.ordinal());
+        keySpinner.setVisibility(View.GONE);
         return v;
     }
 
     @Override
     public Brick clone() {
-        return new WhenBrick(null);
+        return new WhenBrick(actionEnum, keyEnum, tagEnum);
     }
 
     @Override
@@ -183,13 +315,20 @@ public class WhenBrick extends ScriptBrick {
         if (whenScript == null) {
             whenScript = new WhenScript();
         }
-
+        if(action !=null){
+            if(key !=null) {
+                if (tag != null) {
+                    whenScript.setAction(action + " "+tag+" " + key);
+                } else {
+                    whenScript.setAction(action);
+                }
+            }
+        }
         return whenScript;
     }
 
     @Override
     public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
         return null;
-
     }
 }

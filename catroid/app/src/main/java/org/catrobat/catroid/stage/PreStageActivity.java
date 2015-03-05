@@ -155,6 +155,11 @@ public class PreStageActivity extends BaseActivity {
                         if(gatt.getDevice().getName().equals("SensorTag")) {
                             SensorTagCounter--;
                             sensorTags.add(new SensorTag());
+                            BluetoothGattCharacteristic c = gatt.getService(MonitorSensorAction.SIMPLE_KEY_SERVICE).getCharacteristic(MonitorSensorAction.SIMPLE_KEY_DATA);
+                            gatt.setCharacteristicNotification(c, true);
+                            BluetoothGattDescriptor d = c.getDescriptor(MonitorSensorAction.CONFIG_DESCRIPTOR);
+                            d.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                            gatt.writeDescriptor(d);
                         } else {
                             CardCounter--;
                         }
@@ -162,6 +167,11 @@ public class PreStageActivity extends BaseActivity {
                         startStage();*/
                         if(SensorTagCounter==0 && CardCounter==0) {
                             connectingProgressDialog.dismiss();
+
+                            //Forcibly read SimpleKeys Data
+
+                            //gatt.readCharacteristic(gatt.getService(MonitorSensorAction.SIMPLE_KEY_SERVICE).getCharacteristic(MonitorSensorAction.SIMPLE_KEY_DATA));
+
                             startStage();
                         }else{
                             runOnUiThread(new Runnable() {
@@ -189,6 +199,7 @@ public class PreStageActivity extends BaseActivity {
                         }
                     }
                     Log.d("dev" , "Gatt position = " + gatt_position);
+                    Log.d("dev" , "UUID = " + characteristic.getUuid());
                     if (MonitorSensorAction.PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
                         Log.d("dev", "reading pressure");
                         if (p_cals == null) {
@@ -233,6 +244,33 @@ public class PreStageActivity extends BaseActivity {
 
                         Log.d("dev", "mag_x=" + arr[0] + " mag_y=" + arr[1] + " mag_z=" + arr[2]);
                     }
+                    if(MonitorSensorAction.SIMPLE_KEY_DATA.equals(characteristic.getUuid())){
+                        int resultKey = ((int)characteristic.getValue()[0]) % 4;
+                        List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+                        switch (resultKey){
+                            case 0:
+                                Log.d("dev","Case 0 entered");
+                                break;
+                            case 1:
+                                Log.d("dev","Case 1 entered");
+                                for(Sprite sprite : sprites){
+                                    sprite.look.onKeyfobPressed("SENSORTAG_BUTTON_PRESSED "+"TAG"+ Integer.toString(gatt_position+1) + " RIGHT_BUTTON");
+                                }
+                                break;
+                            case 2:
+                                Log.d("dev","Case 2 entered");
+                                for(Sprite sprite : sprites){
+                                    sprite.look.onKeyfobPressed("SENSORTAG_BUTTON_PRESSED "+"TAG"+ Integer.toString(gatt_position+1) + " LEFT_BUTTON");
+                                }
+                                break;
+                            case 3:
+                                Log.d("dev","Case 3 entered");
+                                break;
+                            default:
+                                Log.d("dev","if entered");
+                                break;
+                        }
+                    }
                 }
 
                 @Override
@@ -244,6 +282,10 @@ public class PreStageActivity extends BaseActivity {
                         }
                     }
                     Log.d("dev" , "Gatt position = " + gatt_position);
+
+                    if(MonitorSensorAction.SIMPLE_KEY_DATA.equals(characteristic.getUuid())){
+                        Log.d("dev","are you reading this?");
+                    }
                     if (MonitorSensorAction.PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
                         Log.d("dev", "reading pressure");
                         if (p_cals == null) {
@@ -559,12 +601,14 @@ public class PreStageActivity extends BaseActivity {
                     getResources().getString(R.string.connecting_please_wait), true);
             connectingProgressDialogFlag=false;
         }else{
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    connectingProgressDialog.show();
-                }
-            });
+            if(!isFinishing()) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        connectingProgressDialog.show();
+                    }
+                });
+            }
         }
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
 		serverIntent.putExtra(DeviceListActivity.AUTO_CONNECT, autoConnect);

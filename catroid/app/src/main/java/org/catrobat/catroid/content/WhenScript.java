@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
+import android.util.Log;
+
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
@@ -64,6 +66,11 @@ public class WhenScript extends Script {
 		this.action = ACTIONS[position];
 	}
 
+    public void setAction(String action) {
+        //this.position = position;
+        this.action = action;
+    }
+
 	public String getAction() {
 		return action;
 	}
@@ -75,7 +82,7 @@ public class WhenScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new WhenBrick(this);
+            brick = new WhenBrick(this);
 		}
 
 		return brick;

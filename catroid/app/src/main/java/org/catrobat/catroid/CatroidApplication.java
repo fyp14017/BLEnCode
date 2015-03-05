@@ -26,6 +26,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.parrot.freeflight.settings.ApplicationSettings;
+import com.parse.Parse;
 
 public class CatroidApplication extends Application {
 
@@ -40,6 +41,8 @@ public class CatroidApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "CatroidApplication onCreate");
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "eLVYhF8lasRdIv2iaUbYiu7g5yczFEEndwYw8ECM", "ekJo8KK0tivuPNT4O8O3nlfvxt2nFjO3wRi3LlWg");
 		settings = new ApplicationSettings(this);
 	}
 

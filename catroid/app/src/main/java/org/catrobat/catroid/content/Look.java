@@ -36,12 +36,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
+import org.catrobat.catroid.ble.LookActionListener;
 import org.catrobat.catroid.common.LookData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
-public class Look extends Image {
+public class Look extends Image implements LookActionListener {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
 	public boolean visible = true;
@@ -55,6 +57,7 @@ public class Look extends Image {
 	private ParallelAction whenParallelAction;
 	private boolean allActionsAreFinished = false;
 	private BrightnessContrastShader shader;
+    private HashMap<String, ParallelAction> whenParallelActions;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -125,11 +128,13 @@ public class Look extends Image {
 
 		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()
 				&& ((pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)))) {
-			if (whenParallelAction == null) {
+
+            onKeyfobPressed("TAPPED");
+            /*if (whenParallelAction == null) {
 				sprite.createWhenScriptActionSequence("Tapped");
 			} else {
 				whenParallelAction.restart();
-			}
+			}*/
 			return true;
 		}
 
@@ -244,6 +249,12 @@ public class Look extends Image {
 	public void setWhenParallelAction(ParallelAction action) {
 		whenParallelAction = action;
 	}
+
+    public void addWhenActionToMap(String keyAction, ParallelAction action){
+        if(whenParallelActions != null){
+            whenParallelActions.put(keyAction,action);
+        }
+    }
 
 	public float getXInUserInterfaceDimensionUnit() {
 		return getX() + getWidth() / 2f;
@@ -367,7 +378,27 @@ public class Look extends Image {
 		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
 	}
 
-	private class BrightnessContrastShader extends ShaderProgram {
+    @Override
+    public void onKeyfobPressed(String keyAction) {
+
+        if(whenParallelActions == null){
+            whenParallelActions = new HashMap<String, ParallelAction>();
+        }
+        if(whenParallelActions.containsKey(keyAction)){
+            whenParallelActions.get(keyAction).restart();
+        }else{
+            sprite.createWhenScriptActionSequence(keyAction);
+        }
+
+
+        /*if (whenParallelAction == null) {
+            sprite.createWhenScriptActionSequence(keyAction);
+        } else {
+            whenParallelAction.restart();
+        }*/
+    }
+
+    private class BrightnessContrastShader extends ShaderProgram {
 
 		private static final String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
 				+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" + "attribute vec2 "

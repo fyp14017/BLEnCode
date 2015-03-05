@@ -23,6 +23,7 @@
 package org.catrobat.catroid.stage;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGatt;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -190,14 +191,16 @@ public class StageActivity extends AndroidApplication {
 			droneConnection.destroy();
 		}
 		Log.d(TAG, "Destroy");
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                for(int a =0 ; a < PreStageActivity.SensorTagCounter; a++){
-                    PreStageActivity.bgs[a] = null;
-                }
-            }
-        });
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter.isEnabled()) {
+            mBluetoothAdapter.disable();
+        }
+        for(int a =0 ; a < PreStageActivity.SensorTagCounter; a++){
+            PreStageActivity.bgs[a].disconnect();
+            PreStageActivity.bgs[a] = null;
+        }
+        PreStageActivity.SensorTagCounter=0;
+        PreStageActivity.CardCounter=0;
 		LedUtil.destroy();
 		VibratorUtil.destroy();
 		super.onDestroy();
