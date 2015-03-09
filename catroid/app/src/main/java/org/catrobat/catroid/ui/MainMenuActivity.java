@@ -54,6 +54,7 @@ import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ParseProjectUploadManager;
 
 import java.util.concurrent.locks.Lock;
 
@@ -256,7 +257,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
+        ParseProjectUploadManager p = new ParseProjectUploadManager(this);
+        p.uploadProject();
+		//ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 	}
 
 	private void loadProgramFromExternalSource(Uri loadExternalProjectUri) {
