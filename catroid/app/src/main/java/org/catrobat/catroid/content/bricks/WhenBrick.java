@@ -168,7 +168,7 @@ public class WhenBrick extends ScriptBrick {
         sensorTagAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tagSpinner.setAdapter(sensorTagAdapter);
         tagSpinner.setSelection(tagEnum.ordinal());
-        tagSpinner.setVisibility(View.GONE);
+        tagSpinner.setVisibility(View.INVISIBLE);
 
         final Spinner keySpinner = (Spinner) view.findViewById(R.id.brick_when_spinner_key);
         keySpinner.setFocusable(false);
@@ -178,7 +178,7 @@ public class WhenBrick extends ScriptBrick {
         keySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         keySpinner.setAdapter(keySpinnerAdapter);
         keySpinner.setSelection(keyEnum.ordinal());
-        keySpinner.setVisibility(View.GONE);
+        keySpinner.setVisibility(View.INVISIBLE);
 
 
         if(whenScript == null){
@@ -217,8 +217,8 @@ public class WhenBrick extends ScriptBrick {
                     keySpinner.setVisibility(View.VISIBLE);
                     whenScript.setAction(action+ " " + tag +" " + key);
                 }else{
-                    tagSpinner.setVisibility(View.GONE);
-                    keySpinner.setVisibility(View.GONE);
+                    tagSpinner.setVisibility(View.INVISIBLE);
+                    keySpinner.setVisibility(View.INVISIBLE);
                 }
                 //adapter.notifyDataSetChanged();
             }
@@ -295,13 +295,13 @@ public class WhenBrick extends ScriptBrick {
         tagSpinner.setFocusable(false);
         tagSpinner.setFocusableInTouchMode(false);
         tagSpinner.setSelection(tagEnum.ordinal());
-        tagSpinner.setVisibility(View.GONE);
+        tagSpinner.setVisibility(View.INVISIBLE);
 
         Spinner keySpinner = (Spinner) v.findViewById(R.id.brick_when_spinner_key);
         keySpinner.setFocusable(false);
         keySpinner.setFocusableInTouchMode(false);
         keySpinner.setSelection(keyEnum.ordinal());
-        keySpinner.setVisibility(View.GONE);
+        keySpinner.setVisibility(View.INVISIBLE);
         return v;
     }
 
