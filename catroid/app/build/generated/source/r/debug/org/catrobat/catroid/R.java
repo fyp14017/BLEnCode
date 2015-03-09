@@ -1450,9 +1450,9 @@ containing a value of this type.
         public static final int dialog_upload_size_of_project=0x7f0b01f0;
         public static final int disableHome=0x7f0b000c;
         public static final int drag_and_drop_list_view_image_view=0x7f0b0006;
-        public static final int editText=0x7f0b0246;
-        public static final int editText2=0x7f0b0247;
-        public static final int editText3=0x7f0b0248;
+        public static final int editText=0x7f0b0247;
+        public static final int editText2=0x7f0b0248;
+        public static final int editText3=0x7f0b0246;
         public static final int editText4=0x7f0b0243;
         public static final int editText5=0x7f0b0244;
         public static final int edit_query=0x7f0b0029;
@@ -1827,10 +1827,11 @@ containing a value of this type.
         public static final int fragment_sprites_list=0x7f0300a4;
         public static final int list=0x7f0300a5;
         public static final int parse_upload=0x7f0300a6;
-        public static final int sherlock_spinner_dropdown_item=0x7f0300a7;
-        public static final int sherlock_spinner_item=0x7f0300a8;
-        public static final int signin_fields=0x7f0300a9;
-        public static final int signup_fields=0x7f0300aa;
+        public static final int reset_password_fields=0x7f0300a7;
+        public static final int sherlock_spinner_dropdown_item=0x7f0300a8;
+        public static final int sherlock_spinner_item=0x7f0300a9;
+        public static final int signin_fields=0x7f0300aa;
+        public static final int signup_fields=0x7f0300ab;
     }
     public static final class menu {
         public static final int context_menu_default=0x7f100000;

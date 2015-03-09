@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -34,6 +33,8 @@ public class ParseProjectUploadManager {
 
     public void uploadProject(){
         final ParseUser currentUser = ParseUser.getCurrentUser();
+        /*ParseUser.logOut();
+        return;*/
         if (currentUser != null) {
             // do stuff with the user
 
@@ -139,7 +140,7 @@ public class ParseProjectUploadManager {
                                         dialogInterface.dismiss();
                                     } else {
                                         // Signup failed. Look at the ParseException to see what happened.
-                                        Toast.makeText(context, "Wrong username and/or password",Toast.LENGTH_SHORT);
+                                        Toast.makeText(context, "Wrong username and/or password",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -171,7 +172,7 @@ public class ParseProjectUploadManager {
                                                         // Hooray! Let them use the app now.
                                                         dialogInterface.dismiss();
                                                     } else {
-                                                        Toast.makeText(context, "Username/email already exists. Please use unique credentials",Toast.LENGTH_SHORT);
+                                                        Toast.makeText(context, "Username/email already exists. Please use unique credentials",Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             });
@@ -186,7 +187,31 @@ public class ParseProjectUploadManager {
                     .setNeutralButton("Reset Password", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-
+                            AlertDialog.Builder resetDialog = new AlertDialog.Builder(context);
+                            LayoutInflater li = LayoutInflater.from(context);
+                            View resetView = li.inflate(R.layout.reset_password_fields, null);
+                            final EditText email = (EditText) resetView.findViewById(R.id.editText3);
+                            resetDialog.setTitle("Password Reset")
+                                    .setView(resetView)
+                                    .setNeutralButton("Reset Password", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(final DialogInterface dialogInterface, int i) {
+                                            ParseUser.requestPasswordResetInBackground(email.getText().toString(),
+                                                    new RequestPasswordResetCallback() {
+                                                        public void done(ParseException e) {
+                                                            if (e == null) {
+                                                                // An email was successfully sent with reset instructions.
+                                                                Toast.makeText(context,"An email was successfully sent with reset instructions",Toast.LENGTH_SHORT).show();
+                                                                dialogInterface.dismiss();
+                                                            } else {
+                                                                // Something went wrong. Look at the ParseException to see what's up.
+                                                                Toast.makeText(context,"An email could not be sent. Please try again",Toast.LENGTH_SHORT).show();
+                                                                dialogInterface.dismiss();
+                                                            }
+                                                        }
+                                                    });
+                                        }
+                                    }).create().show();
                         }
                     }).create().show();
 
