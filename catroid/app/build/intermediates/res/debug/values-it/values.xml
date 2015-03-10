@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/values-it/strings.xml -->
+    <!-- From: file:/C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/values-it/strings.xml -->
     <eat-comment/>
     <plurals name="brick_go_back_layer_plural">
     <item quantity="one">layer</item>

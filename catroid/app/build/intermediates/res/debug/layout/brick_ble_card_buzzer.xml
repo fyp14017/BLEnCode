@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2013 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <CheckBox
+        android:id="@+id/brick_ble_cardbuzzer_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+
+    <org.catrobat.catroid.ui.BrickLayout
+        android:id="@+id/brick_ble_cardbuzzer_layout"
+        style="@style/BrickContainer.Lego.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/ble_cardbuzzer_label"
+                style="@style/BrickText.SingleLine"
+                android:text="Sound Card Buzzer" >
+            </TextView>
+
+            <!--<TextView
+                android:id="@+id/frequency_label"
+                android:layout_below="@id/ble_cardbuzzer_label"
+                android:layout_marginTop="15dp"
+                android:text="Frequency"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+            <TextView
+                 android:id="@+id/buzzer_frequency_divider"
+                 style="@style/BrickPrototypeTextView"
+                 android:layout_toRightOf="@id/frequency_label"
+                 android:layout_marginTop="19dp"/>
+            <TextView
+                android:id="@+id/khz_label"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/buzzer_frequency_divider"
+                android:layout_below="@id/ble_cardbuzzer_label"
+                android:layout_marginTop="15dp"
+                android:text="kHz" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/duty_cycle_divider_label"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/frequency_label"
+                android:layout_marginTop="21dp"
+                android:text="Duty Cycle Divider" />
+
+            <TextView
+                android:id="@+id/buzzer_duty_cycle_divider"
+                style="@style/BrickPrototypeTextView"
+                android:layout_toRightOf="@id/duty_cycle_divider_label"
+                android:layout_below="@id/buzzer_frequency_divider"
+                />
+
+            <TextView
+                android:id="@+id/time_last_label"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/duty_cycle_divider_label"
+                android:layout_marginTop="20dp"
+                android:text="Time Last" />
+
+            <TextView
+                android:id="@+id/buzzer_time_last"
+                style="@style/BrickPrototypeTextView"
+                android:layout_toRightOf="@id/time_last_label"
+                android:layout_below="@id/buzzer_duty_cycle_divider" />-->
+
+        </RelativeLayout>
+
+
+    </org.catrobat.catroid.ui.BrickLayout>
+
+</LinearLayout><!-- From: file:/C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/brick_ble_card_buzzer.xml -->
