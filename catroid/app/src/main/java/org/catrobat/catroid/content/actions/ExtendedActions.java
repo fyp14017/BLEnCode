@@ -198,6 +198,13 @@ public class ExtendedActions extends Actions {
         return action;
     }
 
+    public static CardBuzzerAction cardBuzzerAction()
+    {
+        CardBuzzerAction action = action(CardBuzzerAction.class);
+        //TODO: Set Enum??
+        return action;
+    }
+
 	public static LegoNxtPlayToneAction legoNxtPlayTone(Sprite sprite, Formula hertz, Formula durationInSeconds) {
 		LegoNxtPlayToneAction action = action(LegoNxtPlayToneAction.class);
 		action.setHertz(hertz);
@@ -483,4 +490,6 @@ public class ExtendedActions extends Actions {
 		action.setDuration(duration);
 		return action;
 	}
+
+
 }

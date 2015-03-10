@@ -39,4 +39,4 @@
         android:id="@+id/context_menu_upload"
         android:title="@string/upload_button" />
 
-</menu><!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/menu/context_menu_my_projects.xml -->
+</menu><!-- From: file:/C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/menu/context_menu_my_projects.xml -->

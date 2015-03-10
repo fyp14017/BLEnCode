@@ -21,10 +21,22 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.stage.PreStageActivity;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ConnectCardBrick extends BrickBaseType implements OnItemSelectedListener
 {
     private static final long serialVersionUID = 1L;
+
+    public static final UUID UUID_SERVICE = UUID.fromString("d88e0800-0820-11e4-9191-0800200c9a66");
+    public static final UUID UUID_LED = UUID.fromString("d88e0801-0820-11e4-9191-0800200c9a66");
+    public static final UUID UUID_BUZZER = UUID.fromString("d88e0802-0820-11e4-9191-0800200c9a66");
+    public static final UUID UUID_BUTTON = UUID.fromString("d88e0803-0820-11e4-9191-0800200c9a66");
+    public static final UUID UUID_NAME = UUID.fromString("d88e0804-0820-11e4-9191-0800200c9a66");
+    public static final UUID UUID_CLASS = UUID.fromString("d88e0805-0820-11e4-9191-0800200c9a66");
+    public static final UUID UUID_SCHOOL = UUID.fromString("d88e0806-0820-11e4-9191-0800200c9a66");
+    public static final UUID UUID_CARDNAME = UUID.fromString("d88e0807-0820-11e4-9191-0800200c9a66");
+    public static final UUID UUID_ADINFO = UUID.fromString("d88e0808-0820-11e4-9191-0800200c9a66");
+    public static final UUID UUID_OAD = UUID.fromString("d88e0809-0820-11e4-9191-0800200c9a66");
 
     private transient AdapterView<?> adapterView;
 

@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
+import org.catrobat.catroid.content.bricks.CardBuzzerBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -261,6 +262,7 @@ public class CategoryBricksFactory {
         BLESensorsBrickList.add(new ConnectSensorTagBrick(sprite, ConnectSensorTagBrick.SensorTag.TAG1));
         BLESensorsBrickList.add(new MonitorSensorBrick(sprite, MonitorSensorBrick.Sensor.TEMPERATURE, MonitorSensorBrick.SensorTag.TAG1));
         BLESensorsBrickList.add(new ConnectCardBrick(sprite));
+        BLESensorsBrickList.add(new CardBuzzerBrick(sprite));
         return BLESensorsBrickList;
     }
 
