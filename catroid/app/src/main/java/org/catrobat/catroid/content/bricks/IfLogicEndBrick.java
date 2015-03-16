@@ -57,6 +57,11 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		elseBrick.setIfEndBrick(this);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "The brick is used to inform the application that the if-else-if conditions are over.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

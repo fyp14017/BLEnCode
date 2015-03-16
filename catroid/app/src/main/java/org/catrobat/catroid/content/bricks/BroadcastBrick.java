@@ -64,6 +64,13 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		MessageContainer.addMessage(broadcastMessage);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to send a message or notify other components of the application that a specific action has taken place." +
+                "\n\n The component can receive this broadcast by using “When I Receive” brick and perform some actions depending on " +
+                "the message/notification. ";
+    }
+
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		BroadcastBrick copyBrick = (BroadcastBrick) clone();

@@ -52,10 +52,7 @@ public class ParseProjectUploadManager {
                                     name.getText().toString());
                             String projectName = Utils.getCurrentProjectName(context);
                             String projectPath = Constants.DEFAULT_ROOT + "/" + projectName;
-                            if (projectPath == null) {
-                                Log.d("dev", "project path is null");
-                                return;
-                            }
+
 
                             File directoryPath = new File(projectPath);
                             String[] paths = directoryPath.list();
@@ -64,10 +61,16 @@ public class ParseProjectUploadManager {
                                 Log.d("dev", "project path is not valid");
                                 return;
                             }
-
+                            File screenshot = null;
                             for (int j = 0; j < paths.length; j++) {
                                 paths[j] = Utils.buildPath(directoryPath.getAbsolutePath(), paths[j]);
+                                if(paths[j].endsWith("automatic_screenshot.png")){
+                                    Log.d("dev" , "paths[j] = " + paths[j]);
+                                    screenshot = new File(paths[j]);
+                                }
                             }
+
+
 
                             String zipFileString = Utils.buildPath(Constants.TMP_PATH, "upload.catrobat");
                             File zipFile = new File(zipFileString);
@@ -94,6 +97,16 @@ public class ParseProjectUploadManager {
                                 e.printStackTrace();
                             }
 
+                            byte[] imageData = new byte[(int) screenshot.length()];
+                            FileInputStream image = null;
+                            try {
+                                image = new FileInputStream(screenshot);
+                                image.read(imageData);
+                                image.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
                             ParseFile pf = new ParseFile(name.getText().toString() + ".zip", fileData);
                             try {
                                 pf.save();
@@ -101,11 +114,20 @@ public class ParseProjectUploadManager {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
+                            ParseFile parseFile = new ParseFile("screenshot.png" , imageData);
+                            try {
+                                parseFile.save();
+                            } catch (ParseException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+
                             ParseObject parseZipFile = new ParseObject("test3");
                             parseZipFile.put("username", currentUser.getUsername());
                             parseZipFile.put("projectName", name.getText().toString());
                             parseZipFile.put("description", description.getText().toString());
                             parseZipFile.put("zipFileData", pf);
+                            parseZipFile.put("screenshot", parseFile);
                             try {
                                 parseZipFile.save();
                             } catch (ParseException e) {

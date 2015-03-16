@@ -66,6 +66,12 @@ public class SetGhostEffectBrick extends FormulaBrick implements OnClickListener
 		setFormulaWithBrickField(BrickField.TRANSPARENCY, transparency);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to set the transparency of the object. " +
+                "\n\nHigher the percentage, more transparent the object would be. ";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.TRANSPARENCY).getRequiredResources();

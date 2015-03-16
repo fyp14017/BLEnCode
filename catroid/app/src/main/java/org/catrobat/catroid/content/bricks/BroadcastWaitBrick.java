@@ -58,6 +58,12 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 		return copyBrick;
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to send a message or notification to other components of the application " +
+                "and wait for some action to have taken place on the message/notification.";
+    }
+
 	@Override
 	public Brick clone() {
 		return new BroadcastWaitBrick(broadcastMessage);

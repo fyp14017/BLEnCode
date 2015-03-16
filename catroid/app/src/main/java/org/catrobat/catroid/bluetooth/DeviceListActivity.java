@@ -102,7 +102,7 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
         paired = new ArrayList<BluetoothDevice>();
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.device_list);
-        setTitle("Select SensorTag device");
+        setTitle("Select BLE device");
 
         setResult(Activity.RESULT_CANCELED);
 

@@ -72,6 +72,11 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 		return view;
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to remove all graphics effect from the object, like set the brightness and transparency of the object to their default value. ";
+    }
+
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		ClearGraphicEffectBrick copyBrick = (ClearGraphicEffectBrick) clone();

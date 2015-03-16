@@ -170,6 +170,10 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 		return view;
 	}
 
+    public String brickTutorial(){
+        return "Allows the user to pause the running of the app by the specified amount of time in seconds.";
+    }
+
 	@Override
 	public void onClick(View view) {
 		if (checkbox.getVisibility() == View.VISIBLE) {

@@ -46,6 +46,11 @@ public class LedOffBrick extends BrickBaseType {
 
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to switch off the flashlight of the smart phone.";
+    }
+
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {

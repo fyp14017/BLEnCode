@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/values-v14/strings-global.xml -->
+    <!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/values-v14/strings-global.xml -->
     <eat-comment/>
     <string name="animation_cache_enabled">true</string>
     <string name="scrolling_cache_enabled">true</string>
-    <!-- From: file:/C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/res/values-v14/values.xml -->
+    <!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/res/values-v14/values.xml -->
     <eat-comment/>
     <style name="Sherlock.__Theme" parent="android:Theme.Holo"/>
     <style name="Sherlock.__Theme.DarkActionBar" parent="android:Theme.Holo.Light.DarkActionBar">

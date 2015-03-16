@@ -65,6 +65,11 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 		initializeBrickFields(new Formula(timesToRepeatValue));
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Allows the user to repeat a set of actions for a specified number of times.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).getRequiredResources();

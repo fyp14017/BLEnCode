@@ -57,6 +57,12 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 		initializeBrickFields(new Formula(brightnessValue));
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to set the brightness of the object. " +
+                "\n\nHigher the percentage, more bright the object would be.";
+    }
+
 	public SetBrightnessBrick(Formula brightness) {
 		initializeBrickFields(brightness);
 	}

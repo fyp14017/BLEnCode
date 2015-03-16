@@ -71,6 +71,13 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 		setFormulaWithBrickField(BrickField.IF_CONDITION, ifCondition);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Allows the user to specify a condition, depending on which a particular action should take place. " +
+                "\n\nHelps when the application is in a state where it faces multiple scenarios and has to choose one. " +
+                "\n\nIf the first condition is true, then it skips all other conditions in the if-else-if block.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.IF_CONDITION).getRequiredResources();

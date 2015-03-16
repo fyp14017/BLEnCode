@@ -45,6 +45,11 @@ public class StopAllSoundsBrick extends BrickBaseType {
 
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to stop all the sounds that had started playing by using “Play Sound”.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

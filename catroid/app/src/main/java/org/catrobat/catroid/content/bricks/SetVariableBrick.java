@@ -80,6 +80,14 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		setFormulaWithBrickField(BrickField.VARIABLE, variableFormula);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Allows the user to set a variable (used to represent the data) for all objects or a specific object. " +
+                "\n\nWhen the program is executed, the variables are replaced with real data. " +
+                "\n\nThis makes it possible for the same program to process different sets of data. " +
+                "\n\nSetting a variable for an object makes the program more flexible for the user. ";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.VARIABLE).getRequiredResources();

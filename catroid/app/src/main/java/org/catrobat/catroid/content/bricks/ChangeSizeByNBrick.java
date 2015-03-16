@@ -66,6 +66,12 @@ public class ChangeSizeByNBrick extends FormulaBrick implements OnClickListener 
 		setFormulaWithBrickField(BrickField.SIZE_CHANGE, size);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to change the size of the object by some percentage (N%). " +
+                "\n\nPositive N increases the size while negative N decreases the size. ";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.SIZE_CHANGE).getRequiredResources();

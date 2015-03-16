@@ -263,6 +263,12 @@ public class WhenBrick extends ScriptBrick {
     }
 
     @Override
+    public String brickTutorial(){
+        return "Allows user to set controls on what the app should do if the user performs an action like tap or " +
+                "press the buttons on SesnorTag devices ";
+    }
+
+    @Override
     public View getViewWithAlpha(int alphaValue) {
 
         if (view != null) {

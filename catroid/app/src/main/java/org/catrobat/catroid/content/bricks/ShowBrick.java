@@ -45,6 +45,11 @@ public class ShowBrick extends BrickBaseType {
 
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to show the object on the screen.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

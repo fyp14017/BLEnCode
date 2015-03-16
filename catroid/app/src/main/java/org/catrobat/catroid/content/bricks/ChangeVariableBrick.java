@@ -91,6 +91,11 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		setFormulaWithBrickField(BrickField.VARIABLE_CHANGE, variableFormula);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Allows the user to adjust the value of a variable by N values.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).getRequiredResources();

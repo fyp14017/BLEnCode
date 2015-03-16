@@ -66,6 +66,12 @@ public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickLis
 		setFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE, changeBrightness);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to adjust the brightness of the object. " +
+                "\n\nHigher the percentage, more bright the object would be.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).getRequiredResources();

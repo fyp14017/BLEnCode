@@ -66,6 +66,12 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		return copyBrick;
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to receive messages/notifications sent by other components of the app, " +
+                "depending on which the application can perform further actions.";
+    }
+
 	@Override
 	public Brick clone() {
 		return new BroadcastReceiverBrick(new BroadcastScript(getBroadcastMessage()));

@@ -68,6 +68,11 @@ public class CardBuzzerBrick extends BrickBaseType implements OnItemSelectedList
     }
 
     @Override
+    public String brickTutorial(){
+        return "Activates the buzzer on the MIDBot eCard device.\n";
+    }
+
+    @Override
     public View getPrototypeView(Context context) {
         View prototypeView = View.inflate(context, R.layout.brick_ble_card_buzzer, null);
         return prototypeView;

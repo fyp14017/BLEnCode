@@ -67,6 +67,12 @@ public class ChangeVolumeByNBrick extends FormulaBrick implements OnClickListene
 		setFormulaWithBrickField(BrickField.VOLUME_CHANGE, volume);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to change the volume of the sound being played by N. " +
+                "\n\nPositive N means increase the volume by N, negative N means decrease the volume by N.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.VOLUME).getRequiredResources();

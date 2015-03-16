@@ -85,6 +85,12 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		return copyBrick;
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Allows the user to change the background of the screen. " +
+                "\n\nExample change the screen color from red to green if the value of a variable changes.";
+    }
+
 	public String getImagePath() {
 		return look.getAbsolutePath();
 	}

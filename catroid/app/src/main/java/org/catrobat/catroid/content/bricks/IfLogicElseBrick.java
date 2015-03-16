@@ -55,6 +55,11 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 		ifBeginBrick.setIfElseBrick(this);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Allows the user to set a default action that the application should perform if all the specified conditions stand false.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

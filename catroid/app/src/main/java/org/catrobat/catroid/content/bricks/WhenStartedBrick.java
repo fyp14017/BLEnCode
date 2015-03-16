@@ -126,6 +126,11 @@ public class WhenStartedBrick extends ScriptBrick {
 		return view;
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "This brick marks what should happen when the app is just launched.";
+    }
+
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;

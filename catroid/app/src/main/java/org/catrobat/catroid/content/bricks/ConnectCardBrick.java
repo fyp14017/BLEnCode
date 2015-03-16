@@ -93,6 +93,12 @@ public class ConnectCardBrick extends BrickBaseType implements OnItemSelectedLis
     }
 
     @Override
+    public String brickTutorial(){
+        return "Allows apps to connect to the MIDBot eCard and discover all services on the device.\n\n"
+                + "Uses Bluetooth 4.0 and Bluetooth Low-Energy frameworks to connect to MIDBot eCard devices.";
+    }
+
+    @Override
     public List<SequenceAction> addActionToSequence(Sprite s, SequenceAction sequence)
     {
         sequence.addAction(ExtendedActions.connectCardAction());

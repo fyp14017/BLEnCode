@@ -53,6 +53,11 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Allows the user to repeat a set of actions continuously throughout the running of the application.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

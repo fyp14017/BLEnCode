@@ -67,6 +67,12 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 		setFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE, changeGhostEffect);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to adjust the transparency of the object. " +
+                "\n\nHigher the percentage, more transparent the object would be.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).getRequiredResources();

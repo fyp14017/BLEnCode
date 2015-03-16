@@ -86,4 +86,4 @@
         android:onClick="handleUploadButton"
         android:text="@string/main_menu_upload" />
 
-</LinearLayout><!-- From: file:/C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/activity_main_menu.xml -->
+</LinearLayout><!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/activity_main_menu.xml -->

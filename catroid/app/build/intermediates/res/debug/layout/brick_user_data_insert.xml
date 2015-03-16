@@ -28,4 +28,4 @@
     android:minHeight="@dimen/brick_data_edit_cursor_size"
     android:src="@drawable/brick_data_insert" >
 
-</ImageView><!-- From: file:/C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/brick_user_data_insert.xml -->
+</ImageView><!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/brick_user_data_insert.xml -->

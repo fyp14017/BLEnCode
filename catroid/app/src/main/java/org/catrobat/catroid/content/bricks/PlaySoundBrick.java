@@ -65,6 +65,12 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Allows user to add a sound to their application logic. " +
+                "\n\nExample, play a sound from the phone if the value of a variable changes. ";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

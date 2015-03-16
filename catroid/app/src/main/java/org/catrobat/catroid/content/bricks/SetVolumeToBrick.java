@@ -66,6 +66,11 @@ public class SetVolumeToBrick extends FormulaBrick implements OnClickListener {
 		setFormulaWithBrickField(BrickField.VOLUME, volume);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to set the volume of the sound that is being played";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.VOLUME).getRequiredResources();

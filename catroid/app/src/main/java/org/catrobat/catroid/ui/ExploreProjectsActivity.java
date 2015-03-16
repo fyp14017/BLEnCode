@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,12 +34,13 @@ import java.util.*;
 public class ExploreProjectsActivity extends Activity {
     static MyArrayAdapter adapter;
     static List<String> data = new ArrayList<String>();
+    static List<Bitmap> screenshots = new ArrayList<Bitmap>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explore_projects);
         data.clear();
-        adapter = new MyArrayAdapter(this, data);
+        adapter = new MyArrayAdapter(this, data, screenshots);
         ListView list = (ListView) findViewById(R.id.listView);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -114,11 +117,30 @@ public class ExploreProjectsActivity extends Activity {
                         tempData[0] = p.getString("projectName") + " (" + p.getString("username")+")";
                         tempData[1] = p.getString("description");
                         tempData[2] = p.getObjectId();
+                        final Bitmap bmp;
+
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("test3");
+                        query.whereEqualTo("objectId", tempData[2]);
+                        ParseObject imageObject = null;
+                        try {
+                            imageObject = query.getFirst();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+
+                        ParseFile image = (ParseFile) imageObject.get("screenshot");
+                        byte[] imageData = null;
+                        try {
+                            imageData = image.getData();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+                        bmp = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
                         final String singleTempData = tempData[0] + "oCISxD" +tempData[1] + "oCISxD" +tempData[2];
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                addItem(singleTempData);
+                                addItem(singleTempData,bmp);
                             }
                         });
                     }
@@ -128,9 +150,11 @@ public class ExploreProjectsActivity extends Activity {
             }
         });
     }
-    public static void addItem(String s){
+    public static void addItem(String s, Bitmap bmp){
         //data.clear();
         data.add(s);
+        adapter.notifyDataSetChanged();
+        screenshots.add(bmp);
         adapter.notifyDataSetChanged();
     }
 }

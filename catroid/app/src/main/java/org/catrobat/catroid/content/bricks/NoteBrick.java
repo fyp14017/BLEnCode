@@ -61,6 +61,12 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 		setFormulaWithBrickField(BrickField.NOTE, note);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Add some comment to the script for future reference." +
+                "\n\n Does not affect the running of the application.";
+    }
+
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {

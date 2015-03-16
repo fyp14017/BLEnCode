@@ -64,6 +64,11 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 		setFormulaWithBrickField(BrickField.SPEAK, speak);
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to speak out a phrase or a word through the smart phone when a certain action takes place. ";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return TEXT_TO_SPEECH;

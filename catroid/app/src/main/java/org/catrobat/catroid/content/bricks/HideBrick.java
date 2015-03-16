@@ -46,6 +46,11 @@ public class HideBrick extends BrickBaseType {
 
 	}
 
+    @Override
+    public String brickTutorial(){
+        return "Used to hide the object from the screen.";
+    }
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
