@@ -747,6 +747,10 @@
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
  	<string name="brick_single">Brick</string>
  	<string name="brick_multiple">Bricks</string>
+    <string name="title_activity_proximity_sensor">ProximitySensors</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
  	
  	<!-- -->    
 

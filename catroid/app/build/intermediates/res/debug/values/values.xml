@@ -127,6 +127,8 @@
     <!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="actionbar_height">48dip</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="brick_category_height">90dp</dimen>
     <dimen name="brick_data_edit_cursor_size">58dp</dimen>
     <dimen name="brick_edit_text_and_prototype_text_view_minimum_width">48dp</dimen>
@@ -225,6 +227,7 @@
     <string name="abs__shareactionprovider_share_with_application">Share with <ns1:g example="Bluetooth" id="application_name">%s</ns1:g></string>
     <!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="action_settings">Settings</string>
     <string name="add_line_break">Add Line Break</string>
     <string name="add_look_choose_image">Select image</string>
     <string name="add_look_draw_new_image">Draw image</string>
@@ -577,6 +580,7 @@
     <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
     <string name="fragment_script_text_description">Tap \"+\" to add Scripts</string>
     <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
+    <string name="hello_world">Hello world!</string>
     <string name="hide_details">Hide Details</string>
     <string name="insert_below">Insert Below</string>
     <string name="last_used">Last access:</string>
@@ -788,6 +792,7 @@
     <eat-comment/>
     <string name="text_hint">Brick Text</string>
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+    <string name="title_activity_proximity_sensor">ProximitySensors</string>
     <string name="title_other_devices">New devices</string>
     <string name="title_paired_devices">Paired devices</string>
     <string name="to_label">to</string>

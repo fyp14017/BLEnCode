@@ -22,14 +22,19 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -37,6 +42,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +53,7 @@ public class WhenBrick extends ScriptBrick {
     private static final long serialVersionUID = 1L;
 
     public static enum ScriptAction{
-        TAPPED, SENSORTAG_BUTTON_PRESSED, CARD_BUTTON_PRESSED
+        TAPPED, SENSORTAG_BUTTON_PRESSED, BLE_PROXIMITY
     }
     public static enum Keys{
         LEFT_BUTTON, RIGHT_BUTTON
@@ -58,16 +64,23 @@ public class WhenBrick extends ScriptBrick {
     private transient ScriptAction actionEnum;
     private transient Keys keyEnum;
     private transient SensorTag tagEnum;
+    private String mac;
     private String action;
     private String key;
     private String tag;
-    private String[] arr = {"Tapped" , "SensorTag Button Pressed", "Card Button Pressed"};
+    private String[] arr = {"Tapped" , "SensorTag Button Pressed", "BLE Device in proximity"};
     private ArrayList<String> options = new ArrayList<String>(Arrays.asList(arr));
     private ArrayList<String> keys = new ArrayList<String>(Arrays.asList("Left Button","Right Button"));
     public WhenBrick(WhenScript whenScript) {
         this.whenScript = whenScript;
         String temp = whenScript.getAction();
-        if(temp.startsWith("SENSORTAG")){
+        Log.d("dev", "temp starts with "+ temp);
+        if(temp.startsWith("BLE_PROXIMITY")){
+            this.action = temp.split(" ")[0];
+            this.mac = temp.split(" ")[1];
+            this.key = Keys.LEFT_BUTTON.name();
+            this.tag = SensorTag.TAG1.name();
+        }else if(temp.startsWith("SENSORTAG")){
             this.action = temp.split(" ")[0];
             this.tag = temp.split(" ")[1];
             this.key = temp.split(" ")[2];
@@ -80,8 +93,8 @@ public class WhenBrick extends ScriptBrick {
         this.tagEnum = SensorTag.valueOf(tag);
         this.actionEnum = ScriptAction.valueOf(action);
     }
-    public WhenBrick(ScriptAction scriptAction, Keys keys1, SensorTag tag){
-
+    public WhenBrick(ScriptAction scriptAction, Keys keys1, SensorTag tag, String mac){
+        this.mac = mac;
         this.actionEnum = scriptAction;
         this.action = scriptAction.name();
         this.keyEnum = keys1;
@@ -96,6 +109,7 @@ public class WhenBrick extends ScriptBrick {
     protected Object readResolve(){
         if(action != null){
             actionEnum = ScriptAction.valueOf(action);
+            Log.d("dev", "wtf " + action);
         }
         if(key!=null){
             keyEnum = Keys.valueOf(key);
@@ -202,7 +216,33 @@ public class WhenBrick extends ScriptBrick {
         }else{
             whenScript.setAction(temp);
         }*/
+        final TextView textView = (TextView)view.findViewById(R.id.MAC_label);
+        textView.setVisibility(View.GONE);
 
+        final TextView textView1 = (TextView)view.findViewById(R.id.MAC_value);
+        textView1.setText(this.mac);
+        textView1.setVisibility(View.GONE);
+
+        textView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder MACbuilder = new AlertDialog.Builder(context);
+                LayoutInflater li = LayoutInflater.from(context);
+                View proximityView = li.inflate(R.layout.proximity_sensor_2, null);
+                final EditText Mac = (EditText) proximityView.findViewById(R.id.editText2);
+                MACbuilder.setTitle("MAC Address")
+                        .setView(proximityView)
+                        .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                mac = Mac.getText().toString();
+                                textView1.setText(mac);
+                                whenScript.setAction(action+" "+mac);
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+            }
+        });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -212,13 +252,25 @@ public class WhenBrick extends ScriptBrick {
                 action = actionEnum.name();
                 //action = options.get(position);
                 whenScript.setAction(action);
-                if(action.startsWith("SENSORTAG")){
+                if(action.startsWith("BLE_PROXIMITY")){
+                    textView.setVisibility(View.VISIBLE);
+                    textView1.setVisibility(View.VISIBLE);
+                    textView1.setClickable(true);
+                    tagSpinner.setVisibility(View.GONE);
+                    whenScript.setAction(action + " " + mac);
+
+                }else if(action.startsWith("SENSORTAG")){
                     tagSpinner.setVisibility(View.VISIBLE);
                     keySpinner.setVisibility(View.VISIBLE);
+                    textView.setVisibility(View.GONE);
+                    textView1.setVisibility(View.GONE);
                     whenScript.setAction(action+ " " + tag +" " + key);
                 }else{
                     tagSpinner.setVisibility(View.INVISIBLE);
                     keySpinner.setVisibility(View.INVISIBLE);
+                    textView.setVisibility(View.GONE);
+                    textView1.setVisibility(View.GONE);
+                    whenScript.setAction(action);
                 }
                 //adapter.notifyDataSetChanged();
             }
@@ -234,7 +286,9 @@ public class WhenBrick extends ScriptBrick {
                 tagSpinner.setSelection(i);
                 tagEnum = SensorTag.values()[i];
                 tag = tagEnum.name();
-                whenScript.setAction(action + " " +tag+" "+key);
+                if(action.startsWith("SENSORTAG")) {
+                    whenScript.setAction(action + " " + tag + " " + key);
+                }
             }
 
             @Override
@@ -250,7 +304,9 @@ public class WhenBrick extends ScriptBrick {
                 keySpinner.setSelection(i);
                 keyEnum = Keys.values()[i];
                 key = keyEnum.name();
-                whenScript.setAction(action + " " +tag+" "+key);
+                if(action.startsWith("SENSORTAG")) {
+                    whenScript.setAction(action + " " + tag + " " + key);
+                }
             }
 
             @Override
@@ -265,7 +321,7 @@ public class WhenBrick extends ScriptBrick {
     @Override
     public String brickTutorial(){
         return "Allows user to set controls on what the app should do if the user performs an action like tap or " +
-                "press the buttons on SesnorTag devices ";
+                "press the buttons on SensorTag devices ";
     }
 
     @Override
@@ -303,6 +359,16 @@ public class WhenBrick extends ScriptBrick {
         tagSpinner.setSelection(tagEnum.ordinal());
         tagSpinner.setVisibility(View.INVISIBLE);
 
+        TextView textView = (TextView) v.findViewById(R.id.MAC_label);
+        textView.setFocusable(false);
+        textView.setFocusableInTouchMode(false);
+        textView.setVisibility(View.GONE);
+
+        TextView textView1 = (TextView) v.findViewById(R.id.MAC_value);
+        textView1.setFocusable(false);
+        textView1.setFocusableInTouchMode(false);
+        textView1.setVisibility(View.GONE);
+
         Spinner keySpinner = (Spinner) v.findViewById(R.id.brick_when_spinner_key);
         keySpinner.setFocusable(false);
         keySpinner.setFocusableInTouchMode(false);
@@ -313,7 +379,7 @@ public class WhenBrick extends ScriptBrick {
 
     @Override
     public Brick clone() {
-        return new WhenBrick(actionEnum, keyEnum, tagEnum);
+        return new WhenBrick(actionEnum, keyEnum, tagEnum, mac);
     }
 
     @Override
@@ -324,8 +390,14 @@ public class WhenBrick extends ScriptBrick {
         if(action !=null){
             if(key !=null) {
                 if (tag != null) {
-                    whenScript.setAction(action + " "+tag+" " + key);
-                } else {
+                    if(action.startsWith("SENSORTAG")) {
+                        whenScript.setAction(action + " " + tag + " " + key);
+                    }else if(action.startsWith("BLE_PROXIMITY")) {
+                        if (mac != null) {
+                            whenScript.setAction(action + " " + mac);
+                        }
+                    }
+                }else{
                     whenScript.setAction(action);
                 }
             }

@@ -1,6 +1,6 @@
 C:\Users\User HP\Documents\GitHub\Pocket-Code-BLE\catroid\app\build\intermediates\classes\debug
 C:\Users\User HP\Documents\GitHub\Pocket-Code-BLE\catroid\app\build\intermediates\pre-dexed\debug\http-request-5.4.1-1ab6c2c88e3cccdd730645eabf22c941d4421038.jar
-C:\Users\User HP\Documents\GitHub\Pocket-Code-BLE\catroid\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.4-9e8e8e37199b9b902770295422ab94104cb05fd9.jar
+C:\Users\User HP\Documents\GitHub\Pocket-Code-BLE\catroid\app\build\intermediates\pre-dexed\debug\bolts-android-1.2.0-d51ce550cb5426aceb2c0c07a15bbaf77ec906f0.jar
 C:\Users\User HP\Documents\GitHub\Pocket-Code-BLE\catroid\app\build\intermediates\pre-dexed\debug\gdx-backend-android-c11a285c4b2cdbde31647cbb777504fb31ea2e2f.jar
 C:\Users\User HP\Documents\GitHub\Pocket-Code-BLE\catroid\app\build\intermediates\pre-dexed\debug\okhttp-1.2.1-jar-with-dependencies-d530482a6a27baa0f962cbbcfae65e604b828f81.jar
 C:\Users\User HP\Documents\GitHub\Pocket-Code-BLE\catroid\app\build\intermediates\pre-dexed\debug\ParrotARDroneCatroidAdaptation-8a582f1dc8-fd6f262eb75c9efe47a5df897b33ba3cf76aefe6.jar

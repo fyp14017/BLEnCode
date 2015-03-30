@@ -26,12 +26,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothProfile;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -48,6 +50,7 @@ import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ble.RssiScanner;
 import org.catrobat.catroid.ble.SensorInfo;
 import org.catrobat.catroid.ble.SensorTag;
 import org.catrobat.catroid.bluetooth.BluetoothManager;
@@ -85,6 +88,7 @@ public class PreStageActivity extends BaseActivity {
     public static BluetoothGatt bg;
 	private int resources = Brick.NO_RESOURCES;
 	private int requiredResourceCounter;
+    private int requiredResources;
     public static int SensorTagCounter;
     public static int CardCounter;
     public static String bleDeviceName;
@@ -115,7 +119,7 @@ public class PreStageActivity extends BaseActivity {
 		setContentView(R.layout.activity_prestage);
         SensorTagCounter = 0;
         CardCounter = 0;
-		int requiredResources = getRequiredResources();
+		requiredResources = getRequiredResources();
         sensorTags = new ArrayList<SensorTag>();
         bgs = new BluetoothGatt[SensorTagCounter];
         for(int a =0 ; a < SensorTagCounter; a++){
@@ -400,6 +404,25 @@ public class PreStageActivity extends BaseActivity {
             }
         }
 
+        if((requiredResources & Brick.BLUETOOTH_BLE_PROXIMITY) > 0){
+            BluetoothManager bluetoothManager = new BluetoothManager(this);
+            int bluetoothState = bluetoothManager.activateBluetooth();
+            if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
+
+                Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
+                resourceFailed();
+            } else {
+                if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
+                    final android.bluetooth.BluetoothManager bManager =
+                            (android.bluetooth.BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+                    BluetoothAdapter mBluetoothAdapter = bManager.getAdapter();
+
+                    RssiScanner rssiScanner = new RssiScanner();
+                    rssiScanner.startScanning(mBluetoothAdapter);
+                }
+            }
+        }
+
 		/*if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothManager bluetoothManager = new BluetoothManager(this);
             Log.d("dev","entered lego");
@@ -460,8 +483,7 @@ public class PreStageActivity extends BaseActivity {
 				resourceFailed();
 			}
 		}
-
-		if (requiredResourceCounter == Brick.NO_RESOURCES) {
+        if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
 		}
 	}
@@ -635,7 +657,20 @@ public class PreStageActivity extends BaseActivity {
 			case REQUEST_ENABLE_BLUETOOTH:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						startBluetoothCommunication(true);
+                        if((requiredResources & Brick.BLUETOOTH_BLE_PROXIMITY)>0){
+                            final android.bluetooth.BluetoothManager bManager =
+                                    (android.bluetooth.BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+                            BluetoothAdapter mBluetoothAdapter = bManager.getAdapter();
+                            RssiScanner rssiScanner = new RssiScanner();
+                            rssiScanner.startScanning(mBluetoothAdapter);
+                        }
+
+                        if((requiredResources & Brick.BLUETOOTH_BLE_SENSORS)>0) {
+                            startBluetoothCommunication(true);
+                        }else{
+                            startStage();
+                        }
+
 						break;
 					case Activity.RESULT_CANCELED:
 						Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG)
@@ -770,194 +805,6 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 	};
-
-    /*@SuppressLint("NewApi")
-    public BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
-
-        private int[] p_cals;
-
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            //Log.d(TAG, "Connection State Change: "+status+" -> "+connectionState(newState));
-            if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_CONNECTED) {
-				*//*
-				 * Once successfully connected, we must next discover all the services on the
-				 * device before we can read and write their characteristics.
-				 *//*
-                Log.d("dev", "Connected to SensorTag " + gatt.getDevice().getAddress());
-                gatt.discoverServices();
-            }
-        }
-
-        @Override
-        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-                Log.d("dev", "Services done");
-                Log.d("dev", "SensorTagCounter is " + Integer.toString(SensorTagCounter));
-                SensorTagCounter--;
-                *//*connectingProgressDialog.dismiss();
-                startStage();*//*
-                if(SensorTagCounter==0) {
-                    connectingProgressDialog.dismiss();
-                    startStage();
-                }else{
-                    runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            connectingProgressDialog.hide();
-                        }
-                    });
-                    startBluetoothCommunication(true);
-                }
-            }
-        }
-
-        @Override
-        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-			*//*
-			 * After notifications are enabled, all updates from the device on characteristic
-			 * value changes will be posted here. Similar to read, we hand these up to the
-			 * UI thread to update the display.
-			 *//*
-            if (MonitorSensorAction.PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
-                Log.d("dev", "reading pressure");
-                if (p_cals == null) {
-                    return;
-                }
-                //double pressure = SensorInfo.extractBarometer(characteristic, p_cals);
-                double temp = SensorInfo.extractBarTemperature(characteristic, p_cals);
-
-                String t = String.format("%.1f\u00B0C", temp);
-                Log.d("dev", t.substring(0, 4));
-                SensorInfo.Temp = Float.parseFloat(t.substring(0, 4));
-            }
-            if (MonitorSensorAction.PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
-                p_cals = SensorInfo.extractCalibrationCoefficients(characteristic);
-                Log.d("dev", "reading cals");
-                //double pressure = SensorInfo.extractBarometer(characteristic, p_cals);
-                double temp = SensorInfo.extractBarTemperature(characteristic, p_cals);
-
-                String t = String.format("%.1f\u00B0C", temp);
-                Log.d("dev", t.substring(0, 4));
-                SensorInfo.Temp = Float.parseFloat(t.substring(0, 4));
-            }
-            if (MonitorSensorAction.ACC_DATA_CHAR.equals(characteristic.getUuid())) {
-                float[] arr = SensorInfo.extractAccInfo(characteristic);
-                SensorInfo.Acc_x = arr[0];
-                SensorInfo.Acc_y = arr[1];
-                SensorInfo.Acc_z = arr[2];
-                Log.d("dev", "x=" + arr[0] + " y=" + arr[1] + " z=" + arr[2]);
-            }
-            if (MonitorSensorAction.GYRO_DATA_CHAR.equals(characteristic.getUuid())) {
-                float[] arr = SensorInfo.extractGyroInfo(characteristic);
-                SensorInfo.Gyro_x = arr[0];
-                SensorInfo.Gyro_y = arr[1];
-                SensorInfo.Gyro_z = arr[2];
-                Log.d("dev", "gyro_x=" + arr[0] + " gyro_y=" + arr[1] + " gyro_z=" + arr[2]);
-            }
-            if (MonitorSensorAction.MAG_DATA_CHAR.equals(characteristic.getUuid())) {
-                float[] arr = SensorInfo.extractMagInfo(characteristic);
-                SensorInfo.Mag_x = arr[0];
-                SensorInfo.Mag_y = arr[1];
-                SensorInfo.Mag_z = arr[2];
-
-                Log.d("dev", "mag_x=" + arr[0] + " mag_y=" + arr[1] + " mag_z=" + arr[2]);
-            }
-        }
-
-        @Override
-        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            if (MonitorSensorAction.PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
-                Log.d("dev", "reading pressure");
-                if (p_cals == null) {
-                    return;
-                }
-                double pressure = SensorInfo.extractBarometer(characteristic, p_cals);
-                double temp = SensorInfo.extractBarTemperature(characteristic, p_cals);
-                String t = String.format("%.1f\u00B0C", temp);
-                Log.d("dev", t.substring(0, 4));
-                SensorInfo.Temp = Float.parseFloat(t.substring(0, 4));
-            }
-            if (MonitorSensorAction.PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
-                p_cals = SensorInfo.extractCalibrationCoefficients(characteristic);
-                Log.d("dev", "reading cals");
-            }
-            if (MonitorSensorAction.ACC_DATA_CHAR.equals(characteristic.getUuid())) {
-                float[] arr = SensorInfo.extractAccInfo(characteristic);
-                SensorInfo.Acc_x = arr[0];
-                SensorInfo.Acc_y = arr[1];
-                SensorInfo.Acc_z = arr[2];
-                Log.d("dev", "x=" + arr[0] + " y=" + arr[1] + " z=" + arr[2]);
-            }
-            if (MonitorSensorAction.GYRO_DATA_CHAR.equals(characteristic.getUuid())) {
-                float[] arr = SensorInfo.extractGyroInfo(characteristic);
-                SensorInfo.Gyro_x = arr[0];
-                SensorInfo.Gyro_y = arr[1];
-                SensorInfo.Gyro_z = arr[2];
-                Log.d("dev", "gyro_x=" + arr[0] + " gyro_y=" + arr[1] + " gyro_z=" + arr[2]);
-            }
-            if (MonitorSensorAction.MAG_DATA_CHAR.equals(characteristic.getUuid())) {
-                float[] arr = SensorInfo.extractMagInfo(characteristic);
-                SensorInfo.Mag_x = arr[0];
-                SensorInfo.Mag_y = arr[1];
-                SensorInfo.Mag_z = arr[2];
-
-                Log.d("dev", "mag_x=" + arr[0] + " mag_y=" + arr[1] + " mag_z=" + arr[2]);
-            }
-            gatt.setCharacteristicNotification(characteristic, true);
-            BluetoothGattDescriptor d = characteristic.getDescriptor(MonitorSensorAction.CONFIG_DESCRIPTOR);
-            d.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-            gatt.writeDescriptor(d);
-        }
-
-        @Override
-        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor d, int status) {
-            if (d.getCharacteristic().equals(
-                    gatt.getService(MonitorSensorAction.PRESSURE_SERVICE).getCharacteristic(
-                            MonitorSensorAction.PRESSURE_CAL_CHAR))) {
-                BluetoothGattCharacteristic c = gatt.getService(MonitorSensorAction.PRESSURE_SERVICE)
-                        .getCharacteristic(MonitorSensorAction.PRESSURE_CONFIG_CHAR);
-                c.setValue(new byte[] { 0x01 });
-                gatt.writeCharacteristic(c);
-            } else {
-                return;
-            }
-        }
-
-        int i = 1;
-
-        @Override
-        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            if (MonitorSensorAction.PRESSURE_CONFIG_CHAR.equals(characteristic.getUuid())) {
-                if (i == 1) {
-                    Log.d("dev", "cal enabled");
-                    i++;
-                    gatt.readCharacteristic(gatt.getService(MonitorSensorAction.PRESSURE_SERVICE).getCharacteristic(
-                            MonitorSensorAction.PRESSURE_CAL_CHAR));
-                } else {
-                    Log.d("dev", "data enabled");
-                    gatt.readCharacteristic(gatt.getService(MonitorSensorAction.PRESSURE_SERVICE).getCharacteristic(
-                            MonitorSensorAction.PRESSURE_DATA_CHAR));
-                }
-            }
-            if (MonitorSensorAction.ACC_CONFIG_CHAR.equals(characteristic.getUuid())) {
-                Log.d("dev", "accelerometer enabled");
-                gatt.readCharacteristic(gatt.getService(MonitorSensorAction.ACC_SERVICE).getCharacteristic(
-                        MonitorSensorAction.ACC_DATA_CHAR));
-            }
-            if (MonitorSensorAction.GYRO_CONFIG_CHAR.equals(characteristic.getUuid())) {
-                Log.d("dev", "gyroscope enabled");
-                gatt.readCharacteristic(gatt.getService(MonitorSensorAction.GYRO_SERVICE).getCharacteristic(
-                        MonitorSensorAction.GYRO_DATA_CHAR));
-            }
-            if (MonitorSensorAction.MAG_CONFIG_CHAR.equals(characteristic.getUuid())) {
-                Log.d("dev", "magnetometer enabled");
-                gatt.readCharacteristic(gatt.getService(MonitorSensorAction.MAG_SERVICE).getCharacteristic(
-                        MonitorSensorAction.MAG_DATA_CHAR));
-            }
-        }
-    };*/
 
 	private void ledInitialize() {
 		if ( hasFlash() ) {

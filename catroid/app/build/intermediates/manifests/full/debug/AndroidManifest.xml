@@ -71,6 +71,11 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
         android:name="org.catrobat.catroid.CatroidApplication"
         android:allowBackup="true"
@@ -186,6 +191,11 @@
         <service android:name="org.catrobat.catroid.transfers.ProjectUploadService" />
         <service android:name="org.catrobat.catroid.transfers.ProjectDownloadService" />
         <service android:name="com.parrot.freeflight.service.DroneControlService" />
+
+        <activity
+            android:name="org.catrobat.catroid.ui.ProximitySensorActivity"
+            android:label="@string/title_activity_proximity_sensor" >
+        </activity>
     </application>
 
 </manifest>

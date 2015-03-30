@@ -24,7 +24,10 @@ package org.catrobat.catroid.stage;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +38,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ble.RssiScanner;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -55,7 +59,8 @@ public class StageActivity extends AndroidApplication {
 
 	private StageAudioFocus stageAudioFocus;
 
-	@Override
+	@SuppressLint("NewApi")
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

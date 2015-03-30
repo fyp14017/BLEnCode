@@ -51,11 +51,11 @@ public class CatroidApplication extends Application {
 	}
 
 	public static synchronized boolean parrotNativeLibsAlreadyLoadedOrLoadingWasSucessful() {
-		if (parrotLibrariesLoaded == true) {
+		if (parrotLibrariesLoaded) {
 			return parrotLibrariesLoaded;
 		}
 
-		if (parrotLibrariesLoaded == false) { //Drone is deactivated in release builds for now 04.2014
+		if (!parrotLibrariesLoaded) { //Drone is deactivated in release builds for now 04.2014
 			Log.d(TAG, "Current platform = \"" + OS_ARCH + "\"");
 			if (OS_ARCH.startsWith("arm")) {
 				Log.d(TAG, "We are on an arm platform load parrot native libs");

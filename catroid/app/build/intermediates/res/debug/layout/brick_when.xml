@@ -50,6 +50,7 @@
             android:text="When" >
         </TextView >
 
+
 	<Spinner
 		android:id="@+id/brick_when_spinner"
 		android:layout_height="wrap_content"
@@ -60,6 +61,24 @@
 		android:focusable="false"
 		
 	/>
+
+        <TextView
+            android:id="@+id/MAC_label"
+            android:layout_marginTop="25dp"
+            android:text="MAC Address"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+        <TextView
+            android:id="@+id/MAC_value"
+            android:layout_marginLeft="50dp"
+            android:textColor="@color/white"
+            style="@style/BrickPrototypeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
         <Spinner
             android:id="@+id/brick_when_spinner_tag"
             android:layout_height="wrap_content"

@@ -77,6 +77,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.ProximityBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
@@ -156,7 +157,7 @@ public class CategoryBricksFactory {
 	private List<Brick> setupControlCategoryList(Context context) {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
 		controlBrickList.add(new WhenStartedBrick(null));
-		controlBrickList.add(new WhenBrick(WhenBrick.ScriptAction.TAPPED, WhenBrick.Keys.LEFT_BUTTON, WhenBrick.SensorTag.TAG1));
+		controlBrickList.add(new WhenBrick(WhenBrick.ScriptAction.TAPPED, WhenBrick.Keys.LEFT_BUTTON, WhenBrick.SensorTag.TAG1, "0"));
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 
 		final String broadcastMessage = MessageContainer.getFirst(context);
@@ -263,6 +264,7 @@ public class CategoryBricksFactory {
         BLESensorsBrickList.add(new MonitorSensorBrick(sprite, MonitorSensorBrick.Sensor.TEMPERATURE, MonitorSensorBrick.SensorTag.TAG1));
         BLESensorsBrickList.add(new ConnectCardBrick(sprite));
         BLESensorsBrickList.add(new CardBuzzerBrick(sprite));
+        BLESensorsBrickList.add(new ProximityBrick(sprite));
         return BLESensorsBrickList;
     }
 

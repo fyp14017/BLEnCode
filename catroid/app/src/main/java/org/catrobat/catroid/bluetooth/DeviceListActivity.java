@@ -266,7 +266,6 @@ public class DeviceListActivity extends Activity implements BluetoothAdapter.LeS
                     if(device.getName() != null) {
                         //if (device.getName().equals("SensorTag") || device.getName().equals("MIDbot eCard")) {
                         newDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
-                        Log.d("yathu", device.getName() + "-" + device.getAddress());
                         newDevices.add(device);
                         //}
                     }

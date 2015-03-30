@@ -23,12 +23,14 @@
 package org.catrobat.catroid.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
@@ -75,6 +77,16 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		}
 		listPreference.setEntries(entries);
 		listPreference.setEntryValues(entryValues);
+
+        Preference proximity = findPreference("welcome_message");
+        proximity.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(SettingsActivity.this, ProximitySensorActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
 
 		ActionBar actionBar = getSupportActionBar();
 

@@ -136,8 +136,8 @@ public final class R {
 		public static final int abs__action_bar_title_text_size = 0x7f0a0005;
 		public static final int abs__action_button_min_width = 0x7f0a0006;
 		public static final int abs__config_prefDialogWidth = 0x7f0a0007;
-		public static final int abs__dialog_min_width_major = 0x7f0a002c;
-		public static final int abs__dialog_min_width_minor = 0x7f0a002d;
+		public static final int abs__dialog_min_width_major = 0x7f0a002e;
+		public static final int abs__dialog_min_width_minor = 0x7f0a002f;
 		public static final int abs__dropdownitem_icon_width = 0x7f0a0008;
 		public static final int abs__dropdownitem_text_padding_left = 0x7f0a0009;
 		public static final int abs__dropdownitem_text_padding_right = 0x7f0a000a;
@@ -335,8 +335,8 @@ public final class R {
 		public static final int abs__search_dropdown_item_icons_2line = 0x7f030012;
 		public static final int abs__search_view = 0x7f030013;
 		public static final int abs__simple_dropdown_hint = 0x7f030014;
-		public static final int sherlock_spinner_dropdown_item = 0x7f0300a9;
-		public static final int sherlock_spinner_item = 0x7f0300aa;
+		public static final int sherlock_spinner_dropdown_item = 0x7f0300ad;
+		public static final int sherlock_spinner_item = 0x7f0300ae;
 	}
 	public static final class string {
 		public static final int abs__action_bar_home_description = 0x7f0e0001;
