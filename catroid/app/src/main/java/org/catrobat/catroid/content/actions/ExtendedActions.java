@@ -182,6 +182,12 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+    public static NoteAction noteAction(String comment){
+        NoteAction action = action(NoteAction.class);
+        action.setString(comment);
+        return action;
+    }
+
     public static ConnectSensorTagAction connectSensorTagAction() {
         ConnectSensorTagAction action = action(ConnectSensorTagAction.class);
         return action;

@@ -202,11 +202,11 @@ public class StageListener implements ApplicationListener {
 
 	}
 
-	void activityPause() {
+	public void activityPause() {
 		FaceDetectionHandler.pauseFaceDetection();
 	}
 
-	void menuResume() {
+	public void menuResume() {
 		if (reloadProject) {
 			return;
 		}
@@ -218,7 +218,7 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	void menuPause() {
+	public void menuPause() {
 		if (finished || reloadProject) {
 			return;
 		}

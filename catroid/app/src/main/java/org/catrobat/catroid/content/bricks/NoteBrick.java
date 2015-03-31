@@ -35,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -43,13 +44,15 @@ import java.util.List;
 public class NoteBrick extends FormulaBrick implements OnClickListener{
 	private static final long serialVersionUID = 1L;
 	private transient View prototypeView;
+    private String comment;
 
 	public NoteBrick() {
 		addAllowedBrickField(BrickField.NOTE);
 	}
 
 	public NoteBrick(String note) {
-		initializeBrickFields(new Formula(note));
+		comment = note;
+        initializeBrickFields(new Formula(note));
 	}
 
 	public NoteBrick(Formula note) {
@@ -91,7 +94,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).setTextFieldId(R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).refreshTextField(view);
-
+        comment = getFormulaWithBrickField(BrickField.NOTE).getDisplayString(context).substring(1,getFormulaWithBrickField(BrickField.NOTE).getDisplayString(context).length()-2);
 		textHolder.setVisibility(View.GONE);
 		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
@@ -131,6 +134,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+        sequence.addAction(ExtendedActions.noteAction(comment));
 		return null;
 	}
 

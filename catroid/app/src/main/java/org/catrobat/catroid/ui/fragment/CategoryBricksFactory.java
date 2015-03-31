@@ -131,7 +131,7 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_variables))) {
 			tempList = setupVariablesCategoryList();
 		}else if (category.equals(context.getString(R.string.category_ble_sensors))) {
-            return setupBLESensorsCategoryList(sprite, context);
+            return setupBLESensorsCategoryList(sprite);
         }else if (category.equals(context.getString(R.string.category_user_bricks))) {
 			tempList = setupUserBricksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
@@ -257,7 +257,7 @@ public class CategoryBricksFactory {
 		return soundBrickList;
 	}
 
-    private List<Brick> setupBLESensorsCategoryList(Sprite sprite, Context context) {
+    private List<Brick> setupBLESensorsCategoryList(Sprite sprite) {
         List<Brick> BLESensorsBrickList = new ArrayList<Brick>();
 
         BLESensorsBrickList.add(new ConnectSensorTagBrick(sprite, ConnectSensorTagBrick.SensorTag.TAG1));

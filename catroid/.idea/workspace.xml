@@ -63,7 +63,44 @@
     <favorites_list name="catroid" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="NoteAction.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/actions/NoteAction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1020">
+              <caret line="63" column="52" selection-start-line="63" selection-start-column="52" selection-end-line="63" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1806#2895#0" expanded="true" />
+                <element signature="e#2884#2885#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NoteBrick.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/NoteBrick.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.65018314" vertical-offset="529" max-vertical-offset="2006">
+              <caret line="97" column="44" selection-start-line="97" selection-start-column="44" selection-end-line="97" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StageActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/stage/StageActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="2958">
+              <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+              <folding>
+                <element signature="e#3290#3323#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -743,15 +780,10 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/web/ParseProjectUploadManager.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/ui/ExploreProjectsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/list.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/WhenStartedBrick.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/WaitBrick.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/BroadcastReceiverBrick.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/BroadcastBrick.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/BroadcastWaitBrick.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/NoteBrick.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/ForeverBrick.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/IfLogicBeginBrick.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/IfLogicElseBrick.java" />
@@ -784,16 +816,21 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/bluetooth/DeviceListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/brick_ble_proximity.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/ProximityBrick.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/actions/ExtendedActions.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/stage/StageActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/stage/PreStageActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/Brick.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/proximity_sensor.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/proximity_sensor_2.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/brick_when.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/ble/RssiScanner.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/WhenBrick.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/ui/dialogs/StageDialog.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/brick_note.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/actions/ExtendedActions.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/stage/StageListener.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/stage/StageActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/actions/NoteAction.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/NoteBrick.java" />
       </list>
     </option>
   </component>
@@ -829,6 +866,40 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="catroid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="catroid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="catroid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="catroid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="catroid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -871,24 +942,6 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
@@ -909,128 +962,11 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="catroid" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bricks" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ble" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manifests" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="catroid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -1045,7 +981,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1063,7 +998,7 @@
     <property name="FullScreen" value="false" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="cat&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java&#10;pre&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/stage/PreStageActivity.java&#10;Rs&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ble/RssiScanner.java&#10;setx&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.SetXBrick&#10;cate&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java&#10;par&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/web/ParseProjectUploadManager.java&#10;car&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/brick_ble_card_buzzer.xml&#10;when&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/WhenBrick.java&#10;b&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/Brick.java&#10;stage&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/stage/StageActivity.java&#10;bric&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/Brick.java&#10;Cate&#9;PSI&#9;JAVA://org.catrobat.catroid.ui.fragment.CategoryBricksFactory&#10;&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/stage/StageActivity.java&#10;sta&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/stage/StageActivity.java&#10;formula&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.FormulaBrick&#10;stag&#9;PSI&#9;JAVA://org.catrobat.catroid.stage.StageActivity&#10;dev&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/bluetooth/DeviceListActivity.java&#10;ex&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/ExploreProjectsActivity.java&#10;setti&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/SettingsActivity.java&#10;hide&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.HideBrick&#10;ifbe&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.IfLogicBeginBrick&#10;con&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/ConnectCardBrick.java&#10;conn&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/ConnectSensorTagBrick.java&#10;moni&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/MonitorSensorBrick.java&#10;prest&#9;FILE&#9;file://C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/stage/PreStageActivity.java&#10;monito&#9;FILE&#9;file://C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/actions/MonitorSensorAction.java&#10;monitor&#9;FILE&#9;file://C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/MonitorSensorBrick.java&#10;cardbu&#9;PSI&#9;JAVA://org.catrobat.catroid.content.actions.CardBuzzerAction&#10;brick&#9;FILE&#9;file://C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/brick_ble_card_buzzer.xml&#10;ma&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/MainMenuActivity.java&#10;sign&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/signup_fields.xml&#10;serv&#9;PSI&#9;JAVA://org.catrobat.catroid.web.ServerCalls&#10;m&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/MainMenuActivity.java&#10;look&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/Look.java&#10;sp&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/Sprite.java&#10;mon&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/MonitorSensorBrick.java&#10;ca&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java&#10;sens&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.MonitorSensorBrick.Sensor&#10;loo&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/Look.java&#10;pro&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/proguard-project.txt&#10;lo&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/Look.java&#10;pres&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/stage/PreStageActivity.java&#10;conne&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.ConnectCardBrick&#10;whe&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/WhenBrick.java&#10;se&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ble/SensorInfo.java&#10;monit&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/actions/MonitorSensorAction.java&#10;if&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/actions/IfLogicAction.java&#10;sen&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/fragment/SensorTagFragment.java&#10;category&#9;FILE&#9;file://C:/Users/Yatharth/AndroidStudioProjects/catroid/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java&#10;connec&#9;PSI&#9;JAVA://org.catrobat.catroid.content.actions.ConnectSensorTagAction" />
+    <property name="SearchEverywhereHistoryKey" value="note&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/NoteBrick.java&#10;sta&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/stage/StageActivity.java&#10;next&#9;PSI&#9;JAVA://org.catrobat.catroid.content.actions.NextLookAction&#10;form&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/formulaeditor/Formula.java&#10;ex&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/actions/ExtendedActions.java&#10;stage&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/stage/StageActivity.java&#10;&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java&#10;cat&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java&#10;pre&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/stage/PreStageActivity.java&#10;Rs&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ble/RssiScanner.java&#10;setx&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.SetXBrick&#10;cate&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java&#10;par&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/web/ParseProjectUploadManager.java&#10;car&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/brick_ble_card_buzzer.xml&#10;when&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/WhenBrick.java&#10;b&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/Brick.java&#10;bric&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/Brick.java&#10;Cate&#9;PSI&#9;JAVA://org.catrobat.catroid.ui.fragment.CategoryBricksFactory&#10;formula&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.FormulaBrick&#10;stag&#9;PSI&#9;JAVA://org.catrobat.catroid.stage.StageActivity&#10;dev&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/bluetooth/DeviceListActivity.java&#10;setti&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/SettingsActivity.java&#10;hide&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.HideBrick&#10;ifbe&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.IfLogicBeginBrick&#10;con&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/ConnectCardBrick.java&#10;conn&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/ConnectSensorTagBrick.java&#10;moni&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/MonitorSensorBrick.java&#10;prest&#9;FILE&#9;file://C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/stage/PreStageActivity.java&#10;monito&#9;FILE&#9;file://C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/actions/MonitorSensorAction.java&#10;monitor&#9;FILE&#9;file://C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/MonitorSensorBrick.java&#10;cardbu&#9;PSI&#9;JAVA://org.catrobat.catroid.content.actions.CardBuzzerAction&#10;brick&#9;FILE&#9;file://C:/Users/Yatharth/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/brick_ble_card_buzzer.xml&#10;ma&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/MainMenuActivity.java&#10;sign&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/signup_fields.xml&#10;serv&#9;PSI&#9;JAVA://org.catrobat.catroid.web.ServerCalls&#10;m&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/MainMenuActivity.java&#10;look&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/Look.java&#10;sp&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/Sprite.java&#10;mon&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/MonitorSensorBrick.java&#10;ca&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java&#10;sens&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.MonitorSensorBrick.Sensor&#10;loo&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/Look.java&#10;pro&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/proguard-project.txt&#10;lo&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/Look.java&#10;pres&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/stage/PreStageActivity.java&#10;conne&#9;PSI&#9;JAVA://org.catrobat.catroid.content.bricks.ConnectCardBrick&#10;whe&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/bricks/WhenBrick.java&#10;se&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/ble/SensorInfo.java&#10;monit&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/actions/MonitorSensorAction.java&#10;if&#9;FILE&#9;file://C:/Users/User HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/java/org/catrobat/catroid/content/actions/IfLogicAction.java" />
     <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
@@ -1071,6 +1006,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.catrobat.catroid.content.actions" />
       <recent name="org.catrobat.catroid.content.bricks" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -1248,7 +1184,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1270,7 +1206,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1913767" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1913767" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253833" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1301,112 +1237,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/SetSizeToBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6386404" vertical-offset="0" max-vertical-offset="1853">
-          <caret line="68" column="4" selection-start-line="68" selection-start-column="4" selection-end-line="71" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/SetLookBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8175313" vertical-offset="104" max-vertical-offset="4896">
-          <caret line="87" column="4" selection-start-line="87" selection-start-column="4" selection-end-line="91" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/SetGhostEffectBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="1989">
-          <caret line="72" column="5" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/SetBrightnessBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1989">
-          <caret line="59" column="4" selection-start-line="59" selection-start-column="4" selection-end-line="63" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/ChangeGhostEffectByNBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="2040">
-          <caret line="56" column="69" selection-start-line="56" selection-start-column="69" selection-end-line="56" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/ChangeBrightnessByNBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7602862" vertical-offset="0" max-vertical-offset="2006">
-          <caret line="68" column="4" selection-start-line="68" selection-start-column="4" selection-end-line="72" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/ClearGraphicEffectBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8369963" vertical-offset="104" max-vertical-offset="1445">
-          <caret line="74" column="4" selection-start-line="74" selection-start-column="4" selection-end-line="77" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/LedOffBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48658317" vertical-offset="0" max-vertical-offset="1309">
-          <caret line="50" column="34" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/LedOnBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27370304" vertical-offset="85" max-vertical-offset="1309">
-          <caret line="48" column="4" selection-start-line="48" selection-start-column="4" selection-end-line="51" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/ChangeVariableBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8131868" vertical-offset="168" max-vertical-offset="4301">
-          <caret line="95" column="78" selection-start-line="95" selection-start-column="78" selection-end-line="95" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/SetVariableBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54382825" vertical-offset="172" max-vertical-offset="4233">
-          <caret line="82" column="4" selection-start-line="82" selection-start-column="4" selection-end-line="88" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/CatroidApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8211091" vertical-offset="0" max-vertical-offset="1020">
-          <caret line="54" column="40" selection-start-line="54" selection-start-column="19" selection-end-line="54" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/arrays.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.64221823" vertical-offset="359" max-vertical-offset="1343">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-19/android.jar!/android/hardware/Camera.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="73" max-vertical-offset="7021">
-          <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/preferences.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="427" max-vertical-offset="986">
-          <caret line="50" column="52" selection-start-line="50" selection-start-column="52" selection-end-line="50" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/ui/SettingsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2802198" vertical-offset="901" max-vertical-offset="2125">
@@ -1465,14 +1295,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7602862" vertical-offset="1632" max-vertical-offset="4233">
           <caret line="192" column="29" selection-start-line="192" selection-start-column="29" selection-end-line="192" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/FormulaBrick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15205725" vertical-offset="0" max-vertical-offset="1003">
-          <caret line="28" column="58" selection-start-line="28" selection-start-column="58" selection-end-line="28" selection-end-column="58" />
         </state>
       </provider>
     </entry>
@@ -1488,7 +1310,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15205725" vertical-offset="0" max-vertical-offset="559">
           <caret line="30" column="48" selection-start-line="30" selection-start-column="48" selection-end-line="30" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1545,19 +1366,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/actions/ExtendedActions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.667263" vertical-offset="2500" max-vertical-offset="7769">
-          <caret line="205" column="5" selection-start-line="205" selection-start-column="5" selection-end-line="205" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/bluetooth/BluetoothManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33273703" vertical-offset="120" max-vertical-offset="697">
           <caret line="64" column="15" selection-start-line="64" selection-start-column="15" selection-end-line="64" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1595,7 +1407,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2021" max-vertical-offset="3417">
           <caret line="161" column="66" selection-start-line="161" selection-start-column="66" selection-end-line="161" selection-end-column="66" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1648,35 +1459,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3944">
-          <caret line="159" column="130" selection-start-line="159" selection-start-column="130" selection-end-line="159" selection-end-column="130" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/Sprite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4303" max-vertical-offset="6069">
-          <caret line="295" column="52" selection-start-line="295" selection-start-column="52" selection-end-line="295" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/WhenScript.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1207">
           <caret line="32" column="18" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/stage/StageActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.8783542" vertical-offset="865" max-vertical-offset="2958">
-          <caret line="66" column="77" selection-start-line="66" selection-start-column="77" selection-end-line="66" selection-end-column="77" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1685,20 +1471,20 @@
         <state vertical-scroll-proportion="0.18681319" vertical-offset="2907" max-vertical-offset="12308">
           <caret line="253" column="19" selection-start-line="253" selection-start-column="19" selection-end-line="253" selection-end-column="19" />
           <folding>
-            <element signature="e#20612#20644#0" expanded="true" />
-            <element signature="e#21254#21286#0" expanded="true" />
-            <element signature="e#23106#23154#0" expanded="true" />
-            <element signature="e#23202#23224#0" expanded="true" />
-            <element signature="e#23818#23848#0" expanded="true" />
-            <element signature="e#24652#24680#0" expanded="true" />
-            <element signature="e#27251#27308#0" expanded="true" />
-            <element signature="e#29416#29448#0" expanded="true" />
-            <element signature="e#30745#30774#0" expanded="true" />
-            <element signature="e#31953#31997#0" expanded="true" />
-            <element signature="e#32046#32058#0" expanded="true" />
-            <element signature="e#32409#32420#0" expanded="true" />
-            <element signature="e#33929#33958#0" expanded="true" />
-            <element signature="e#34413#34444#0" expanded="true" />
+            <element signature="e#20612#20644#0" expanded="false" />
+            <element signature="e#21254#21286#0" expanded="false" />
+            <element signature="e#23106#23154#0" expanded="false" />
+            <element signature="e#23202#23224#0" expanded="false" />
+            <element signature="e#23818#23848#0" expanded="false" />
+            <element signature="e#24652#24680#0" expanded="false" />
+            <element signature="e#27251#27308#0" expanded="false" />
+            <element signature="e#29416#29448#0" expanded="false" />
+            <element signature="e#30745#30774#0" expanded="false" />
+            <element signature="e#31953#31997#0" expanded="false" />
+            <element signature="e#32046#32058#0" expanded="false" />
+            <element signature="e#32409#32420#0" expanded="false" />
+            <element signature="e#33929#33958#0" expanded="false" />
+            <element signature="e#34413#34444#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1708,8 +1494,8 @@
         <state vertical-scroll-proportion="1.5813954" vertical-offset="0" max-vertical-offset="1224">
           <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
           <folding>
-            <element signature="e#2086#2087#0" expanded="true" />
-            <element signature="e#2132#2133#0" expanded="true" />
+            <element signature="e#2086#2087#0" expanded="false" />
+            <element signature="e#2132#2133#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1718,16 +1504,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6690519" vertical-offset="357" max-vertical-offset="935">
           <caret line="45" column="89" selection-start-line="45" selection-start-column="89" selection-end-line="45" selection-end-column="89" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;class#RssiScanner#0" expanded="false" />
-            <element signature="e#477#478#0" expanded="true" />
-            <element signature="e#517#518#0" expanded="true" />
-            <element signature="e#623#823#0" expanded="true" />
-            <element signature="e#812#813#0" expanded="true" />
-            <element signature="e#945#1471#0" expanded="true" />
-            <element signature="e#1464#1465#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1736,13 +1512,182 @@
         <state vertical-scroll-proportion="-1.0644007" vertical-offset="918" max-vertical-offset="6307">
           <caret line="64" column="35" selection-start-line="64" selection-start-column="35" selection-end-line="64" selection-end-column="35" />
           <folding>
-            <element signature="e#8237#9319#0" expanded="true" />
-            <element signature="e#8805#9277#0" expanded="true" />
-            <element signature="e#9250#9251#0" expanded="true" />
-            <element signature="e#9308#9309#0" expanded="true" />
-            <element signature="e#14740#14741#0" expanded="true" />
-            <element signature="e#14811#14812#0" expanded="true" />
+            <element signature="e#8237#9319#0" expanded="false" />
+            <element signature="e#8805#9277#0" expanded="false" />
+            <element signature="e#9250#9251#0" expanded="false" />
+            <element signature="e#9308#9309#0" expanded="false" />
+            <element signature="e#14740#14741#0" expanded="false" />
+            <element signature="e#14811#14812#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/ui/fragment/AddBrickFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7684">
+          <caret line="118" column="23" selection-start-line="118" selection-start-column="16" selection-end-line="118" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/Sprite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15567766" vertical-offset="0" max-vertical-offset="6069">
+          <caret line="49" column="18" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/app/libs/gdx.jar!/com/badlogic/gdx/ApplicationListener.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15917604" vertical-offset="0" max-vertical-offset="534">
+          <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/ui/dialogs/StageDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2244">
+          <caret line="88" column="37" selection-start-line="88" selection-start-column="37" selection-end-line="88" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/formulaeditor/SensorHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0948122" vertical-offset="0" max-vertical-offset="4148">
+          <caret line="67" column="50" selection-start-line="67" selection-start-column="50" selection-end-line="67" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/brick_note.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39661655" vertical-offset="622" max-vertical-offset="1326">
+          <caret line="49" column="38" selection-start-line="49" selection-start-column="38" selection-end-line="49" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/actions/MonitorSensorAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.4060824" vertical-offset="1447" max-vertical-offset="2006">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/formulaeditor/InternToExternGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6923077" vertical-offset="2911" max-vertical-offset="4046">
+          <caret line="222" column="0" selection-start-line="222" selection-start-column="0" selection-end-line="222" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/formulaeditor/InternFormula.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36446887" vertical-offset="7349" max-vertical-offset="15861">
+          <caret line="471" column="76" selection-start-line="471" selection-start-column="76" selection-end-line="471" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/stage/StageListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.14652015" vertical-offset="2317" max-vertical-offset="9690">
+          <caret line="208" column="11" selection-start-line="208" selection-start-column="11" selection-end-line="208" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/actions/ExtendedActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27191412" vertical-offset="2381" max-vertical-offset="7871">
+          <caret line="185" column="53" selection-start-line="185" selection-start-column="53" selection-end-line="185" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/MonitorSensorBrick.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48300537" vertical-offset="2960" max-vertical-offset="3519">
+          <caret line="236" column="51" selection-start-line="236" selection-start-column="51" selection-end-line="236" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/ui/fragment/CategoryBricksFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.9340659" vertical-offset="1715" max-vertical-offset="3944">
+          <caret line="268" column="5" selection-start-line="268" selection-start-column="5" selection-end-line="268" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/Look.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18604651" vertical-offset="2123" max-vertical-offset="6341">
+          <caret line="176" column="0" selection-start-line="176" selection-start-column="0" selection-end-line="176" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/actions/NextLookAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24329159" vertical-offset="0" max-vertical-offset="559">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/stage/StageActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="2958">
+          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+          <folding>
+            <element signature="e#3290#3323#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/actions/NoteAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1020">
+          <caret line="63" column="52" selection-start-line="63" selection-start-column="52" selection-end-line="63" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1806#2895#0" expanded="true" />
+            <element signature="e#2884#2885#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/formulaeditor/Formula.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="70" max-vertical-offset="3893">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/FormulaBrick.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27370304" vertical-offset="0" max-vertical-offset="1003">
+          <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/catrobat/catroid/content/bricks/NoteBrick.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.65018314" vertical-offset="529" max-vertical-offset="2006">
+          <caret line="97" column="44" selection-start-line="97" selection-start-column="44" selection-end-line="97" selection-end-column="44" />
+          <folding />
         </state>
       </provider>
     </entry>
