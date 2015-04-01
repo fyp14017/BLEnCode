@@ -79,6 +79,8 @@
             android:layout_height="wrap_content">
         </TextView>
 
+
+
         <Spinner
             android:id="@+id/brick_when_spinner_tag"
             android:layout_height="wrap_content"

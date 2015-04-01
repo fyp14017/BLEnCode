@@ -263,7 +263,7 @@ public class CategoryBricksFactory {
         BLESensorsBrickList.add(new ConnectSensorTagBrick(sprite, ConnectSensorTagBrick.SensorTag.TAG1));
         BLESensorsBrickList.add(new MonitorSensorBrick(sprite, MonitorSensorBrick.Sensor.AMBIENT_TEMPERATURE, MonitorSensorBrick.SensorTag.TAG1));
         BLESensorsBrickList.add(new ConnectCardBrick(sprite));
-        BLESensorsBrickList.add(new CardBuzzerBrick(sprite));
+        BLESensorsBrickList.add(new CardBuzzerBrick(sprite, 1));
         BLESensorsBrickList.add(new ProximityBrick(sprite));
         return BLESensorsBrickList;
     }

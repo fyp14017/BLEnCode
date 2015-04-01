@@ -109,7 +109,7 @@ public class SensorTagFragment extends SherlockListFragment implements Dialog.On
 
    /*@Override
     public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
-        *//*boolean returnValue = false;
+        boolean returnValue = false;
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
                 FragmentManager fragmentManager = ((SherlockFragmentActivity) getActivity()).getSupportFragmentManager();
@@ -128,7 +128,7 @@ public class SensorTagFragment extends SherlockListFragment implements Dialog.On
                 returnValue = true;
                 break;
         }
-        return returnValue;*//*
+        return returnValue;
        boolean returnValue = false;
        Log.d("dev", "Back pressed");
        switch (keyCode) {

@@ -204,10 +204,10 @@ public class ExtendedActions extends Actions {
         return action;
     }
 
-    public static CardBuzzerAction cardBuzzerAction()
+    public static CardBuzzerAction cardBuzzerAction(int time)
     {
         CardBuzzerAction action = action(CardBuzzerAction.class);
-        //TODO: Set Enum??
+        action.setTime(time);
         return action;
     }
 

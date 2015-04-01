@@ -78,7 +78,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		listPreference.setEntries(entries);
 		listPreference.setEntryValues(entryValues);
 
-        Preference proximity = findPreference("welcome_message");
+        /*Preference proximity = findPreference("welcome_message");
         proximity.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -86,7 +86,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
                 startActivity(intent);
                 return true;
             }
-        });
+        });*/
 
 		ActionBar actionBar = getSupportActionBar();
 

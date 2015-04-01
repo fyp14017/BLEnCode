@@ -36,12 +36,14 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
@@ -460,9 +462,10 @@ public class PreStageActivity extends BaseActivity {
                 if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
                     final android.bluetooth.BluetoothManager bManager =
                             (android.bluetooth.BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+                    int number = PreferenceManager.getDefaultSharedPreferences(PreStageActivity.this).getInt("key_number",75);
                     BluetoothAdapter mBluetoothAdapter = bManager.getAdapter();
 
-                    RssiScanner rssiScanner = new RssiScanner();
+                    RssiScanner rssiScanner = new RssiScanner(number);
                     rssiScanner.startScanning(mBluetoothAdapter);
                 }
             }
@@ -706,7 +709,8 @@ public class PreStageActivity extends BaseActivity {
                             final android.bluetooth.BluetoothManager bManager =
                                     (android.bluetooth.BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
                             BluetoothAdapter mBluetoothAdapter = bManager.getAdapter();
-                            RssiScanner rssiScanner = new RssiScanner();
+                            int number = PreferenceManager.getDefaultSharedPreferences(PreStageActivity.this).getInt("key_number",75);
+                            RssiScanner rssiScanner = new RssiScanner(number);
                             rssiScanner.startScanning(mBluetoothAdapter);
                         }
 

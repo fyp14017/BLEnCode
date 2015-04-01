@@ -94,22 +94,23 @@
                 style="@style/BrickPrototypeTextView"
                 android:layout_toRightOf="@id/duty_cycle_divider_label"
                 android:layout_below="@id/buzzer_frequency_divider"
-                />
+                />-->
 
             <TextView
                 android:id="@+id/time_last_label"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/duty_cycle_divider_label"
-                android:layout_marginTop="20dp"
-                android:text="Time Last" />
+                android:layout_below="@id/ble_cardbuzzer_label"
+                android:layout_marginTop="15dp"
+                android:text="Time Last (seconds)" />
 
             <TextView
                 android:id="@+id/buzzer_time_last"
                 style="@style/BrickPrototypeTextView"
                 android:layout_toRightOf="@id/time_last_label"
-                android:layout_below="@id/buzzer_duty_cycle_divider" />-->
+                android:layout_below="@id/ble_cardbuzzer_label"
+                android:text="1"/>
 
         </RelativeLayout>
 

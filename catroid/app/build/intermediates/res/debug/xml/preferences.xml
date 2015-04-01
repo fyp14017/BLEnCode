@@ -46,8 +46,9 @@
         android:summary="@string/preference_description_select_camera"
         android:defaultValue="0" />
 
-    <Preference
-        android:key="welcome_message"
-        android:title="Add proximity sensor device" />
+    <org.catrobat.catroid.ui.NumberPickerPreference
+        android:key="key_number"
+        android:title="Set RSSI value for Proximity Sensor"
+        android:defaultValue="75"/>
 </PreferenceScreen>
 <!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/xml/preferences.xml -->

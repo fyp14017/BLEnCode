@@ -230,6 +230,7 @@ public class WhenBrick extends ScriptBrick {
                 LayoutInflater li = LayoutInflater.from(context);
                 View proximityView = li.inflate(R.layout.proximity_sensor_2, null);
                 final EditText Mac = (EditText) proximityView.findViewById(R.id.editText2);
+                Mac.setText(mac);
                 MACbuilder.setTitle("MAC Address")
                         .setView(proximityView)
                         .setNeutralButton("OK", new DialogInterface.OnClickListener() {
