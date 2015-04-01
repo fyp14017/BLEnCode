@@ -32,6 +32,7 @@
     </string-array >
 
     <string-array name="sensor_chooser">
+        <item>@string/ir_temperature</item>
         <item>@string/sensor_temperature</item>
         <item>@string/sensor_pressure</item>
         <item>@string/sensor_humidity</item>

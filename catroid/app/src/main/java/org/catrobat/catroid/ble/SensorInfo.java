@@ -35,6 +35,9 @@ import org.catrobat.catroid.content.bricks.MonitorSensorBrick;
 public class SensorInfo {
 
 	public float Temp;
+    public float irTemp;
+    public float Hum;
+    public float Pressure;
 	public float Acc_x;
 	public float Acc_y;
 	public float Acc_z;
@@ -46,6 +49,9 @@ public class SensorInfo {
 	public float Mag_z;
 
     public SensorInfo(){
+        Pressure = 0f;
+        irTemp = 0f;
+        Hum = 0f;
         Temp = 0f;
         Acc_x =0f;
         Acc_y=0f;
@@ -84,6 +90,35 @@ public class SensorInfo {
 		return acc;
 	}
 
+    public static double extractAmbientTemperature(BluetoothGattCharacteristic characteristic) {
+        int offset = 2;
+        return shortUnsignedAtOffset(characteristic, offset) / 128.0;
+    }
+
+    public static double extractTargetTemperature(BluetoothGattCharacteristic c, double ambient) {
+        Integer twoByteValue = shortSignedAtOffset(c, 0);
+
+        double Vobj2 = twoByteValue.doubleValue();
+        Vobj2 *= 0.00000015625;
+
+        double Tdie = ambient + 273.15;
+
+        double S0 = 5.593E-14; // Calibration factor
+        double a1 = 1.75E-3;
+        double a2 = -1.678E-5;
+        double b0 = -2.94E-5;
+        double b1 = -5.7E-7;
+        double b2 = 4.63E-9;
+        double c2 = 13.4;
+        double Tref = 298.15;
+        double S = S0 * (1 + a1 * (Tdie - Tref) + a2 * Math.pow((Tdie - Tref), 2));
+        double Vos = b0 + b1 * (Tdie - Tref) + b2 * Math.pow((Tdie - Tref), 2);
+        double fObj = (Vobj2 - Vos) + c2 * Math.pow((Vobj2 - Vos), 2);
+        double tObj = Math.pow(Math.pow(Tdie, 4) + (fObj / S), .25);
+
+        return tObj - 273.15;
+    }
+
 	public static double extractBarTemperature(BluetoothGattCharacteristic characteristic, final int[] c) {
 		// c holds the calibration coefficients
 
@@ -115,10 +150,16 @@ public class SensorInfo {
 		p_a = (S * p_r + O) / Math.pow(2, 14);
 
 		//Convert pascal to in. Hg
-		double p_hg = p_a * 0.000296;
+		//double p_hg = p_a * 0.000296;
 
-		return p_hg;
+		return p_a/1000.0;
 	}
+
+    public static float extractHumidityData(BluetoothGattCharacteristic c){
+        int a = shortUnsignedAtOffset(c, 2);
+        a = a - (a % 4);
+        return (-6f) + 125f * (a / 65535f);
+    }
 
 	public static int[] extractCalibrationCoefficients(BluetoothGattCharacteristic c) {
 		int[] coefficients = new int[8];

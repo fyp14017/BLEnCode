@@ -178,9 +178,15 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
     public static Double getSensorValue(String tagName, Sensors sensor) {
         Integer tagNumber = Integer.parseInt(tagName.split(" ")[1]);
-        Log.d("dev" , "entered getSensorValue with tag = "+ tagName + " sensor = "+ sensor.name() + " tagNumber = " + tagNumber);
+        //Log.d("dev" , "entered getSensorValue with tag = "+ tagName + " sensor = "+ sensor.name() + " tagNumber = " + tagNumber);
         SensorTag tag = PreStageActivity.sensorTags.get(tagNumber-1);
         switch(sensor){
+            case HUMIDITY:
+                return (double) tag.info.Hum;
+            case PRESSURE:
+                return (double) tag.info.Pressure;
+            case IR_TEMPERATURE:
+                return (double) tag.info.irTemp;
             case SENSOR_TAG_TEMPERATURE:
                 return (double) tag.info.Temp;
             case ACCELEROMETER_ABS:

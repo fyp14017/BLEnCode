@@ -100,7 +100,7 @@ public class PreStageActivity extends BaseActivity {
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
     public static ArrayList<SensorTag> sensorTags;
 	private DroneInitializer droneInitializer = null;
-
+    private boolean bleFlag = false;
 	private Intent returnToActivityIntent = null;
 
     public static BluetoothGatt[] bgs;
@@ -209,7 +209,8 @@ public class PreStageActivity extends BaseActivity {
                         if (p_cals == null) {
                             return;
                         }
-                        //double pressure = SensorInfo.extractBarometer(characteristic, p_cals);
+                        double pressure = SensorInfo.extractBarometer(characteristic, p_cals);
+                        Log.d("dev", "logging pressure = " + pressure);
                         double temp = SensorInfo.extractBarTemperature(characteristic, p_cals);
 
                         String t = String.format("%.1f\u00B0C", temp);
@@ -219,12 +220,25 @@ public class PreStageActivity extends BaseActivity {
                     if (MonitorSensorAction.PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
                         p_cals = SensorInfo.extractCalibrationCoefficients(characteristic);
                         Log.d("dev", "reading cals");
-                        //double pressure = SensorInfo.extractBarometer(characteristic, p_cals);
+                        double pressure = SensorInfo.extractBarometer(characteristic, p_cals);
+                        sensorTags.get(gatt_position).info.Pressure = (float) pressure;
+                        Log.d("dev", "logging pressure = " + pressure);
                         double temp = SensorInfo.extractBarTemperature(characteristic, p_cals);
 
                         String t = String.format("%.1f\u00B0C", temp);
                         Log.d("dev", t.substring(0, 4));
                         sensorTags.get(gatt_position).info.Temp = Float.parseFloat(t.substring(0, 4));
+                    }
+                    if(MonitorSensorAction.HUMIDITY_DATA_CHAR.equals(characteristic.getUuid())){
+                        float humidity = SensorInfo.extractHumidityData(characteristic);
+                        sensorTags.get(gatt_position).info.Hum = humidity;
+                        Log.d("dev","Humidity = " + humidity);
+                    }
+                    if(MonitorSensorAction.IRT_DATA_CHAR.equals(characteristic.getUuid())){
+                        double ambient = SensorInfo.extractAmbientTemperature(characteristic);
+                        double target = SensorInfo.extractTargetTemperature(characteristic, ambient);
+                        sensorTags.get(gatt_position).info.irTemp = (float) target;
+                        Log.d("dev", "IR temperature = " + sensorTags.get(gatt_position).info.irTemp);
                     }
                     if (MonitorSensorAction.ACC_DATA_CHAR.equals(characteristic.getUuid())) {
                         float[] arr = SensorInfo.extractAccInfo(characteristic);
@@ -296,6 +310,8 @@ public class PreStageActivity extends BaseActivity {
                             return;
                         }
                         double pressure = SensorInfo.extractBarometer(characteristic, p_cals);
+                        sensorTags.get(gatt_position).info.Pressure = (float) pressure;
+                        Log.d("dev", "logging pressure = " + pressure);
                         double temp = SensorInfo.extractBarTemperature(characteristic, p_cals);
                         String t = String.format("%.1f\u00B0C", temp);
                         Log.d("dev", t.substring(0, 4));
@@ -304,6 +320,17 @@ public class PreStageActivity extends BaseActivity {
                     if (MonitorSensorAction.PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
                         p_cals = SensorInfo.extractCalibrationCoefficients(characteristic);
                         Log.d("dev", "reading cals");
+                    }
+                    if(MonitorSensorAction.IRT_DATA_CHAR.equals(characteristic.getUuid())){
+                        double ambient = SensorInfo.extractAmbientTemperature(characteristic);
+                        double target = SensorInfo.extractTargetTemperature(characteristic, ambient);
+                        sensorTags.get(gatt_position).info.irTemp = (float) target;
+                        Log.d("dev", "IR temperature = " + sensorTags.get(gatt_position).info.irTemp);
+                    }
+                    if(MonitorSensorAction.HUMIDITY_DATA_CHAR.equals(characteristic.getUuid())){
+                        float humidity = SensorInfo.extractHumidityData(characteristic);
+                        sensorTags.get(gatt_position).info.Hum = humidity;
+                        Log.d("dev","Humidity = " + humidity);
                     }
                     if (MonitorSensorAction.ACC_DATA_CHAR.equals(characteristic.getUuid())) {
                         float[] arr = SensorInfo.extractAccInfo(characteristic);
@@ -343,6 +370,13 @@ public class PreStageActivity extends BaseActivity {
                         c.setValue(new byte[] { 0x01 });
                         gatt.writeCharacteristic(c);
                     } else {
+                        int gatt_position=0;
+                        for(gatt_position=0; gatt_position < bgs.length; gatt_position++){
+                            if(gatt.equals(bgs[gatt_position])){
+                                break;
+                            }
+                        }
+                        MonitorSensorAction.tagFlag[gatt_position] = false;
                         return;
                     }
                 }
@@ -363,6 +397,11 @@ public class PreStageActivity extends BaseActivity {
                                     MonitorSensorAction.PRESSURE_DATA_CHAR));
                         }
                     }
+                    if(MonitorSensorAction.IRT_CONFIG_CHAR.equals(characteristic.getUuid())){
+                        Log.d("dev", "irt enabled");
+                        gatt.readCharacteristic(gatt.getService(MonitorSensorAction.IRT_SERVICE).getCharacteristic(
+                                MonitorSensorAction.IRT_DATA_CHAR));
+                    }
                     if (MonitorSensorAction.ACC_CONFIG_CHAR.equals(characteristic.getUuid())) {
                         Log.d("dev", "accelerometer enabled");
                         gatt.readCharacteristic(gatt.getService(MonitorSensorAction.ACC_SERVICE).getCharacteristic(
@@ -372,6 +411,11 @@ public class PreStageActivity extends BaseActivity {
                         Log.d("dev", "gyroscope enabled");
                         gatt.readCharacteristic(gatt.getService(MonitorSensorAction.GYRO_SERVICE).getCharacteristic(
                                 MonitorSensorAction.GYRO_DATA_CHAR));
+                    }
+                    if (MonitorSensorAction.HUMIDITY_CONFIG_CHAR.equals(characteristic.getUuid())) {
+                        Log.d("dev", "humidity enabled");
+                        gatt.readCharacteristic(gatt.getService(MonitorSensorAction.HUMIDITY_SERVICE).getCharacteristic(
+                                MonitorSensorAction.HUMIDITY_DATA_CHAR));
                     }
                     if (MonitorSensorAction.MAG_CONFIG_CHAR.equals(characteristic.getUuid())) {
                         Log.d("dev", "magnetometer enabled");
@@ -393,6 +437,7 @@ public class PreStageActivity extends BaseActivity {
         if ((requiredResources & Brick.BLUETOOTH_BLE_SENSORS) > 0) {
             BluetoothManager bluetoothManager = new BluetoothManager(this);
             int bluetoothState = bluetoothManager.activateBluetooth();
+            bleFlag  = true;
             if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
 
                 Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
@@ -404,7 +449,7 @@ public class PreStageActivity extends BaseActivity {
             }
         }
 
-        if((requiredResources & Brick.BLUETOOTH_BLE_PROXIMITY) > 0){
+        if(((requiredResources & Brick.BLUETOOTH_BLE_PROXIMITY) > 0) && !bleFlag) {
             BluetoothManager bluetoothManager = new BluetoothManager(this);
             int bluetoothState = bluetoothManager.activateBluetooth();
             if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {

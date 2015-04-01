@@ -31,8 +31,8 @@ import java.util.HashMap;
 public enum Sensors {
 	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, LOUDNESS, FACE_DETECTED, FACE_SIZE, FACE_X_POSITION, FACE_Y_POSITION, OBJECT_X(
 			true), OBJECT_Y(true), OBJECT_GHOSTEFFECT(true), OBJECT_BRIGHTNESS(true), OBJECT_SIZE(true), OBJECT_ROTATION(
-			true), OBJECT_LAYER(true), SENSOR_TAG_TEMPERATURE, ACCELEROMETER_ABS, ACCELEROMETER_X, ACCELEROMETER_Y, ACCELEROMETER_Z,
-            GYROSCOPE_X, GYROSCOPE_Y, GYROSCOPE_Z, MAGNETOMETER_ABS, MAGNETOMETER_X, MAGNETOMETER_Y, MAGNETOMETER_Z;
+			true), OBJECT_LAYER(true), SENSOR_TAG_TEMPERATURE, IR_TEMPERATURE, ACCELEROMETER_ABS, ACCELEROMETER_X, ACCELEROMETER_Y, ACCELEROMETER_Z,
+            GYROSCOPE_X, GYROSCOPE_Y, GYROSCOPE_Z, MAGNETOMETER_ABS, MAGNETOMETER_X, MAGNETOMETER_Y, MAGNETOMETER_Z, PRESSURE, HUMIDITY;
 
 	public final boolean isObjectSensor;
 	public static final String TAG = Sensors.class.getSimpleName();
@@ -66,7 +66,8 @@ public enum Sensors {
 
     private static void initSensorEnumMapping(){
         sensorEnumMap = new HashMap<String, Sensors>();
-        sensorEnumMap.put("Temperature", SENSOR_TAG_TEMPERATURE);
+        sensorEnumMap.put("Ambient_Temperature", SENSOR_TAG_TEMPERATURE);
+        sensorEnumMap.put("IR_Temperature", IR_TEMPERATURE);
         sensorEnumMap.put("Accelerometer_absolute", ACCELEROMETER_ABS);
         sensorEnumMap.put("Accelerometer_x", ACCELEROMETER_X);
         sensorEnumMap.put("Accelerometer_y", ACCELEROMETER_Y);
@@ -78,7 +79,8 @@ public enum Sensors {
         sensorEnumMap.put("Magnetometer_x", MAGNETOMETER_X);
         sensorEnumMap.put("Magnetometer_y", MAGNETOMETER_Y);
         sensorEnumMap.put("Magnetometer_z", MAGNETOMETER_Z);
-        //TODO Humidity vagerah
+        sensorEnumMap.put("Pressure", PRESSURE);
+        sensorEnumMap.put("Humidity", HUMIDITY);
     }
 
 }

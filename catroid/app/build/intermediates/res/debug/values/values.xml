@@ -22,6 +22,7 @@
         <item>@string/nxt_motor_all</item>
     </string-array>
     <string-array name="sensor_chooser">
+        <item>@string/ir_temperature</item>
         <item>@string/sensor_temperature</item>
         <item>@string/sensor_pressure</item>
         <item>@string/sensor_humidity</item>
@@ -583,6 +584,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="hide_details">Hide Details</string>
     <string name="insert_below">Insert Below</string>
+    <string name="ir_temperature">IR_Temperature</string>
     <string name="last_used">Last access:</string>
     <string name="led_and_front_camera_warning">Led AND Front Camera are not supported</string>
     <string name="length">Length:</string>
@@ -743,7 +745,7 @@
     <string name="sensor_magnetometer_y">Magnetometer_y</string>
     <string name="sensor_magnetometer_z">Magnetometer_z</string>
     <string name="sensor_pressure">Pressure</string>
-    <string name="sensor_temperature">Temperature</string>
+    <string name="sensor_temperature">Ambient_Temperature</string>
     <string name="sensortag1">Sensor Tag 1</string>
     <string name="sensortag10">Sensor Tag 10</string>
     <string name="sensortag2">Sensor Tag 2</string>

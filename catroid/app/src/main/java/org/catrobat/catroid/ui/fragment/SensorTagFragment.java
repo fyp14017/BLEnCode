@@ -28,10 +28,10 @@ public class SensorTagFragment extends SherlockListFragment implements Dialog.On
     private int number;
 
     private static int[] SensorTagElements = {
-            R.string.sensor_temperature, R.string.sensor_accelerometer_abs, R.string.sensor_accelerometer_x,
+            R.string.ir_temperature, R.string.sensor_temperature, R.string.sensor_accelerometer_abs, R.string.sensor_accelerometer_x,
             R.string.sensor_accelerometer_y, R.string.sensor_accelerometer_z, R.string.sensor_gyroscope_x,
             R.string.sensor_gyroscope_y, R.string.sensor_gyroscope_z, R.string.sensor_magnetometer_abs,
-            R.string.sensor_magnetometer_x, R.string.sensor_magnetometer_y, R.string.sensor_magnetometer_z
+            R.string.sensor_magnetometer_x, R.string.sensor_magnetometer_y, R.string.sensor_magnetometer_z, R.string.sensor_pressure, R.string.sensor_humidity
     };
     private String [] items;
 

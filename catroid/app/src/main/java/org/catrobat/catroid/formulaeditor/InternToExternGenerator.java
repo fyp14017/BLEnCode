@@ -87,6 +87,7 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_Y_POSITION.name(),
 				R.string.formula_editor_sensor_face_y_position);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOUDNESS.name(), R.string.formula_editor_sensor_loudness);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.IR_TEMPERATURE.name(), R.string.ir_temperature);
         INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SENSOR_TAG_TEMPERATURE.name(), R.string.sensor_temperature);
         INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ACCELEROMETER_ABS.name(), R.string.sensor_accelerometer_abs);
         INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ACCELEROMETER_X.name(), R.string.sensor_accelerometer_x);
@@ -99,6 +100,9 @@ public class InternToExternGenerator {
         INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_X.name(), R.string.sensor_magnetometer_x);
         INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_Y.name(), R.string.sensor_magnetometer_y);
         INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_Z.name(), R.string.sensor_magnetometer_z);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MAGNETOMETER_Z.name(), R.string.sensor_magnetometer_z);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PRESSURE.name(), R.string.sensor_pressure);
+        INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.HUMIDITY.name(), R.string.sensor_humidity);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X.name(), R.string.formula_editor_object_x);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y.name(), R.string.formula_editor_object_y);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_GHOSTEFFECT.name(),

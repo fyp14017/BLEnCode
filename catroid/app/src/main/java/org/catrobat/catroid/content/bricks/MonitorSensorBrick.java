@@ -52,7 +52,7 @@ public class MonitorSensorBrick extends BrickBaseType implements OnItemSelectedL
 	private static final long serialVersionUID = 1L;
 
 	public static enum Sensor {
-		TEMPERATURE, PRESSURE, HUMIDITY, ACCELEROMETER, GYROSCOPE, MAGNETOMETER
+		IR_TEMPERATURE, AMBIENT_TEMPERATURE, PRESSURE, HUMIDITY, ACCELEROMETER, GYROSCOPE, MAGNETOMETER
 	}
 
     public static enum SensorTag{

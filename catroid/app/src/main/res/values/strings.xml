@@ -346,7 +346,8 @@
     <string name="sensortag8">Sensor Tag 8</string>
     <string name="sensortag9">Sensor Tag 9</string>
     <string name="sensortag10">Sensor Tag 10</string>
-    <string name="sensor_temperature">Temperature</string>
+    <string name="ir_temperature">IR_Temperature</string>
+    <string name="sensor_temperature">Ambient_Temperature</string>
     <string name="sensor_humidity">Humidity</string>
     <string name="sensor_pressure">Pressure</string>
     <string name="sensor_accelerometer">Accelerometer</string>

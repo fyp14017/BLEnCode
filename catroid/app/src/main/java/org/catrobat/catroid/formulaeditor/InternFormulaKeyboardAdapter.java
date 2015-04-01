@@ -140,6 +140,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.FACE_X_POSITION);
 			case R.string.formula_editor_sensor_face_y_position:
 				return buildSensor(Sensors.FACE_Y_POSITION);
+            case R.string.ir_temperature:
+                return buildSensor(Sensors.IR_TEMPERATURE, name);
             case R.string.sensor_temperature:
                 return buildSensor(Sensors.SENSOR_TAG_TEMPERATURE , name);
             case R.string.sensor_accelerometer_abs:
@@ -164,6 +166,10 @@ public class InternFormulaKeyboardAdapter {
                 return buildSensor(Sensors.MAGNETOMETER_Y, name);
             case R.string.sensor_magnetometer_z:
                 return buildSensor(Sensors.MAGNETOMETER_Z, name);
+            case R.string.sensor_pressure:
+                return buildSensor(Sensors.PRESSURE, name);
+            case R.string.sensor_humidity:
+                return buildSensor(Sensors.HUMIDITY, name);
 
 				//PERIOD
 			case R.id.formula_editor_keyboard_decimal_mark:
