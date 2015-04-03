@@ -153,6 +153,17 @@ public class PreStageActivity extends BaseActivity {
                 }
 
                 @Override
+                public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status){
+                    int number = PreferenceManager.getDefaultSharedPreferences(PreStageActivity.this).getInt("key_number",75);
+                    if(rssi > ((-1)*number)){
+                        List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+                        for (Sprite s : sprites) {
+                            s.look.onKeyfobPressed("BLE_PROXIMITY " + gatt.getDevice().getAddress());
+                        }
+                    }
+                }
+
+                @Override
                 public void onServicesDiscovered(BluetoothGatt gatt, int status) {
                     if (status == BluetoothGatt.GATT_SUCCESS) {
                         Log.d("dev", "Services done");

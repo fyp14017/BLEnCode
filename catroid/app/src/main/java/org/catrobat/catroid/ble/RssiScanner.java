@@ -8,6 +8,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.stage.PreStageActivity;
 
 import java.util.List;
 
@@ -30,10 +31,20 @@ public class RssiScanner {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                for(int i=0;i< PreStageActivity.bgs.length;i++){
+                    if(PreStageActivity.bgs[i] != null){
+                        PreStageActivity.bgs[i].readRemoteRssi();
+                    }
+                }
+                for(int i=0;i< PreStageActivity.card_bgs.length;i++){
+                    if(PreStageActivity.card_bgs[i] != null){
+                        PreStageActivity.card_bgs[i].readRemoteRssi();
+                    }
+                }
                 mBluetoothAdapter.stopLeScan(callback);
                 startScanning(mBluetoothAdapter);
             }
-        }, 3000);
+        }, 4000);
         mBluetoothAdapter.startLeScan(callback);
     }
 
@@ -47,7 +58,7 @@ public class RssiScanner {
             if(rssi > ((-1)*number)) {
                 List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
                 for (Sprite s : sprites) {
-                    s.look.onKeyfobPressed("BLE_PROXIMITY " + bluetoothDevice.getName());
+                    s.look.onKeyfobPressed("BLE_PROXIMITY " + bluetoothDevice.getAddress());
                 }
             }
         }

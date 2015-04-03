@@ -198,6 +198,12 @@ public class ExtendedActions extends Actions {
         return action;
     }
 
+    public static CardLedAction cardLedAction(int red, int green, int blue, int timeLast){
+        CardLedAction action = action(CardLedAction.class);
+        action.setValues(red, green, blue, timeLast);
+        return action;
+    }
+
     public static MonitorSensorAction monitorSensorAction(MonitorSensorBrick.Sensor sensor, MonitorSensorBrick.SensorTag tag) {
         MonitorSensorAction action = action(MonitorSensorAction.class);
         action.setEnum(sensor, tag);
