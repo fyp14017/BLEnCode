@@ -2,6 +2,18 @@
 <resources xmlns:ns1="http://schemas.android.com/tools">
     <!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/values/arrays.xml -->
     <eat-comment/>
+    <string-array name="card_chooser">
+        <item>@string/card1</item>
+        <item>@string/card2</item>
+        <item>@string/card3</item>
+        <item>@string/card4</item>
+        <item>@string/card5</item>
+        <item>@string/card6</item>
+        <item>@string/card7</item>
+        <item>@string/card8</item>
+        <item>@string/card9</item>
+        <item>@string/card10</item>
+    </string-array>
     <string-array name="data_editor_buttons">
  		<item>@string/add_text</item>
  		<item>@string/add_variable</item>
@@ -339,6 +351,16 @@
     <string name="camera_facing_back">Back Camera</string>
     <string name="camera_facing_front">Front Camera</string>
     <string name="cancel_button">Cancel</string>
+    <string name="card1">Card 1</string>
+    <string name="card10">Card 10</string>
+    <string name="card2">Card 2</string>
+    <string name="card3">Card 3</string>
+    <string name="card4">Card 4</string>
+    <string name="card5">Card 5</string>
+    <string name="card6">Card 6</string>
+    <string name="card7">Card 7</string>
+    <string name="card8">Card 8</string>
+    <string name="card9">Card 9</string>
     <string name="categories">Categories</string>
     <string name="category_ble_sensors">BLE Sensors</string>
     <string name="category_control">Control</string>

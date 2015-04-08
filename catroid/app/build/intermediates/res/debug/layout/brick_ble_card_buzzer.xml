@@ -55,6 +55,14 @@
                 android:text="Sound Card Buzzer" >
             </TextView>
 
+            <Spinner
+                android:id="@+id/card_buzzer_spinner"
+                android:layout_below="@id/ble_cardbuzzer_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false" />
+
             <!--<TextView
                 android:id="@+id/frequency_label"
                 android:layout_below="@id/ble_cardbuzzer_label"
@@ -101,7 +109,7 @@
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ble_cardbuzzer_label"
+                android:layout_below="@id/card_buzzer_spinner"
                 android:layout_marginTop="15dp"
                 android:text="Time Last (seconds)" />
 
@@ -109,7 +117,7 @@
                 android:id="@+id/buzzer_time_last"
                 style="@style/BrickPrototypeTextView"
                 android:layout_toRightOf="@id/time_last_label"
-                android:layout_below="@id/ble_cardbuzzer_label"
+                android:layout_below="@id/card_buzzer_spinner"
                 android:text="1"/>
 
         </RelativeLayout>

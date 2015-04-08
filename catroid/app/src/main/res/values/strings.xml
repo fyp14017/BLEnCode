@@ -346,6 +346,18 @@
     <string name="sensortag8">Sensor Tag 8</string>
     <string name="sensortag9">Sensor Tag 9</string>
     <string name="sensortag10">Sensor Tag 10</string>
+
+    <string name="card1">Card 1</string>
+    <string name="card2">Card 2</string>
+    <string name="card3">Card 3</string>
+    <string name="card4">Card 4</string>
+    <string name="card5">Card 5</string>
+    <string name="card6">Card 6</string>
+    <string name="card7">Card 7</string>
+    <string name="card8">Card 8</string>
+    <string name="card9">Card 9</string>
+    <string name="card10">Card 10</string>
+    
     <string name="ir_temperature">IR_Temperature</string>
     <string name="sensor_temperature">Ambient_Temperature</string>
     <string name="sensor_humidity">Humidity</string>

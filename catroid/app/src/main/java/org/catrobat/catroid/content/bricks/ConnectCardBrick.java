@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ble.BLECard;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.stage.PreStageActivity;
@@ -40,14 +41,26 @@ public class ConnectCardBrick extends BrickBaseType implements OnItemSelectedLis
 
     private transient AdapterView<?> adapterView;
 
-    public ConnectCardBrick(Sprite sprite)
+    private String card;
+    private BLECard cardEnum;
+
+    public ConnectCardBrick(Sprite sprite, BLECard cardEnum)
     {
+        this.cardEnum = cardEnum;
+        this.card = cardEnum.name();
         this.sprite = sprite;
+    }
+
+    protected Object readResolve(){
+        if(card!=null){
+            cardEnum = BLECard.valueOf(card);
+        }
+        return this;
     }
 
     @Override
     public Brick clone() {
-        return new ConnectCardBrick(getSprite());
+        return new ConnectCardBrick(getSprite(), cardEnum);
     }
     @Override
     public Brick copyBrickForSprite(Sprite sprite) {
@@ -63,7 +76,16 @@ public class ConnectCardBrick extends BrickBaseType implements OnItemSelectedLis
 
         view = View.inflate(context, R.layout.brick_ble_connect_card, null);
         setCheckboxView(R.id.brick_ble_connect_card_checkbox);
+        ArrayAdapter<CharSequence> cardAdapter = ArrayAdapter.createFromResource(context, R.array.card_chooser,
+                android.R.layout.simple_spinner_item);
+        cardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner cardSpinner = (Spinner) view.findViewById(R.id.connect_card_spinner);
+        cardSpinner.setFocusable(true);
+        cardSpinner.setClickable(true);
+        cardSpinner.setOnItemSelectedListener(this);
 
+        cardSpinner.setAdapter(cardAdapter);
+        cardSpinner.setSelection(cardEnum.ordinal());
         return view;
     }
 
@@ -82,6 +104,14 @@ public class ConnectCardBrick extends BrickBaseType implements OnItemSelectedLis
     @Override
     public View getPrototypeView(Context context) {
         View prototypeView = View.inflate(context, R.layout.brick_ble_connect_card, null);
+        Spinner cardSpinner = (Spinner) prototypeView.findViewById(R.id.connect_card_spinner);
+        cardSpinner.setFocusableInTouchMode(false);
+        cardSpinner.setFocusable(false);
+        ArrayAdapter<CharSequence> cardAdapter = ArrayAdapter.createFromResource(context, R.array.card_chooser,
+                android.R.layout.simple_spinner_item);
+        cardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cardSpinner.setAdapter(cardAdapter);
+        cardSpinner.setSelection(cardEnum.ordinal());
         return prototypeView;
     }
 
@@ -107,7 +137,8 @@ public class ConnectCardBrick extends BrickBaseType implements OnItemSelectedLis
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        cardEnum = BLECard.values()[position];
+        card = cardEnum.name();
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.ble.BLECard;
 import org.catrobat.catroid.stage.PreStageActivity;
 
 import static org.catrobat.catroid.content.bricks.ConnectCardBrick.UUID_BUZZER;
@@ -19,12 +20,59 @@ import static org.catrobat.catroid.content.bricks.ConnectCardBrick.UUID_SERVICE;
 public class CardLedAction extends TemporalAction
 {
     private int red, green, blue, time;
+    private BLECard cardEnum;
     @SuppressLint("NewApi")
     @Override
     protected void update(float v)
     {
-        BluetoothGattCharacteristic bgc = PreStageActivity.card_bgs[0].getService(UUID_SERVICE).getCharacteristic(UUID_LED);
-        byte redByte = Byte.parseByte(Integer.toHexString(red),16);
+        PreStageActivity.bg = null;
+        switch(cardEnum){
+            case CARD1:
+                PreStageActivity.bg = PreStageActivity.card_bgs[0];
+                //flag_position = 0;
+                break;
+            case CARD2:
+                PreStageActivity.bg = PreStageActivity.card_bgs[1];
+                //flag_position = 1;
+                break;
+            case CARD3:
+                PreStageActivity.bg = PreStageActivity.card_bgs[2];
+                //flag_position = 2;
+                break;
+            case CARD4:
+                PreStageActivity.bg = PreStageActivity.card_bgs[3];
+                //flag_position = 3;
+                break;
+            case CARD5:
+                PreStageActivity.bg = PreStageActivity.card_bgs[4];
+                //flag_position = 4;
+                break;
+            case CARD6:
+                PreStageActivity.bg = PreStageActivity.card_bgs[5];
+                //flag_position = 5;
+                break;
+            case CARD7:
+                PreStageActivity.bg = PreStageActivity.card_bgs[6];
+                //flag_position = 6;
+                break;
+            case CARD8:
+                PreStageActivity.bg = PreStageActivity.card_bgs[7];
+                //flag_position = 7;
+                break;
+            case CARD9:
+                PreStageActivity.bg = PreStageActivity.card_bgs[8];
+                //flag_position = 8;
+                break;
+            case CARD10:
+                PreStageActivity.bg = PreStageActivity.card_bgs[9];
+                //flag_position = 9;
+                break;
+            default:
+                Log.d("dev", "bg is null");
+                break;
+        }
+        BluetoothGattCharacteristic bgc = PreStageActivity.bg.getService(UUID_SERVICE).getCharacteristic(UUID_LED);
+        byte redByte = Byte.parseByte(Integer.toHexString(red), 16);
         byte greenByte = Byte.parseByte(Integer.toHexString(green),16);
         byte blueByte = Byte.parseByte(Integer.toHexString(blue),16);
 
@@ -39,13 +87,14 @@ public class CardLedAction extends TemporalAction
         }else{
             Log.d("dev","Problem in time");
         }
-        PreStageActivity.card_bgs[0].writeCharacteristic(bgc);
+        PreStageActivity.bg.writeCharacteristic(bgc);
     }
 
-    public void setValues(int red, int green, int blue,int time){
+    public void setValues(int red, int green, int blue,int time, BLECard card){
         this.red =  red;
         this.green = green;
         this.blue = blue;
         this.time = time*10;
+        this.cardEnum = card;
     }
 }

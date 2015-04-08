@@ -54,6 +54,19 @@
         <item>@string/sensortag10</item>
     </string-array>
 
+    <string-array name="card_chooser">
+        <item>@string/card1</item>
+        <item>@string/card2</item>
+        <item>@string/card3</item>
+        <item>@string/card4</item>
+        <item>@string/card5</item>
+        <item>@string/card6</item>
+        <item>@string/card7</item>
+        <item>@string/card8</item>
+        <item>@string/card9</item>
+        <item>@string/card10</item>
+    </string-array>
+    
     <string-array name="nxt_stop_motor_chooser" >
         <item >@string/nxt_motor_a</item >
         <item >@string/nxt_motor_b</item >

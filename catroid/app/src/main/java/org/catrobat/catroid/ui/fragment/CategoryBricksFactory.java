@@ -26,6 +26,7 @@ import android.content.Context;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ble.BLECard;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.Sprite;
@@ -263,9 +264,9 @@ public class CategoryBricksFactory {
 
         BLESensorsBrickList.add(new ConnectSensorTagBrick(sprite, ConnectSensorTagBrick.SensorTag.TAG1));
         BLESensorsBrickList.add(new MonitorSensorBrick(sprite, MonitorSensorBrick.Sensor.AMBIENT_TEMPERATURE, MonitorSensorBrick.SensorTag.TAG1));
-        BLESensorsBrickList.add(new ConnectCardBrick(sprite));
-        BLESensorsBrickList.add(new CardBuzzerBrick(sprite, 1));
-        BLESensorsBrickList.add(new CardLedBrick(sprite,1,1,1,1));
+        BLESensorsBrickList.add(new ConnectCardBrick(sprite,BLECard.CARD1));
+        BLESensorsBrickList.add(new CardBuzzerBrick(sprite, 1, BLECard.CARD1));
+        BLESensorsBrickList.add(new CardLedBrick(sprite,1,1,1,1, BLECard.CARD1));
         BLESensorsBrickList.add(new ProximityBrick(sprite));
         return BLESensorsBrickList;
     }

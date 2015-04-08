@@ -55,13 +55,21 @@
                 android:text="Light Card LED" >
             </TextView>
 
+            <Spinner
+                android:id="@+id/card_led_spinner"
+                android:layout_below="@id/ble_led_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false" />
+
             <TextView
                 android:id="@+id/ble_led_red_label"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_below="@id/ble_led_label"
+                android:layout_below="@id/card_led_spinner"
                 android:text="Red" >
             </TextView>
 
@@ -69,7 +77,7 @@
                 android:id="@+id/ble_led_red"
                 style="@style/BrickPrototypeTextView"
                 android:layout_toRightOf="@id/ble_led_red_label"
-                android:layout_below="@id/ble_led_label"
+                android:layout_below="@id/card_led_spinner"
                 android:text="1"/>
 
             <TextView
@@ -79,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="20dp"
-                android:layout_below="@id/ble_led_label"
+                android:layout_below="@id/card_led_spinner"
                 android:layout_toRightOf="@id/ble_led_red"
                 android:text="Green" >
             </TextView>
@@ -88,7 +96,7 @@
                 android:id="@+id/ble_led_green"
                 style="@style/BrickPrototypeTextView"
                 android:layout_toRightOf="@id/ble_led_green_label"
-                android:layout_below="@id/ble_led_label"
+                android:layout_below="@id/card_led_spinner"
                 android:text="1"/>
 
             <TextView
@@ -98,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="20dp"
-                android:layout_below="@id/ble_led_label"
+                android:layout_below="@id/card_led_spinner"
                 android:layout_toRightOf="@id/ble_led_green"
                 android:text="Blue" >
             </TextView>
@@ -107,7 +115,7 @@
                 android:id="@+id/ble_led_blue"
                 style="@style/BrickPrototypeTextView"
                 android:layout_toRightOf="@id/ble_led_blue_label"
-                android:layout_below="@id/ble_led_label"
+                android:layout_below="@id/card_led_spinner"
                 android:text="1"/>
 
 

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ble.BLECard;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.stage.PreStageActivity;
@@ -31,18 +32,28 @@ public class CardBuzzerBrick extends BrickBaseType implements OnItemSelectedList
 {
     private static final long serialVersionUID = 1L;
     private int timeLast;
+    private String card;
+    private BLECard cardEnum;
 
-    //public static enum frequencyDivider, dutyCycleDivider, timeLast;
 
-    public CardBuzzerBrick(Sprite sprite, int timeLast)
+    public CardBuzzerBrick(Sprite sprite, int timeLast, BLECard cardEnum)
     {
+        this.cardEnum = cardEnum;
+        this.card = cardEnum.name();
         this.sprite = sprite;
         this.timeLast = timeLast;
     }
 
+    protected Object readResolve(){
+        if(card!=null){
+            cardEnum = BLECard.valueOf(card);
+        }
+        return this;
+    }
+
     @Override
     public Brick clone() {
-        return new CardBuzzerBrick(getSprite(), timeLast);
+        return new CardBuzzerBrick(getSprite(), timeLast, cardEnum);
     }
     @Override
     public Brick copyBrickForSprite(Sprite sprite) {
@@ -58,6 +69,17 @@ public class CardBuzzerBrick extends BrickBaseType implements OnItemSelectedList
 
         view = View.inflate(context, R.layout.brick_ble_card_buzzer, null);
         setCheckboxView(R.id.brick_ble_cardbuzzer_checkbox);
+
+        ArrayAdapter<CharSequence> cardAdapter = ArrayAdapter.createFromResource(context, R.array.card_chooser,
+                android.R.layout.simple_spinner_item);
+        cardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner cardSpinner = (Spinner) view.findViewById(R.id.card_buzzer_spinner);
+        cardSpinner.setOnItemSelectedListener(this);
+        cardSpinner.setFocusable(true);
+        cardSpinner.setClickable(true);
+        cardSpinner.setAdapter(cardAdapter);
+        cardSpinner.setSelection(cardEnum.ordinal());
+
 
         final TextView time = (TextView) view.findViewById(R.id.buzzer_time_last);
         time.setClickable(true);
@@ -76,8 +98,8 @@ public class CardBuzzerBrick extends BrickBaseType implements OnItemSelectedList
                         .setNeutralButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                if(Integer.parseInt(input.getText().toString()) > 255){
-                                    Toast.makeText(context,"Time can only be less than 256",Toast.LENGTH_SHORT).show();
+                                if(Integer.parseInt(input.getText().toString()) > 127){
+                                    Toast.makeText(context,"Time can only be less than 128",Toast.LENGTH_SHORT).show();
                                 }else {
                                     timeLast = Integer.parseInt(input.getText().toString());
                                     time.setText(Integer.toString(timeLast));
@@ -114,6 +136,14 @@ public class CardBuzzerBrick extends BrickBaseType implements OnItemSelectedList
         time.setClickable(false);
         time.setFocusable(false);
         time.setFocusableInTouchMode(false);
+        Spinner cardSpinner = (Spinner) prototypeView.findViewById(R.id.card_buzzer_spinner);
+        cardSpinner.setFocusableInTouchMode(false);
+        cardSpinner.setFocusable(false);
+        ArrayAdapter<CharSequence> cardAdapter = ArrayAdapter.createFromResource(context, R.array.card_chooser,
+                android.R.layout.simple_spinner_item);
+        cardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cardSpinner.setAdapter(cardAdapter);
+        cardSpinner.setSelection(cardEnum.ordinal());
         return prototypeView;
     }
 
@@ -126,13 +156,14 @@ public class CardBuzzerBrick extends BrickBaseType implements OnItemSelectedList
     @Override
     public List<SequenceAction> addActionToSequence(Sprite s, SequenceAction sequence)
     {
-        sequence.addAction(ExtendedActions.cardBuzzerAction(timeLast));
+        sequence.addAction(ExtendedActions.cardBuzzerAction(timeLast, cardEnum));
         return null;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        cardEnum = BLECard.values()[position];
+        card = cardEnum.name();
     }
 
     @Override

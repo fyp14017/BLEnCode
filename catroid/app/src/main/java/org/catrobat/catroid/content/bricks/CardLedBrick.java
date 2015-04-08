@@ -8,14 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ble.BLECard;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -25,9 +28,13 @@ public class CardLedBrick extends BrickBaseType implements OnItemSelectedListene
 {
     private static final long serialVersionUID = 1L;
     private int red, green, blue, timeLast;
+    private BLECard cardEnum;
+    private String card;
 
-    public CardLedBrick(Sprite sprite, int red, int green, int blue, int timeLast)
+    public CardLedBrick(Sprite sprite, int red, int green, int blue, int timeLast, BLECard cardEnum)
     {
+        this.cardEnum = cardEnum;
+        this.card = cardEnum.name();
         this.sprite = sprite;
         this.red = red;
         this.green = green;
@@ -35,9 +42,16 @@ public class CardLedBrick extends BrickBaseType implements OnItemSelectedListene
         this.timeLast = timeLast;
     }
 
+    protected Object readResolve(){
+        if(card!=null){
+            cardEnum = BLECard.valueOf(card);
+        }
+        return this;
+    }
+
     @Override
     public Brick clone() {
-        return new CardLedBrick(getSprite(), red, green, blue, timeLast);
+        return new CardLedBrick(getSprite(), red, green, blue, timeLast, cardEnum);
     }
     @Override
     public Brick copyBrickForSprite(Sprite sprite) {
@@ -54,6 +68,16 @@ public class CardLedBrick extends BrickBaseType implements OnItemSelectedListene
         view = View.inflate(context, R.layout.brick_ble_card_led, null);
         setCheckboxView(R.id.brick_ble_led_checkbox);
 
+        ArrayAdapter<CharSequence> cardAdapter = ArrayAdapter.createFromResource(context, R.array.card_chooser,
+                android.R.layout.simple_spinner_item);
+        cardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner cardSpinner = (Spinner) view.findViewById(R.id.card_led_spinner);
+        cardSpinner.setFocusable(true);
+        cardSpinner.setClickable(true);
+        cardSpinner.setOnItemSelectedListener(this);
+
+        cardSpinner.setAdapter(cardAdapter);
+        cardSpinner.setSelection(cardEnum.ordinal());
 
         final TextView red_text = (TextView) view.findViewById(R.id.ble_led_red);
         red_text.setClickable(true);
@@ -72,8 +96,8 @@ public class CardLedBrick extends BrickBaseType implements OnItemSelectedListene
                         .setNeutralButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                if (Integer.parseInt(input.getText().toString()) > 255) {
-                                    Toast.makeText(context, "Value can only be less than 256", Toast.LENGTH_SHORT).show();
+                                if (Integer.parseInt(input.getText().toString()) > 127) {
+                                    Toast.makeText(context, "Value can only be less than 128", Toast.LENGTH_SHORT).show();
                                 } else {
                                     red = Integer.parseInt(input.getText().toString());
                                     red_text.setText(Integer.toString(red));
@@ -101,8 +125,8 @@ public class CardLedBrick extends BrickBaseType implements OnItemSelectedListene
                         .setNeutralButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                if(Integer.parseInt(input.getText().toString()) > 255){
-                                    Toast.makeText(context,"Value can only be less than 256",Toast.LENGTH_SHORT).show();
+                                if(Integer.parseInt(input.getText().toString()) > 127){
+                                    Toast.makeText(context,"Value can only be less than 128",Toast.LENGTH_SHORT).show();
                                 }else {
                                     green = Integer.parseInt(input.getText().toString());
                                     green_text.setText(Integer.toString(green));
@@ -130,8 +154,8 @@ public class CardLedBrick extends BrickBaseType implements OnItemSelectedListene
                         .setNeutralButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                if(Integer.parseInt(input.getText().toString()) > 255){
-                                    Toast.makeText(context,"Value can only be less than 256",Toast.LENGTH_SHORT).show();
+                                if(Integer.parseInt(input.getText().toString()) > 127){
+                                    Toast.makeText(context,"Value can only be less than 128",Toast.LENGTH_SHORT).show();
                                 }else {
                                     blue = Integer.parseInt(input.getText().toString());
                                     blue_text.setText(Integer.toString(blue));
@@ -159,8 +183,8 @@ public class CardLedBrick extends BrickBaseType implements OnItemSelectedListene
                         .setNeutralButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                if(Integer.parseInt(input.getText().toString()) > 255){
-                                    Toast.makeText(context,"Time can only be less than 256",Toast.LENGTH_SHORT).show();
+                                if(Integer.parseInt(input.getText().toString()) >127){
+                                    Toast.makeText(context,"Time can only be less than 128",Toast.LENGTH_SHORT).show();
                                 }else {
                                     timeLast = Integer.parseInt(input.getText().toString());
                                     time.setText(Integer.toString(timeLast));
@@ -172,14 +196,13 @@ public class CardLedBrick extends BrickBaseType implements OnItemSelectedListene
         });
 
 
-
         return view;
     }
 
     @Override
     public View getViewWithAlpha(int alphaValue) {
         if (view != null) {
-            View layout = view.findViewById(R.id.brick_ble_cardbuzzer_layout);
+            View layout = view.findViewById(R.id.brick_ble_led_layout);
             Drawable background = layout.getBackground();
             background.setAlpha(alphaValue);
             this.alphaValue = (alphaValue);
@@ -215,6 +238,17 @@ public class CardLedBrick extends BrickBaseType implements OnItemSelectedListene
         time.setClickable(false);
         time.setFocusable(false);
         time.setFocusableInTouchMode(false);
+
+        Spinner cardSpinner = (Spinner) prototypeView.findViewById(R.id.card_led_spinner);
+        cardSpinner.setFocusableInTouchMode(false);
+        cardSpinner.setFocusable(false);
+        cardSpinner.setClickable(false);
+        ArrayAdapter<CharSequence> cardAdapter = ArrayAdapter.createFromResource(context, R.array.card_chooser,
+                android.R.layout.simple_spinner_item);
+        cardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cardSpinner.setAdapter(cardAdapter);
+        cardSpinner.setSelection(cardEnum.ordinal());
+
         return prototypeView;
     }
 
@@ -227,13 +261,14 @@ public class CardLedBrick extends BrickBaseType implements OnItemSelectedListene
     @Override
     public List<SequenceAction> addActionToSequence(Sprite s, SequenceAction sequence)
     {
-        sequence.addAction(ExtendedActions.cardLedAction(red,green,blue,timeLast));
+        sequence.addAction(ExtendedActions.cardLedAction(red,green,blue,timeLast, cardEnum));
         return null;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        cardEnum = BLECard.values()[position];
+        card = cardEnum.name();
     }
 
     @Override

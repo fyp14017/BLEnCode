@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.ble.BLECard;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
@@ -198,9 +199,9 @@ public class ExtendedActions extends Actions {
         return action;
     }
 
-    public static CardLedAction cardLedAction(int red, int green, int blue, int timeLast){
+    public static CardLedAction cardLedAction(int red, int green, int blue, int timeLast, BLECard bleCard){
         CardLedAction action = action(CardLedAction.class);
-        action.setValues(red, green, blue, timeLast);
+        action.setValues(red, green, blue, timeLast, bleCard);
         return action;
     }
 
@@ -210,10 +211,10 @@ public class ExtendedActions extends Actions {
         return action;
     }
 
-    public static CardBuzzerAction cardBuzzerAction(int time)
+    public static CardBuzzerAction cardBuzzerAction(int time, BLECard cardEnum)
     {
         CardBuzzerAction action = action(CardBuzzerAction.class);
-        action.setTime(time);
+        action.setTime(time, cardEnum);
         return action;
     }
 
