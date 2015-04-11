@@ -36,7 +36,7 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <org.catrobat.catroid.ui.BrickLayout
+    <hku.fyp14017.blencode.ui.BrickLayout
         android:id="@+id/brick_drone_takeoff"
         style="@style/BrickContainer.Drone.Small"
         android:layout_width="match_parent"
@@ -50,6 +50,6 @@
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_drone_takeoff" >
         </TextView>
-    </org.catrobat.catroid.ui.BrickLayout>
+    </hku.fyp14017.blencode.ui.BrickLayout>
 
 </LinearLayout>

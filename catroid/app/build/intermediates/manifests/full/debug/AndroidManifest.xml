@@ -2,7 +2,7 @@
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2014 The Catrobat Team
-  ~ (<http://developer.catrobat.org/credits>)
+  ~ (<http://developer.catrobat.hku/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU Affero General Public License as
@@ -11,7 +11,7 @@
   ~
   ~ An additional term exception under section 7 of the GNU Affero
   ~ General Public License, version 3, is available at
-  ~ http://developer.catrobat.org/license_additional_term
+  ~ http://developer.catrobat.hku/license_additional_term
   ~
   ~ This program is distributed in the hope that it will be useful,
   ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -19,10 +19,10 @@
   ~ GNU Affero General Public License for more details.
   ~
   ~ You should have received a copy of the GNU Affero General Public License
-  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  ~ along with this program.  If not, see <http://www.gnu.hku/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.catrobat.catroid"
+    package="hku.fyp14017.blencode"
     android:installLocation="auto"
     android:versionName="0.9.9" >
 
@@ -77,13 +77,13 @@
         android:maxSdkVersion="18" />
 
     <application
-        android:name="org.catrobat.catroid.CatroidApplication"
+        android:name="hku.fyp14017.blencode.CatroidApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Catroid" >
         <activity
-            android:name="org.catrobat.catroid.ui.MainMenuActivity"
+            android:name="hku.fyp14017.blencode.ui.MainMenuActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -126,50 +126,50 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.catrobat.catroid.ui.BackPackActivity"
+            android:name="hku.fyp14017.blencode.ui.BackPackActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="org.catrobat.catroid.ui.WebViewActivity"
+            android:name="hku.fyp14017.blencode.ui.WebViewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="org.catrobat.catroid.stage.StageActivity"
+            android:name="hku.fyp14017.blencode.stage.StageActivity"
             android:configChanges="orientation"
             android:label="@string/stage"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
         <activity
-            android:name="org.catrobat.catroid.stage.PreStageActivity"
+            android:name="hku.fyp14017.blencode.stage.PreStageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="org.catrobat.catroid.ui.ProjectActivity"
+            android:name="hku.fyp14017.blencode.ui.ProjectActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="org.catrobat.catroid.ui.ProgramMenuActivity"
+            android:name="hku.fyp14017.blencode.ui.ProgramMenuActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="org.catrobat.catroid.ui.ScriptActivity"
+            android:name="hku.fyp14017.blencode.ui.ScriptActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="org.catrobat.catroid.ui.UserBrickScriptActivity"
+            android:name="hku.fyp14017.blencode.ui.UserBrickScriptActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="org.catrobat.catroid.ui.MyProjectsActivity"
+            android:name="hku.fyp14017.blencode.ui.MyProjectsActivity"
             android:noHistory="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="org.catrobat.catroid.ui.SettingsActivity"
+            android:name="hku.fyp14017.blencode.ui.SettingsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="org.catrobat.catroid.bluetooth.DeviceListActivity"
+            android:name="hku.fyp14017.blencode.bluetooth.DeviceListActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
-            android:name="org.catrobat.catroid.soundrecorder.SoundRecorderActivity"
+            android:name="hku.fyp14017.blencode.soundrecorder.SoundRecorderActivity"
             android:exported="true"
             android:label="@string/soundrecorder_name"
             android:screenOrientation="portrait" >
@@ -182,18 +182,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.catrobat.catroid.ui.ExploreProjectsActivity"
+            android:name="hku.fyp14017.blencode.ui.ExploreProjectsActivity"
             android:label="Pocket Code BLE Projects" >
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
         </activity>
 
-        <service android:name="org.catrobat.catroid.transfers.ProjectUploadService" />
-        <service android:name="org.catrobat.catroid.transfers.ProjectDownloadService" />
+        <service android:name="hku.fyp14017.blencode.transfers.ProjectUploadService" />
+        <service android:name="hku.fyp14017.blencode.transfers.ProjectDownloadService" />
         <service android:name="com.parrot.freeflight.service.DroneControlService" />
 
         <activity
-            android:name="org.catrobat.catroid.ui.ProximitySensorActivity"
+            android:name="hku.fyp14017.blencode.ui.ProximitySensorActivity"
             android:label="@string/title_activity_proximity_sensor" >
         </activity>
     </application>

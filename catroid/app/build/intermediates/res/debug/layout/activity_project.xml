@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_bar"
-        class="org.catrobat.catroid.ui.fragment.SpritesListFragment"
+        class="hku.fyp14017.blencode.ui.fragment.SpritesListFragment"
         tools:layout="@layout/fragment_sprites_list" />
 
 </RelativeLayout><!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/activity_project.xml -->

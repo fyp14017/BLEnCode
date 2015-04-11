@@ -46,7 +46,7 @@
         android:summary="@string/preference_description_select_camera"
         android:defaultValue="0" />
 
-    <org.catrobat.catroid.ui.NumberPickerPreference
+    <hku.fyp14017.blencode.ui.NumberPickerPreference
         android:key="key_number"
         android:title="Set RSSI value for Proximity Sensor"
         android:defaultValue="75"/>

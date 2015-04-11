@@ -50,6 +50,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_bar"
-        class="org.catrobat.catroid.ui.fragment.ProjectsListFragment" />
+        class="hku.fyp14017.blencode.ui.fragment.ProjectsListFragment" />
 
 </RelativeLayout>

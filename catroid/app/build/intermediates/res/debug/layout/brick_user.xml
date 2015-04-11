@@ -37,12 +37,12 @@
         android:visibility="gone" >
     </CheckBox>
 
- 	<org.catrobat.catroid.ui.BrickLayout
+ 	<hku.fyp14017.blencode.ui.BrickLayout
  	    android:id="@+id/brick_user_flow_layout"
  	    style="@style/BrickContainer.UserBrick.Small"
  	    android:orientation="horizontal"
  	    app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
  	    app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
-	</org.catrobat.catroid.ui.BrickLayout>
+	</hku.fyp14017.blencode.ui.BrickLayout>
  	
 </LinearLayout><!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/brick_user.xml -->

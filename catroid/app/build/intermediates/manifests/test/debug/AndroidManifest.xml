@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.catrobat.catroid.test.cucumber">
+    package="hku.fyp14017.blencode.test.cucumber">
 
     <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="18" />
 
@@ -9,8 +9,8 @@
     </application>
 
     <instrumentation android:name="cucumber.api.android.CucumberInstrumentation"
-                     android:targetPackage="org.catrobat.catroid"
+                     android:targetPackage="hku.fyp14017.blencode"
                      android:handleProfiling="false"
                      android:functionalTest="false"
-                     android:label="Tests for org.catrobat.catroid"/>
+                     android:label="Tests for hku.fyp14017.blencode"/>
 </manifest>

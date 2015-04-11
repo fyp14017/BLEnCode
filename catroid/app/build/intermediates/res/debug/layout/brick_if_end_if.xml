@@ -35,7 +35,7 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <org.catrobat.catroid.ui.BrickLayout
+    <hku.fyp14017.blencode.ui.BrickLayout
         android:id="@+id/brick_if_end_if_layout"
         style="@style/BrickContainer.Control.Small"
         android:layout_width="match_parent"
@@ -48,6 +48,6 @@
             android:id="@+id/brick_if_end_if_label"
             style="@style/BrickText"
             android:text="@string/brick_if_end" />
-    </org.catrobat.catroid.ui.BrickLayout >
+    </hku.fyp14017.blencode.ui.BrickLayout>
 
 </LinearLayout><!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/layout/brick_if_end_if.xml -->

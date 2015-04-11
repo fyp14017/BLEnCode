@@ -253,7 +253,7 @@
     <string name="animation_cache_enabled">false</string>
     <!-- From: file:/C:/Users/User%20HP/Documents/GitHub/Pocket-Code-BLE/catroid/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="app_name">Pocket Code</string>
+    <string name="app_name">BLEnCode</string>
     <string name="background">Background</string>
     <string name="backgrounds">Backgrounds</string>
     <string name="backpack">Backpack</string>

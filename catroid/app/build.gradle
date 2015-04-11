@@ -5,9 +5,9 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "org.catrobat.catroid"
+        applicationId "hku.fyp14017.blencode"
 
-        testApplicationId "org.catrobat.catroid.test.cucumber"
+        testApplicationId "hku.fyp14017.blencode.test.cucumber"
         testInstrumentationRunner "cucumber.api.android.CucumberInstrumentation"
     }
 

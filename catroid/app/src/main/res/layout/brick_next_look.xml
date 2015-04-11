@@ -36,7 +36,7 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <org.catrobat.catroid.ui.BrickLayout
+    <hku.fyp14017.blencode.ui.BrickLayout
         android:id="@+id/brick_next_look_layout"
         style="@style/BrickContainer.Look.Small"
         android:layout_width="match_parent"
@@ -49,6 +49,6 @@
             android:id="@+id/brick_next_look_text_view"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_next_look" />
-    </org.catrobat.catroid.ui.BrickLayout >
+    </hku.fyp14017.blencode.ui.BrickLayout>
 
 </LinearLayout>
