@@ -1,4 +1,4 @@
-# Pocket-Code-BLE
+# BLEnCode
 Final Year Project 14017
 
 lolollolo
