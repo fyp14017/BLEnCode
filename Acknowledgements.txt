@@ -1,9 +1,7 @@
 This work was created using programs developed by the Catrobat project.
-Catrobat makes it easy to program your own interactive stories, games, and animations --- and share your creations on the web. As you create and share programs with Catrobat, you learn to think creatively, reason systematically, and work collaboratively.
-Catrobat is available as free open source software from http://developer.catrobat.org/ and is distributed by the Catrobat project under the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version when it becomes available. For the parts of the Catrobat system necessary for running a Catrobat program, e.g., the Catrobat Interpreter, the GNU Affero General Public License is supplemented by an additional permission under section 7 of version 3 of the License. 
-
-
-
-
-
+Catrobat makes it easy to program your own interactive stories, games, and animations --- and share your creations on the web. 
+As you create and share programs with Catrobat, you learn to think creatively, reason systematically, and work collaboratively.
+Catrobat is available as free open source software from http://developer.catrobat.org/ and is distributed by the Catrobat project under the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version when it becomes available. 
+For the parts of the Catrobat system necessary for running a Catrobat program, e.g., the Catrobat Interpreter, the GNU Affero General Public License is supplemented by an additional permission under section 7 of version 3 of the License. 
 This exception allows to convey a runtime version of a Catrobat program, for which you otherwise legally hold the necessary rights, in combination with the parts of the Catrobat system necessary for running that Catrobat program, under terms of your choice, consistent with the licensing of the independent parts of the corresponding Catrobat program.
