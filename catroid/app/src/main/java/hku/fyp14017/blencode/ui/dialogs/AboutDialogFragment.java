@@ -44,6 +44,12 @@ public class AboutDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle bundle) {
 		View view = LayoutInflater.from(getActivity()).inflate(hku.fyp14017.blencode.R.layout.dialog_about, null);
 
+        TextView license = (TextView) view.findViewById(R.id.dialog_about_text_view_license_info);
+        license.setMovementMethod(LinkMovementMethod.getInstance());
+        String licenseHTML = getString(hku.fyp14017.blencode.R.string.about_link_template,"https://github.com/fyp14017/BLEnCode/blob/master/Acknowledgements.txt",
+                "Pocket Code Acknowledgements");
+        license.setText(Html.fromHtml(licenseHTML));
+
 		TextView aboutUrlTextView = (TextView) view.findViewById(hku.fyp14017.blencode.R.id.dialog_about_text_view_url);
 		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -64,7 +70,7 @@ public class AboutDialogFragment extends DialogFragment {
 		String versionName = this.getString(hku.fyp14017.blencode.R.string.android_version_prefix) + Utils.getVersionName(getActivity());
 		aboutVersionNameTextView.setText(versionName);
 
-		Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(hku.fyp14017.blencode.R.string.dialog_about_title)
+		Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle("About BLEnCode")
 				.setNeutralButton(hku.fyp14017.blencode.R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {

@@ -98,7 +98,7 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 				passwordFhkuottenButton.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						handlePasswordFhkuottenButtonClick();
+						handlePasswordForgottenButtonClick();
 					}
 				});
 			}
@@ -124,11 +124,11 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 		registrationTask.execute();
 	}
 
-	private void handlePasswordFhkuottenButtonClick() {
+	private void handlePasswordForgottenButtonClick() {
 		String username = usernameEditText.getText().toString();
 		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : Constants.BASE_URL_HTTPS;
 		String url = baseUrl + PASSWORD_FORGOTTEN_PATH + username;
 
-		((MainMenuActivity) getActivity()).startWebViewActivity(url);
+		((MainMenuActivity) getActivity()).startWebViewActivity(url,"not important");
 	}
 }

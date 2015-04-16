@@ -425,7 +425,7 @@
         The source code of Pocket Code is mainly licensed under the GNU AGPL v3 License. 
         For the precise details of the license see the link below.\n</string>
     <string name="dialog_about_pocketcode_license_link_text">Pocket Code Source Code License</string>
-    <string name="dialog_about_title">About Pocket Code</string>
+    <string name="dialog_about_title">About BLEnCode</string>
     <string name="dialog_confirm_delete_brick_message">This can not be undone!</string>
     <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
     <string name="dialog_confirm_delete_look_message">This can not be undone!</string>
@@ -618,9 +618,9 @@
     <string name="lookname">look name:</string>
     <string name="lookname_invalid">This look\'s name is invalid</string>
     <string name="looks">Looks</string>
-    <string name="main_menu_about_pocketcode">About Pocket Code</string>
+    <string name="main_menu_about_pocketcode">About BLEnCode</string>
     <string name="main_menu_continue">Continue</string>
-    <string name="main_menu_help">Help</string>
+    <string name="main_menu_help">Learn Pocket Code</string>
     <string name="main_menu_new">New</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_programs">Programs</string>

@@ -150,7 +150,7 @@ public final class ServerCalls {
             e.printStackTrace();
         }
 
-        ParseObject parseZipFile = new ParseObject("test3");
+        ParseObject parseZipFile = new ParseObject("bleProjects");
         parseZipFile.put("username", username);
         parseZipFile.put("projectName", projectName);
         parseZipFile.put("description", projectDescription);

@@ -94,8 +94,14 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 		TextView textField = (TextView) view.findViewById(hku.fyp14017.blencode.R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).setTextFieldId(hku.fyp14017.blencode.R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).refreshTextField(view);
-        comment = getFormulaWithBrickField(BrickField.NOTE).getDisplayString(context).substring(1,getFormulaWithBrickField(BrickField.NOTE).getDisplayString(context).length()-2);
-		textHolder.setVisibility(View.GONE);
+        String cmnt = getFormulaWithBrickField(BrickField.NOTE).getDisplayString(context);
+        if(cmnt.length() >= 3) {
+            comment = getFormulaWithBrickField(BrickField.NOTE).getDisplayString(context).substring(1, getFormulaWithBrickField(BrickField.NOTE).getDisplayString(context).length() - 2);
+        }
+        else{
+            comment = cmnt;
+        }
+        textHolder.setVisibility(View.GONE);
 		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 

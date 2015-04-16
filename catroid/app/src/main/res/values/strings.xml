@@ -52,10 +52,10 @@
     <string name="main_menu_new">New</string>
     <string name="main_menu_continue">Continue</string>
     <string name="main_menu_programs">Programs</string>
-    <string name="main_menu_help">Help</string>
+    <string name="main_menu_help">Learn Pocket Code</string>
     <string name="main_menu_web">Explore</string>
     <string name="main_menu_upload">Upload</string>
-    <string name="main_menu_about_pocketcode">About Pocket Code</string>
+    <string name="main_menu_about_pocketcode">About BLEnCode</string>
     <string name="main_menu_terms_of_use">Terms of use</string>
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
@@ -103,7 +103,7 @@
 
 
     <!-- About Dialog -->
-    <string name="dialog_about_title">About Pocket Code</string>
+    <string name="dialog_about_title">About BLEnCode</string>
     <string name="dialog_about_license_info">Pocket Code is a programming 
         environment and interpreter for Android devices for the visual 
         programming language Catrobat.\n\n

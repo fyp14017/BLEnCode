@@ -57,7 +57,7 @@ public class ExploreProjectsActivity extends Activity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Toast.makeText(ExploreProjectsActivity.this, "Okay", Toast.LENGTH_SHORT).show();
                         String id = temp[2];
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("test3");
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("bleProjects");
                         query.whereEqualTo("objectId", id);
                         ParseObject zipObject = null;
                         try {
@@ -103,7 +103,7 @@ public class ExploreProjectsActivity extends Activity {
             }
         });
         list.setAdapter(adapter);
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("test3");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("bleProjects");
         //query.selectKeys(Arrays.asList("objectId", "description","projectName", "username", "createdAt"));
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> projectList, ParseException e) {
@@ -117,7 +117,7 @@ public class ExploreProjectsActivity extends Activity {
                         tempData[2] = p.getObjectId();
                         final Bitmap bmp;
 
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("test3");
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("bleProjects");
                         query.whereEqualTo("objectId", tempData[2]);
                         ParseObject imageObject = null;
                         try {

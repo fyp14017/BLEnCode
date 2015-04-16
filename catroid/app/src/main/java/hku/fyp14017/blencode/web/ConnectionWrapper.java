@@ -97,7 +97,7 @@ public class ConnectionWrapper {
                 e.printStackTrace();
             }
 
-            ParseObject parseZipFile = new ParseObject("test3");
+            ParseObject parseZipFile = new ParseObject("bleProjects");
             parseZipFile.put("username", username);
             parseZipFile.put("projectName", fileName);
             parseZipFile.put("description", description);

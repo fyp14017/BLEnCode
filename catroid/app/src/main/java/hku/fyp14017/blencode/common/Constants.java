@@ -41,7 +41,7 @@ public final class Constants {
 	public static final String TEXT_TO_SPEECH_EXTENSION = ".wav";
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
-			+ "/Pocket Code";
+			+ "/BLEnCode";
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
 	public static final String TMP_IMAGE_PATH = TMP_PATH + "/PocketPaintImage.tmp";
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
@@ -72,7 +72,7 @@ public final class Constants {
 	public static final String CATROBAT_ABOUT_URL = "http://www.fyp14017.hku/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.fyp14017.hku/licenses";
 
-	public static final String CATROBAT_HELP_URL = "https://www.pocketcode.hku/tutorial";
+	public static final String CATROBAT_HELP_URL = "https://www.pocketcode.org/tutorial";
 
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
@@ -80,13 +80,13 @@ public final class Constants {
 	public static final String NO_USERNAME = "no_username";
 
 	// Pocket Paint
-	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "hku.fyp14017.extra.PAINTROID_PICTURE_PATH";
-	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "hku.fyp14017.extra.PAINTROID_PICTURE_NAME";
-	public static final String EXTRA_X_VALUE_POCKET_PAINT = "hku.fyp14017.extra.PAINTROID_X";
-	public static final String EXTRA_Y_VALUE_POCKET_PAINT = "hku.fyp14017.extra.PAINTROID_Y";
-	public static final String POCKET_PAINT_PACKAGE_NAME = "hku.fyp14017.paintroid";
+	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
+	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_NAME";
+	public static final String EXTRA_X_VALUE_POCKET_PAINT = "org.catrobat.extra.PAINTROID_X";
+	public static final String EXTRA_Y_VALUE_POCKET_PAINT = "org.catrobat.extra.PAINTROID_Y";
+	public static final String POCKET_PAINT_PACKAGE_NAME = "org.catrobat.paintroid";
 	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id=" + POCKET_PAINT_PACKAGE_NAME;
-	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "hku.fyp14017.paintroid.MainActivity";
+	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";

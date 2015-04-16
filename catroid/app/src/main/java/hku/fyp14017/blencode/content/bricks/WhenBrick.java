@@ -92,6 +92,9 @@ public class WhenBrick extends ScriptBrick {
         }
         this.keyEnum = Keys.valueOf(key);
         this.tagEnum = SensorTag.valueOf(tag);
+        if(action.equals("Tapped")){
+            action = "TAPPED";
+        }
         this.actionEnum = ScriptAction.valueOf(action);
     }
     public WhenBrick(ScriptAction scriptAction, Keys keys1, SensorTag tag, String mac){

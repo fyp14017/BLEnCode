@@ -198,12 +198,12 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
-			project = StandardProjectHandler.createAndSaveStandardProject(context);
+			project = StandardProjectHandler.createAndSaveEmptyProject("My first project",context);
 
 			currentSprite = null;
 			currentScript = null;
 			return true;
-		} catch (IOException ioException) {
+		} catch (Exception ioException) {
 			Log.e(TAG, "Cannot initialize default project.", ioException);
 			Utils.showErrorDialog(context, R.string.error_load_project);
 			return false;

@@ -183,7 +183,7 @@
         </activity>
         <activity
             android:name="hku.fyp14017.blencode.ui.ExploreProjectsActivity"
-            android:label="Pocket Code BLE Projects" >
+            android:label="BLEnCode Projects" >
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
         </activity>

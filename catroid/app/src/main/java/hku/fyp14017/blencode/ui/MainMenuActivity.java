@@ -196,7 +196,7 @@ public class MainMenuActivity extends BaseActivity implements LoadProjectTask.On
 			return;
 		}
 
-		startWebViewActivity(Constants.CATROBAT_HELP_URL);
+		startWebViewActivity(Constants.CATROBAT_HELP_URL, "help");
 	}
 
 	public void handleWebButton(View view) {
@@ -204,11 +204,11 @@ public class MainMenuActivity extends BaseActivity implements LoadProjectTask.On
 			return;
 		}
 
-		startWebViewActivity(Constants.BASE_URL_HTTPS);
+		startWebViewActivity(Constants.BASE_URL_HTTPS, "explore");
 
 	}
 
-	public void startWebViewActivity(String url) {
+	public void startWebViewActivity(String url, String identifier) {
 		// TODO just a quick fix for not properly working webview on old devices
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -220,11 +220,14 @@ public class MainMenuActivity extends BaseActivity implements LoadProjectTask.On
 				startActivity(browserIntent);
 			}
 		} else {
-			/*Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
-			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
-			startActivity(intent);*/
-            Intent intent = new Intent(MainMenuActivity.this, ExploreProjectsActivity.class);
-            startActivity(intent);
+            if(identifier.equals("help")) {
+                Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+                startActivity(intent);
+            }else if(identifier.equals("explore")) {
+                Intent intent = new Intent(MainMenuActivity.this, ExploreProjectsActivity.class);
+                startActivity(intent);
+            }
 		}
 
 	}

@@ -127,7 +127,7 @@ public class ParseProjectUploadManager {
                                 e.printStackTrace();
                             }
 
-                            ParseObject parseZipFile = new ParseObject("test3");
+                            ParseObject parseZipFile = new ParseObject("bleProjects");
                             parseZipFile.put("username", currentUser.getUsername());
                             parseZipFile.put("projectName", name.getText().toString());
                             parseZipFile.put("description", description.getText().toString());
