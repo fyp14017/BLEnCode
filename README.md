@@ -1,7 +1,7 @@
 # BLEnCode
 Final Year Project 14017
 
-lolollolo
+
 To add the Parse jars to the project:
 
 Download the Parse library zip file and unzip it.
